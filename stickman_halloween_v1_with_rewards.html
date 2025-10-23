@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stickman Fighter Halloween - xpe.games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0f0a 30%, #2d1b0f 70%, #0a0a0a 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* EFECTOS HALLOWEEN */
+        .halloween-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 107, 26, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 100, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-pumpkins {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .pumpkin {
+            position: absolute;
+            font-size: 30px;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .spider-web {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background-image: 
+                linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.1) 50%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(255, 255, 255, 0.1) 50%, transparent 52%);
+            background-size: 20px 20px;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 3;
+        }
+
+        /* LOBBY PRINCIPAL HALLOWEEN */
+        .lobby {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(26, 15, 10, 0.95));
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER LOBBY */
+        .lobby-header {
+            background: linear-gradient(90deg, #0a0a0a, #1a0f0a, #0a0a0a);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #ff6b1a;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b1a, #ff4500);
+            border: 3px solid #cc3300;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 107, 26, 0.4);
+        }
+
+        .menu-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 18px rgba(255, 107, 26, 0.6);
+        }
+
+        .level-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(45deg, #ff4500, #cc3300);
+            padding: 8px 12px;
+            border-radius: 15px;
+            border: 2px solid #ff6b1a;
+            box-shadow: 0 4px 12px rgba(255, 69, 0, 0.4);
+        }
+
+        .level-pumpkin {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .level-text {
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .header-center {
+            text-align: center;
+            flex: 1;
+        }
+
+        .game-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b1a;
+            text-shadow: 0 0 15px rgba(255, 107, 26, 0.8), 2px 2px 4px rgba(0,0,0,0.8);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ads-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #8b0000, #dc2626);
+            border: 3px solid #ff0000;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .ads-btn::before {
+            content: '🎃';
+            font-size: 16px;
+            position: absolute;
+            top: -10px;
+            right: -5px;
+            animation: bounce 2s infinite;
+        }
+
+        .currency-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid #ff6b1a;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+        }
+
+        .currency-icon {
+            font-size: 20px;
+        }
+
+        .currency-amount {
+            font-size: 16px;
+            font-weight: bold;
+            color: #8b4513;
+        }
+
+        /* LOBBY MAIN CONTENT */
+        .lobby-content {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .left-column {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .lobby-btn {
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 3px solid transparent;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lobby-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .shop-btn {
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+            border-color: #16a34a;
+            color: white;
+        }
+
+        .discord-btn {
+            background: linear-gradient(45deg, #5865f2, #4752c4);
+            border-color: #404eed;
+            color: white;
+        }
+
+        .center-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .character-display {
+            display: flex;
+            gap: 50px;
+            margin-bottom: 30px;
+        }
+
+        .character-preview {
+            width: 80px;
+            height: 120px;
+            position: relative;
+            filter: drop-shadow(0 0 15px rgba(255, 107, 26, 0.6));
+        }
+
+        .character-preview::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(circle, rgba(255, 107, 26, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        .daily-rewards-btn {
+            background: linear-gradient(45deg, #ff6b1a, #ff4500);
+            border-color: #cc3300;
+            color: white;
+            font-size: 18px;
+            padding: 20px 30px;
+            box-shadow: 0 8px 20px rgba(255, 107, 26, 0.4);
+        }
+
+        .daily-rewards-btn::before {
+            content: '🎁';
+            margin-right: 10px;
+            font-size: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        .right-column {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .player-mode-btn {
+            padding: 15px;
+            border-radius: 15px;
+            border: 3px solid transparent;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-mode-btn::before {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .player-1 {
+            background: linear-gradient(45deg, #ff6b1a, #ff4500);
+            border-color: #cc3300;
+        }
+
+        .player-1::before { content: '💀'; }
+
+        .player-2 {
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+            border-color: #16a34a;
+        }
+
+        .player-2::before { content: '👻'; }
+
+        .player-3 {
+            background: linear-gradient(45deg, #8b5cf6, #7c3aed);
+            border-color: #6d28d9;
+        }
+
+        .player-3::before { content: '🦇'; }
+
+        .player-4 {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border-color: #991b1b;
+        }
+
+        .player-4::before { content: '🧙‍♀️'; }
+
+        /* BOTTOM MODES */
+        .bottom-modes {
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 12px 20px;
+            border-radius: 15px;
+            border: 3px solid transparent;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .mode-btn::before {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .battle-mode {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border-color: #991b1b;
+        }
+
+        .battle-mode::before { content: '⚔️'; }
+
+        .map-editor {
+            background: linear-gradient(45deg, #ea580c, #c2410c);
+            border-color: #9a3412;
+        }
+
+        .map-editor::before { content: '🗺️'; }
+
+        .mini-game {
+            background: linear-gradient(45deg, #4b5563, #374151);
+            border-color: #1f2937;
+        }
+
+        .mini-game::before { content: '🎮'; }
+
+        .boss-fight {
+            background: linear-gradient(45deg, #7c2d12, #451a03);
+            border-color: #431407;
+        }
+
+        .boss-fight::before { content: '👹'; }
+
+        .survival {
+            background: linear-gradient(45deg, #065f46, #064e3b);
+            border-color: #065f46;
+        }
+
+        .survival::before { content: '💀'; }
+
+        /* DAILY REWARDS MODAL */
+        .daily-rewards-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a0f0a 0%, #2d1b0f 50%, #1a0f0a 100%);
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            border: 4px solid #ff6b1a;
+            box-shadow: 0 0 40px rgba(255, 107, 26, 0.6);
+            animation: modalAppear 0.5s ease-out;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: scale(0.8) rotate(-5deg); }
+            to { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ff6b1a;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff6b1a;
+            text-shadow: 0 0 20px rgba(255, 107, 26, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .close-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border: 2px solid #991b1b;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.6);
+        }
+
+        .rewards-container {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .reward-card {
+            background: linear-gradient(45deg, #2d1b0f, #1a0f0a);
+            border: 3px solid #ff6b1a;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .reward-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 107, 26, 0.4);
+        }
+
+        .reward-card.claimed {
+            opacity: 0.6;
+            border-color: #4ade80;
+        }
+
+        .reward-day {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffb366;
+            margin-bottom: 15px;
+        }
+
+        .reward-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 107, 26, 0.6)); }
+            50% { filter: drop-shadow(0 0 20px rgba(255, 107, 26, 1)); }
+        }
+
+        .reward-title {
+            font-size: 16px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .reward-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .claim-btn {
+            background: linear-gradient(45deg, #ff6b1a, #ff4500);
+            border: none;
+            border-radius: 15px;
+            padding: 12px 25px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .claim-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 107, 26, 0.6);
+        }
+
+        .claim-btn:disabled {
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+            cursor: not-allowed;
+        }
+
+        .watch-ad-btn {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border: none;
+            border-radius: 15px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .watch-ad-btn::before {
+            content: '📺';
+            margin-right: 5px;
+        }
+
+        .claim-btn:hover, .watch-ad-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 107, 26, 0.6);
+        }
+
+        .modal-footer {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 2px solid #ff6b1a;
+            text-align: center;
+            color: #ffb366;
+            font-style: italic;
+        }
+
+        /* MUSIC CONTROLS */
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .music-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+            border: 3px solid #16a34a;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 18px rgba(74, 222, 128, 0.6);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .lobby-content {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .left-column, .right-column {
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .character-display {
+                gap: 30px;
+            }
+
+            .bottom-modes {
+                padding: 15px;
+            }
+
+            .modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .rewards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HALLOWEEN BACKGROUND -->
+    <div class="halloween-bg"></div>
+    <div class="spider-web"></div>
+    <div class="floating-pumpkins" id="floatingPumpkins"></div>
+
+    <div id="gameContainer">
+        <!-- LOBBY PRINCIPAL -->
+        <div class="lobby">
+            <!-- HEADER -->
+            <div class="lobby-header">
+                <div class="header-left">
+                    <button class="menu-btn" onclick="showMenu()">☰</button>
+                    <div class="level-indicator">
+                        <div class="level-pumpkin">🎃</div>
+                        <div class="level-text" id="levelText">LVL 1</div>
+                    </div>
+                </div>
+
+                <div class="header-center">
+                    <div class="game-title">xpe.games</div>
+                    <div class="game-subtitle">Stickman Fighter Halloween</div>
+                </div>
+
+                <div class="header-right">
+                    <button class="ads-btn" onclick="watchAd()">AD</button>
+                    <div class="currency-display">
+                        <span class="currency-icon">💰</span>
+                        <span class="currency-amount" id="currencyAmount">25</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOBBY CONTENT -->
+            <div class="lobby-content">
+                <!-- LEFT COLUMN -->
+                <div class="left-column">
+                    <button class="lobby-btn shop-btn" onclick="openShop()">
+                        🏪<br>Tienda
+                    </button>
+                    <button class="lobby-btn discord-btn" onclick="joinDiscord()">
+                        💬<br>Discord
+                    </button>
+                </div>
+
+                <!-- CENTER AREA -->
+                <div class="center-area">
+                    <div class="character-display">
+                        <div class="character-preview">
+                            <svg viewBox="0 0 100 120" style="width: 100%; height: 100%;">
+                                <path d="M 45 5 L 50 0 L 55 5 L 55 20 L 45 20 Z" fill="#1a0f0a"/>
+                                <ellipse cx="50" cy="20" rx="12" ry="15" fill="#1a0f0a"/>
+                                <line x1="50" y1="35" x2="50" y2="60" stroke="#1a0f0a" stroke-width="4"/>
+                                <line x1="50" y1="40" x2="35" y2="50" stroke="#1a0f0a" stroke-width="3"/>
+                                <line x1="50" y1="40" x2="65" y2="50" stroke="#1a0f0a" stroke-width="3"/>
+                                <line x1="50" y1="60" x2="40" y2="75" stroke="#1a0f0a" stroke-width="3"/>
+                                <line x1="50" y1="60" x2="60" y2="75" stroke="#1a0f0a" stroke-width="3"/>
+                            </svg>
+                        </div>
+                        <div class="character-preview">
+                            <svg viewBox="0 0 100 120" style="width: 100%; height: 100%;">
+                                <circle cx="50" cy="15" r="12" fill="#8b0000" stroke="#dc2626" stroke-width="3"/>
+                                <circle cx="45" cy="12" r="3" fill="black"/>
+                                <circle cx="55" cy="12" r="3" fill="black"/>
+                                <line x1="45" y1="18" x2="55" y2="18" stroke="black" stroke-width="2"/>
+                                <line x1="50" y1="27" x2="50" y2="60" stroke="#8b0000" stroke-width="5"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <button class="lobby-btn daily-rewards-btn" onclick="showDailyRewards()">
+                        DAILY REWARDS
+                    </button>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="right-column">
+                    <button class="player-mode-btn player-1" onclick="selectPlayers(1)">
+                        1 PLAYER
+                    </button>
+                    <button class="player-mode-btn player-2" onclick="selectPlayers(2)">
+                        2 PLAYERS
+                    </button>
+                    <button class="player-mode-btn player-3" onclick="selectPlayers(3)">
+                        3 PLAYERS
+                    </button>
+                    <button class="player-mode-btn player-4" onclick="selectPlayers(4)">
+                        4 PLAYERS
+                    </button>
+                </div>
+            </div>
+
+            <!-- BOTTOM MODES -->
+            <div class="bottom-modes">
+                <button class="mode-btn battle-mode" onclick="startBattleMode()">
+                    <span style="font-size: 16px; display: block;">BATTLE</span>MODE
+                </button>
+                <button class="mode-btn map-editor" onclick="openMapEditor()">
+                    MAP<br>EDITOR
+                </button>
+                <button class="mode-btn mini-game" onclick="playMiniGame()">
+                    MINI<br>GAME
+                </button>
+                <button class="mode-btn boss-fight" onclick="startBossFight()">
+                    BOSS<br>FIGHT
+                </button>
+                <button class="mode-btn survival" onclick="startSurvival()">
+                    SURVIVAL<br>MODE
+                </button>
+            </div>
+        </div>
+
+        <!-- DAILY REWARDS MODAL -->
+        <div class="daily-rewards-modal" id="dailyRewardsModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">🎃 DAILY REWARDS 🎃</div>
+                    <button class="close-btn" onclick="closeDailyRewards()">✕</button>
+                </div>
+
+                <div class="rewards-container">
+                    <div class="rewards-grid">
+                        <div class="reward-card" data-day="1">
+                            <div class="reward-day">DÍA 1</div>
+                            <div class="reward-icon">💰</div>
+                            <div class="reward-title">Monedas Halloween</div>
+                            <div class="reward-amount">+50</div>
+                            <button class="claim-btn" onclick="claimReward(1)">RECLAMAR</button>
+                        </div>
+
+                        <div class="reward-card" data-day="2">
+                            <div class="reward-day">DÍA 2</div>
+                            <div class="reward-icon">🎃</div>
+                            <div class="reward-title">Calabaza Dorada</div>
+                            <div class="reward-amount">+100</div>
+                            <button class="claim-btn" onclick="claimReward(2)">RECLAMAR</button>
+                        </div>
+
+                        <div class="reward-card" data-day="3">
+                            <div class="reward-day">DÍA 3</div>
+                            <div class="reward-icon">⚔️</div>
+                            <div class="reward-title">Espada de Vampiro</div>
+                            <div class="reward-amount">ARMAS</div>
+                            <button class="claim-btn" onclick="claimReward(3)">RECLAMAR</button>
+                        </div>
+
+                        <div class="reward-card" data-day="4">
+                            <div class="reward-day">DÍA 4</div>
+                            <div class="reward-icon">👻</div>
+                            <div class="reward-title">Poder Fantasma</div>
+                            <div class="reward-amount">+200</div>
+                            <button class="claim-btn" onclick="claimReward(4)">RECLAMAR</button>
+                        </div>
+
+                        <div class="reward-card" data-day="5">
+                            <div class="reward-day">DÍA 5</div>
+                            <div class="reward-icon">🧙‍♀️</div>
+                            <div class="reward-title">Hechizo Bruja</div>
+                            <div class="reward-amount">PODER</div>
+                            <button class="claim-btn" onclick="claimReward(5)">RECLAMAR</button>
+                        </div>
+
+                        <div class="reward-card" data-day="6">
+                            <div class="reward-day">DÍA 6</div>
+                            <div class="reward-icon">🦇</div>
+                            <div class="reward-title">Vuelo Murciélago</div>
+                            <div class="reward-amount">+300</div>
+                            <button class="claim-btn" onclick="claimReward(6)">RECLAMAR</button>
+                        </div>
+
+                        <div class="reward-card" data-day="7">
+                            <div class="reward-day">DÍA 7</div>
+                            <div class="reward-icon">👑</div>
+                            <div class="reward-title">Corona de Halloween</div>
+                            <div class="reward-amount">+500</div>
+                            <button class="claim-btn" onclick="claimReward(7)">RECLAMAR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    "¡Vuelve mañana para tu próximo premio espeluznante!" - xpe.games
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MUSIC CONTROLS -->
+    <div class="music-controls">
+        <button class="music-btn" onclick="toggleMusic()" id="musicBtn">🎵</button>
+    </div>
+
+    <script>
+        // ===== STICKMAN FIGHTER HALLOWEEN v1.0 =====
+        // Desarrollado por xpe.nettt para xpe.games
+
+        // VARIABLES GLOBALES
+        let currentPlayerCount = 1;
+        let playerCurrency = 25;
+        let playerLevel = 1;
+        let musicEnabled = false;
+        let backgroundMusic;
+
+        // CONFIGURACIÓN DE REWARDS
+        const dailyRewards = [
+            { day: 1, type: 'currency', amount: 50, icon: '💰', title: 'Monedas Halloween' },
+            { day: 2, type: 'currency', amount: 100, icon: '🎃', title: 'Calabaza Dorada' },
+            { day: 3, type: 'weapon', item: 'espada-vampiro', icon: '⚔️', title: 'Espada de Vampiro' },
+            { day: 4, type: 'currency', amount: 200, icon: '👻', title: 'Poder Fantasma' },
+            { day: 5, type: 'power', item: 'hechizo-bruja', icon: '🧙‍♀️', title: 'Hechizo Bruja' },
+            { day: 6, type: 'currency', amount: 300, icon: '🦇', title: 'Vuelo Murciélago' },
+            { day: 7, type: 'currency', amount: 500, icon: '👑', title: 'Corona de Halloween' }
+        ];
+
+        let claimedRewards = JSON.parse(localStorage.getItem('claimedRewardsHalloween') || '[]');
+        let lastClaimDate = localStorage.getItem('lastClaimDateHalloween') || '';
+
+        // ===== HALLOWEEN EFFECTS =====
+        function createFloatingPumpkins() {
+            const container = document.getElementById('floatingPumpkins');
+            
+            function createPumpkin() {
+                const pumpkin = document.createElement('div');
+                pumpkin.className = 'pumpkin';
+                pumpkin.innerHTML = '🎃';
+                pumpkin.style.left = Math.random() * 100 + '%';
+                pumpkin.style.top = Math.random() * 100 + '%';
+                pumpkin.style.animationDelay = Math.random() * 6 + 's';
+                
+                container.appendChild(pumpkin);
+                
+                setTimeout(() => {
+                    if (pumpkin.parentNode) {
+                        pumpkin.parentNode.removeChild(pumpkin);
+                    }
+                }, 6000);
+            }
+            
+            setInterval(createPumpkin, 3000);
+        }
+
+        // ===== LOBBY FUNCTIONS =====
+        function showMenu() {
+            alert('Menú de xpe.games\n\n• Configuración\n• Perfil\n• Logros\n• Ayuda\n\n🎃 ¡Versión Halloween!');
+        }
+
+        function watchAd() {
+            // Simular ver anuncio
+            const reward = Math.floor(Math.random() * 50) + 25;
+            playerCurrency += reward;
+            updateCurrency();
+            
+            alert(`¡Gracias por ver el anuncio!\n\nHas ganado: +${reward} monedas 💰\n\nMonedas actuales: ${playerCurrency}`);
+        }
+
+        function updateCurrency() {
+            document.getElementById('currencyAmount').textContent = playerCurrency;
+        }
+
+        function selectPlayers(count) {
+            currentPlayerCount = count;
+            
+            // Update button states
+            document.querySelectorAll('.player-mode-btn').forEach(btn => {
+                btn.style.transform = 'scale(1)';
+                btn.style.boxShadow = '';
+            });
+            
+            const selectedBtn = document.querySelector(`.player-${count}`);
+            if (selectedBtn) {
+                selectedBtn.style.transform = 'scale(1.1)';
+                selectedBtn.style.boxShadow = '0 8px 20px rgba(255, 107, 26, 0.6)';
+            }
+        }
+
+        function openShop() {
+            alert('Tienda de xpe.games Halloween\n\n🎃 Skins de personajes Halloween\n⚔️ Armas especiales de Halloween\n🧙‍♀️ Power-ups temáticos\n🎨 Efectos visuales\n\n¡Próximamente más contenido!');
+        }
+
+        function joinDiscord() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Discord de xpe.games',
+                    text: '¡Únete a nuestra comunidad de Discord!\n\nCompártimos juegos, tips y novedades.\n\n#xpegames #StickmanFighter',
+                    url: 'https://discord.gg/xpegames'
+                });
+            } else {
+                window.open('https://discord.gg/xpegames', '_blank');
+            }
+        }
+
+        // ===== DAILY REWARDS SYSTEM =====
+        function showDailyRewards() {
+            const modal = document.getElementById('dailyRewardsModal');
+            modal.style.display = 'flex';
+            updateRewardsDisplay();
+        }
+
+        function closeDailyRewards() {
+            const modal = document.getElementById('dailyRewardsModal');
+            modal.style.display = 'none';
+        }
+
+        function updateRewardsDisplay() {
+            const today = new Date().toDateString();
+            const rewards = document.querySelectorAll('.reward-card');
+            
+            rewards.forEach((card, index) => {
+                const day = index + 1;
+                const isClaimed = claimedRewards.includes(day);
+                const claimBtn = card.querySelector('.claim-btn');
+                
+                if (isClaimed) {
+                    card.classList.add('claimed');
+                    claimBtn.textContent = '¡RECLAMADO!';
+                    claimBtn.disabled = true;
+                    claimBtn.style.background = 'linear-gradient(45deg, #4ade80, #22c55e)';
+                } else if (lastClaimDate !== today) {
+                    claimBtn.textContent = 'RECLAMAR';
+                    claimBtn.disabled = false;
+                } else {
+                    claimBtn.textContent = 'MAÑANA';
+                    claimBtn.disabled = true;
+                    claimBtn.style.background = 'linear-gradient(45deg, #6b7280, #4b5563)';
+                }
+            });
+        }
+
+        function claimReward(day) {
+            const today = new Date().toDateString();
+            
+            if (lastClaimDate === today) {
+                alert('¡Ya reclamaste tu recompensa de hoy!\n\nVuelve mañana para el siguiente premio 🎃');
+                return;
+            }
+            
+            if (claimedRewards.includes(day)) {
+                alert('¡Ya reclamaste esta recompensa!');
+                return;
+            }
+            
+            const reward = dailyRewards[day - 1];
+            
+            // Add to claimed rewards
+            claimedRewards.push(day);
+            localStorage.setItem('claimedRewardsHalloween', JSON.stringify(claimedRewards));
+            localStorage.setItem('lastClaimDateHalloween', today);
+            
+            // Give reward
+            if (reward.type === 'currency') {
+                playerCurrency += reward.amount;
+                updateCurrency();
+                alert(`¡Felicitaciones! 🎃\n\nHas reclamado: ${reward.title}\n\nRecompensa: +${reward.amount} monedas 💰\n\nMonedas actuales: ${playerCurrency}`);
+            } else {
+                alert(`¡Felicitaciones! 🎃\n\nHas reclamado: ${reward.title}\n\nEste item se aplicará en futuras partidas.\n\n¡Sigue jugando para más recompensas!`);
+            }
+            
+            updateRewardsDisplay();
+            createRewardParticles(day);
+        }
+
+        function createRewardParticles(day) {
+            const modal = document.getElementById('dailyRewardsModal');
+            const card = document.querySelector(`[data-day="${day}"]`);
+            const rect = card.getBoundingClientRect();
+            const modalRect = modal.getBoundingClientRect();
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    particle.style.width = '10px';
+                    particle.style.height = '10px';
+                    particle.style.background = `hsl(${Math.random() * 60 + 20}, 80%, 60%)`;
+                    particle.style.borderRadius = '50%';
+                    particle.style.left = (rect.left - modalRect.left + 100 + Math.random() * 80) + 'px';
+                    particle.style.top = (rect.top - modalRect.top + 100 + Math.random() * 80) + 'px';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '1000';
+                    particle.style.animation = 'particleFloat 2s ease-out forwards';
+                    
+                    modal.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 2000);
+                }, i * 100);
+            }
+        }
+
+        // ===== GAME MODE FUNCTIONS =====
+        function startBattleMode() {
+            if (currentPlayerCount === 1) {
+                startSinglePlayer();
+            } else {
+                startMultiPlayer();
+            }
+        }
+
+        function startSinglePlayer() {
+            alert('Modo Batalla Individual\n\n🎃 ¡Preparate para luchar!\n\nSelecciona tu personaje y enfréntate a la IA de Halloween.\n\n¡Próximamente: Juego completo!');
+        }
+
+        function startMultiPlayer() {
+            alert(`Modo Multijugador (${currentPlayerCount} jugadores)\n\n🎃 ¡Lucha con tus amigos!\n\nEste modo estará disponible próximamente.\n\n¡Invita a más amigos a xpe.games!`);
+        }
+
+        function openMapEditor() {
+            alert('Editor de Mapas\n\n🗺️ Crea tus propios escenarios de Halloween\n\n• Diseña tus propios campos de batalla\n• Añade obstáculos y power-ups\n• Comparte tus mapas con la comunidad\n\n¡Próximamente disponible!');
+        }
+
+        function playMiniGame() {
+            alert('Mini Juegos Halloween\n\n🎮 ¡Diversión extra!\n\n• Recolección de dulces\n• Carrera de calabazas\n• Simón dice fantasmal\n\n¡Próximamente disponible!');
+        }
+
+        function startBossFight() {
+            alert('Combate contra Jefes\n\n👹 Enfréntate a:\n\n• Pumpkin King 👑\n• Vampire Lord 🧛‍♂️\n• Ghost Master 👻\n• Witch Queen 🧙‍♀️\n\n¡Desafíos épicos te esperan!');
+        }
+
+        function startSurvival() {
+            alert('Modo Supervivencia\n\n💀 Sobrevive la noche de Halloween\n\n• Oleadas infinitas de enemigos\n• Recolecta power-ups para sobrevivir\n• Compite por el mejor puntaje\n\n¡La resistencia definitiva!');
+        }
+
+        // ===== MUSIC SYSTEM =====
+        function toggleMusic() {
+            const musicBtn = document.getElementById('musicBtn');
+            
+            if (!musicEnabled) {
+                // Crear audio de fondo estilo Scooby Doo/CN Cartoon
+                // Nota: En una implementación real, esto cargaría un archivo de audio
+                backgroundMusic = createBackgroundMusic();
+                musicEnabled = true;
+                musicBtn.textContent = '🔊';
+                musicBtn.style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
+                alert('🎵 Música de Halloween activada!\n\n🎃 Estilo Cartoon Network\n🦇 Ambiente spooky pero divertido\n👻 Perfecta para jugar');
+            } else {
+                if (backgroundMusic) {
+                    backgroundMusic.pause();
+                }
+                musicEnabled = false;
+                musicBtn.textContent = '🔇';
+                musicBtn.style.background = 'linear-gradient(45deg, #dc2626, #b91c1c)';
+            }
+        }
+
+        function createBackgroundMusic() {
+            // Simulación de música de fondo
+            // En implementación real, esto sería un archivo de audio
+            console.log('🎵 Reproduciendo música de Halloween estilo Cartoon Network');
+            
+            // Crear osciladores para simular música
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator1 = audioContext.createOscillator();
+            const oscillator2 = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator1.connect(gainNode);
+            oscillator2.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator1.frequency.setValueAtTime(220, audioContext.currentTime); // A3
+            oscillator2.frequency.setValueAtTime(330, audioContext.currentTime); // E4
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            
+            // Melodía simple estilo Halloween
+            const melody = [220, 247, 277, 294, 330, 294, 277, 247]; // Notas A, B, C#, D, E, D, C#, B
+            let noteIndex = 0;
+            
+            function playMelody() {
+                if (musicEnabled && noteIndex < melody.length * 4) { // Repetir 4 veces
+                    oscillator1.frequency.setValueAtTime(melody[noteIndex % melody.length], audioContext.currentTime);
+                    noteIndex++;
+                    
+                    setTimeout(playMelody, 400); // Cada nota dura 400ms
+                }
+            }
+            
+            try {
+                audioContext.resume().then(() => {
+                    oscillator1.start();
+                    oscillator2.start();
+                    playMelody();
+                });
+            } catch (e) {
+                console.log('Audio context not supported or suspended');
+            }
+            
+            return {
+                pause: () => {
+                    try {
+                        audioContext.suspend();
+                    } catch (e) {
+                        console.log('Error pausing audio');
+                    }
+                }
+            };
+        }
+
+        // ===== INITIALIZATION =====
+        function initHalloweenLobby() {
+            createFloatingPumpkins();
+            updateCurrency();
+            
+            // Auto-select 1 player
+            selectPlayers(1);
+            
+            // Check daily rewards on load
+            const today = new Date().toDateString();
+            if (lastClaimDate !== today) {
+                // New day, reset today's claimable state
+                setTimeout(() => {
+                    showDailyRewards();
+                }, 2000);
+            }
+            
+            console.log('🎃 Halloween Lobby v1.0 initialized!');
+            console.log('Desarrollado por xpe.nettt para xpe.games');
+        }
+
+        // ===== CSS ANIMATIONS =====
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleFloat {
+                0% { opacity: 1; transform: translateY(0) scale(1); }
+                100% { opacity: 0; transform: translateY(-100px) scale(0); }
+            }
+            
+            @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ===== START APPLICATION =====
+        document.addEventListener('DOMContentLoaded', initHalloweenLobby);
+
+        // Close modal when clicking outside
+        document.getElementById('dailyRewardsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDailyRewards();
+            }
+        });
+
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDailyRewards();
+            }
+        });
+    </script>
+</body>
+</html>
