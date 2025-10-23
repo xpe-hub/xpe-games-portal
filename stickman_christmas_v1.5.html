@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stickman Fighter Christmas - xpe.games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+            position: relative;
+        }
+
+        /* ANIMACIÓN DE NIEVE */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            animation: fall linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* MENÚ PRINCIPAL */
+        .mainMenu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+            position: relative;
+        }
+
+        .logo::before {
+            content: "🎮";
+            position: absolute;
+            left: -60px;
+            font-size: 40px;
+        }
+
+        .logo::after {
+            content: "🎄";
+            position: absolute;
+            right: -60px;
+            font-size: 40px;
+            animation: bounce 1.5s infinite;
+        }
+
+        .version {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .menuButton {
+            width: 280px;
+            padding: 15px;
+            margin: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menuButton:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        .menuButton::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .menuButton:hover::before {
+            left: 100%;
+        }
+
+        .menuButton.primary {
+            background: linear-gradient(45deg, #00ff88, #00e676);
+        }
+
+        .menuButton.primary::after {
+            content: "▶";
+            margin-left: 10px;
+        }
+
+        /* SELECCIÓN DE PERSONAJES */
+        .characterSelect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(40,40,40,0.9));
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 900;
+        }
+
+        .characterGrid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .characterCard {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(45deg, #333, #555);
+            border: 3px solid transparent;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .characterCard:hover {
+            transform: scale(1.05);
+            border-color: #00ff88;
+        }
+
+        .characterCard.selected {
+            border-color: #ff4757;
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
+        }
+
+        .characterPreview {
+            width: 60px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .characterName {
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        /* GAME HEADER */
+        #header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .score {
+            font-size: 16px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .player-score {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .health-bar {
+            width: 120px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .health-fill {
+            height: 100%;
+            transition: width 0.3s;
+            background: linear-gradient(90deg, #00ff88, #00e676);
+        }
+
+        .p2-health {
+            background: linear-gradient(90deg, #ff4757, #ff3838);
+        }
+
+        #canvas {
+            flex: 1;
+            background: linear-gradient(180deg, #87ceeb 0%, #f0e68c 50%, #8b4513 100%);
+            display: block;
+        }
+
+        /* CONTROLES MEJORADOS */
+        #controls {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 220px;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            pointer-events: none;
+            background: linear-gradient(transparent, rgba(0,0,0,0.3));
+        }
+
+        .control-group {
+            display: flex;
+            gap: 15px;
+            pointer-events: auto;
+        }
+
+        .btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            background: linear-gradient(45deg, rgba(0,0,0,0.7), rgba(50,50,50,0.7));
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .btn:active {
+            transform: scale(0.85);
+            background: linear-gradient(45deg, rgba(0,0,0,0.9), rgba(50,50,50,0.9));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+        }
+
+        .btn-jump {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+        }
+
+        .btn-attack {
+            background: linear-gradient(45deg, #ff4757, #ff3838);
+        }
+
+        .btn-special {
+            background: linear-gradient(45deg, #feca57, #ff9ff3);
+        }
+
+        .dpad {
+            display: grid;
+            grid-template-columns: repeat(3, 65px);
+            grid-template-rows: repeat(3, 65px);
+            gap: 8px;
+        }
+
+        .dpad .btn {
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn-left { grid-column: 1; grid-row: 2; }
+        .btn-right { grid-column: 3; grid-row: 2; }
+
+        /* POWER-UPS */
+        .powerupIndicator {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .powerupIndicator.active {
+            opacity: 1;
+            animation: powerupFloat 1s ease-in-out;
+        }
+
+        @keyframes powerupFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        /* GAME OVER MEJORADO */
+        #gameOver {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(40,40,40,0.95));
+            color: white;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            display: none;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #gameOver h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .victoryStats {
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        #restartBtn {
+            background: linear-gradient(45deg, #00ff88, #00e676);
+            color: black;
+            border: none;
+            padding: 20px 40px;
+            font-size: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+
+        #restartBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        /* EFFECTS */
+        .comboText {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 200;
+        }
+
+        .comboText.show {
+            animation: comboFlash 1s ease-out;
+        }
+
+        @keyframes comboFlash {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        }
+
+        /* SOCIAL SHARING */
+        .shareButton {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .shareButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- ANIMACIÓN DE NIEVE -->
+    <div id="snowContainer"></div>
+
+    <div id="gameContainer">
+        <!-- MENÚ PRINCIPAL -->
+        <div class="mainMenu">
+            <div class="logo">xpe.games</div>
+            <div class="version">Stickman Fighter v1.5 - Christmas Edition</div>
+            
+            <button class="menuButton primary" onclick="showCharacterSelect()">🎮 JUGAR</button>
+            <button class="menuButton" onclick="showOptions()">⚙️ OPCIONES</button>
+            <button class="menuButton" onclick="showRanking()">🏆 RANKING</button>
+            <button class="menuButton" onclick="showCredits()">ℹ️ CRÉDITOS</button>
+            
+            <div style="margin-top: 30px; color: #ccc; font-size: 14px;">
+                Desarrollado por MiniMax Agent | xpe.games
+            </div>
+        </div>
+
+        <!-- SELECCIÓN DE PERSONAJES -->
+        <div class="characterSelect">
+            <h2 style="color: #00ff88; margin-bottom: 30px;">Selecciona tu Fighter</h2>
+            
+            <div class="characterGrid">
+                <div class="characterCard" data-character="fighter" onclick="selectCharacter('fighter')">
+                    <div class="characterPreview">
+                        <svg viewBox="0 0 100 120" style="width: 100%; height: 100%;">
+                            <circle cx="50" cy="15" r="10" fill="#00ff88" stroke="black" stroke-width="2"/>
+                            <line x1="50" y1="25" x2="50" y2="60" stroke="#00ff88" stroke-width="4"/>
+                            <line x1="50" y1="35" x2="35" y2="45" stroke="#00ff88" stroke-width="3"/>
+                            <line x1="50" y1="35" x2="65" y2="45" stroke="#00ff88" stroke-width="3"/>
+                            <line x1="50" y1="60" x2="35" y2="80" stroke="#00ff88" stroke-width="3"/>
+                            <line x1="50" y1="60" x2="65" y2="80" stroke="#00ff88" stroke-width="3"/>
+                        </svg>
+                    </div>
+                    <div class="characterName">FIGHTER<br><small style="color: #ccc;">Velocidad +20%</small></div>
+                </div>
+
+                <div class="characterCard" data-character="tank" onclick="selectCharacter('tank')">
+                    <div class="characterPreview">
+                        <svg viewBox="0 0 100 120" style="width: 100%; height: 100%;">
+                            <circle cx="50" cy="15" r="10" fill="#ff4757" stroke="black" stroke-width="2"/>
+                            <line x1="50" y1="25" x2="50" y2="60" stroke="#ff4757" stroke-width="5"/>
+                            <line x1="50" y1="35" x2="35" y2="45" stroke="#ff4757" stroke-width="3"/>
+                            <line x1="50" y1="35" x2="65" y2="45" stroke="#ff4757" stroke-width="3"/>
+                            <line x1="50" y1="60" x2="35" y2="80" stroke="#ff4757" stroke-width="3"/>
+                            <line x1="50" y1="60" x2="65" y2="80" stroke="#ff4757" stroke-width="3"/>
+                        </svg>
+                    </div>
+                    <div class="characterName">TANK<br><small style="color: #ccc;">Vida +50%</small></div>
+                </div>
+
+                <div class="characterCard" data-character="ninja" onclick="selectCharacter('ninja')">
+                    <div class="characterPreview">
+                        <svg viewBox="0 0 100 120" style="width: 100%; height: 100%;">
+                            <circle cx="50" cy="15" r="10" fill="#3742fa" stroke="black" stroke-width="2"/>
+                            <line x1="50" y1="25" x2="50" y2="60" stroke="#3742fa" stroke-width="4"/>
+                            <line x1="50" y1="35" x2="35" y2="45" stroke="#3742fa" stroke-width="3"/>
+                            <line x1="50" y1="35" x2="65" y2="45" stroke="#3742fa" stroke-width="3"/>
+                            <line x1="50" y1="60" x2="35" y2="80" stroke="#3742fa" stroke-width="3"/>
+                            <line x1="50" y1="60" x2="65" y2="80" stroke="#3742fa" stroke-width="3"/>
+                        </svg>
+                    </div>
+                    <div class="characterName">NINJA<br><small style="color: #ccc;">Salto +50%</small></div>
+                </div>
+
+                <div class="characterCard" data-character="santa" onclick="selectCharacter('santa')">
+                    <div class="characterPreview">
+                        <svg viewBox="0 0 100 120" style="width: 100%; height: 100%;">
+                            <circle cx="50" cy="15" r="10" fill="#ff3838" stroke="black" stroke-width="2"/>
+                            <text x="50" y="25" text-anchor="middle" font-size="12" fill="white">🎅</text>
+                            <line x1="50" y1="25" x2="50" y2="60" stroke="#ff3838" stroke-width="4"/>
+                            <line x1="50" y1="35" x2="35" y2="45" stroke="#ff3838" stroke-width="3"/>
+                            <line x1="50" y1="35" x2="65" y2="45" stroke="#ff3838" stroke-width="3"/>
+                            <line x1="50" y1="60" x2="35" y2="80" stroke="#ff3838" stroke-width="3"/>
+                            <line x1="50" y1="60" x2="65" y2="80" stroke="#ff3838" stroke-width="3"/>
+                        </svg>
+                    </div>
+                    <div class="characterName">SANTA<br><small style="color: #ccc;">Power-ups extra</small></div>
+                </div>
+            </div>
+
+            <button class="menuButton" onclick="backToMenu()" style="margin-top: 20px;">← Volver</button>
+            <button class="menuButton primary" onclick="startGame()" style="margin-top: 10px;">¡A LUCHAR! ⚔️</button>
+        </div>
+
+        <!-- HEADER DEL JUEGO -->
+        <div id="header" style="display: none;">
+            <div class="brand">🎮 xpe.games</div>
+            <div class="score">
+                <div class="player-score">
+                    <span id="p1Name">P1</span>
+                    <div class="health-bar">
+                        <div class="health-fill p1-health" id="p1Health" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="player-score">
+                    <span id="p2Name">P2</span>
+                    <div class="health-bar">
+                        <div class="health-fill p2-health" id="p2Health" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INDICADOR DE POWER-UP -->
+        <div class="powerupIndicator" id="powerupIndicator">🛡️</div>
+
+        <!-- COMBO TEXT -->
+        <div class="comboText" id="comboText">COMBO x2!</div>
+
+        <!-- CANVAS -->
+        <canvas id="canvas"></canvas>
+
+        <!-- CONTROLES -->
+        <div id="controls">
+            <!-- Player 1 Controls (Left) -->
+            <div class="control-group">
+                <div class="dpad">
+                    <div class="btn btn-left" data-player="1" data-action="left">◄</div>
+                    <div class="btn btn-right" data-player="1" data-action="right">►</div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="btn btn-jump" data-player="1" data-action="jump">↑</div>
+                    <div class="btn btn-attack" data-player="1" data-action="attack">⚔</div>
+                </div>
+            </div>
+
+            <!-- Player 2 Controls (Right) -->
+            <div class="control-group">
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <div class="btn btn-jump" data-player="2" data-action="jump">↑</div>
+                    <div class="btn btn-attack" data-player="2" data-action="attack">⚔</div>
+                </div>
+                <div class="dpad">
+                    <div class="btn btn-left" data-player="2" data-action="left">◄</div>
+                    <div class="btn btn-right" data-player="2" data-action="right">►</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME OVER -->
+        <div id="gameOver">
+            <h2 id="winnerText">¡Jugador 1 Gana!</h2>
+            <div class="victoryStats">
+                <div id="gameStats"></div>
+            </div>
+            <div style="margin: 20px 0;">
+                <button class="shareButton" onclick="shareGame()">📤 Compartir</button>
+                <button class="shareButton" onclick="rateGame()">⭐ Calificar</button>
+            </div>
+            <button id="restartBtn">Jugar de Nuevo</button>
+        </div>
+    </div>
+
+    <script>
