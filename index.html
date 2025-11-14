@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone - Portal Profesional de Juegos Web</title>
+    <meta name="description" content="GameZone - La mejor plataforma de juegos web gratuitos con comunidad Discord, sistema de usuarios y juegos clásicos modernos.">
+    <meta name="keywords" content="juegos, web, gratis, online, friv, discord, gaming, multiplayer">
+    <meta name="author" content="MiniMax Agent">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="GameZone - Portal Profesional de Juegos Web">
+    <meta property="og:description" content="La mejor plataforma de juegos web gratuitos con comunidad Discord">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./assets/logo.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/games.css">
+    <link rel="stylesheet" href="./styles/auth.css">
+    <link rel="stylesheet" href="./styles/responsive.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="logo-loading">
+                <i class="fas fa-gamepad"></i>
+                <h1>GameZone</h1>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p>Cargando juegos épicos...</p>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-gamepad"></i>
+                <span>GameZone</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link active">Inicio</a>
+                <a href="#games" class="nav-link">Juegos</a>
+                <a href="#leaderboards" class="nav-link">Ranking</a>
+                <a href="#community" class="nav-link">Comunidad</a>
+                <a href="#about" class="nav-link">Acerca de</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <button class="discord-btn" onclick="connectDiscord()">
+                    <i class="fab fa-discord"></i>
+                    Discord
+                </button>
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <button class="user-btn" onclick="toggleUserMenu()">
+                        <img src="./assets/default-avatar.png" alt="Avatar" class="user-avatar">
+                        <span id="username">Usuario</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#profile"><i class="fas fa-user"></i> Perfil</a>
+                        <a href="#settings"><i class="fas fa-cog"></i> Configuración</a>
+                        <a href="#achievements"><i class="fas fa-trophy"></i> Logros</a>
+                        <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+                    </div>
+                </div>
+                <button class="login-btn" onclick="showLoginModal()">Iniciar Sesión</button>
+            </div>
+            
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-nav">
+            <a href="#home" class="mobile-link" onclick="closeMobileMenu()">Inicio</a>
+            <a href="#games" class="mobile-link" onclick="closeMobileMenu()">Juegos</a>
+            <a href="#leaderboards" class="mobile-link" onclick="closeMobileMenu()">Ranking</a>
+            <a href="#community" class="mobile-link" onclick="closeMobileMenu()">Comunidad</a>
+            <a href="#about" class="mobile-link" onclick="closeMobileMenu()">Acerca de</a>
+            <button class="discord-btn mobile-discord" onclick="connectDiscord()">
+                <i class="fab fa-discord"></i>
+                Discord
+            </button>
+            <button class="login-btn mobile-login" onclick="showLoginModal(); closeMobileMenu()">
+                Iniciar Sesión
+            </button>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <div class="animated-bg"></div>
+            <div class="floating-icons">
+                <i class="fas fa-gamepad floating-icon"></i>
+                <i class="fas fa-trophy floating-icon"></i>
+                <i class="fas fa-star floating-icon"></i>
+                <i class="fas fa-heart floating-icon"></i>
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="title-main">GameZone</span>
+                    <span class="title-sub">Portal Profesional de Juegos</span>
+                </h1>
+                <p class="hero-description">
+                    Explora miles de juegos gratuitos, conecta con nuestra comunidad Discord,
+                    compite en rankings y vive la experiencia gaming más épica de internet.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToGames()">
+                        <i class="fas fa-play"></i>
+                        Jugar Ahora
+                    </button>
+                    <button class="btn btn-secondary" onclick="connectDiscord()">
+                        <i class="fab fa-discord"></i>
+                        Únete a Discord
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-number" data-target="25000">0</div>
+                    <div class="stat-label">Jugadores Activos</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-gamepad"></i>
+                    <div class="stat-number" data-target="150">0</div>
+                    <div class="stat-label">Juegos Disponibles</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-trophy"></i>
+                    <div class="stat-number" data-target="50000">0</div>
+                    <div class="stat-label">Partidas Jugadas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Games Section -->
+    <section class="featured-games" id="games">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-star"></i>
+                    Juegos Destacados
+                </h2>
+                <div class="game-filters">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="popular">Populares</button>
+                    <button class="filter-btn" data-filter="new">Nuevos</button>
+                    <button class="filter-btn" data-filter="classic">Clásicos</button>
+                </div>
+            </div>
+            
+            <div class="games-grid" id="gamesGrid">
+                <!-- Games will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboards Section -->
+    <section class="leaderboards" id="leaderboards">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-trophy"></i>
+                Rankings
+            </h2>
+            
+            <div class="leaderboard-tabs">
+                <button class="tab-btn active" data-tab="snake">Snake</button>
+                <button class="tab-btn" data-tab="tetris">Tetris</button>
+                <button class="tab-btn" data-tab="stickman">Stickman Fighter</button>
+                <button class="tab-btn" data-tab="overall">General</button>
+            </div>
+            
+            <div class="leaderboard-content">
+                <div class="leaderboard-table" id="leaderboardTable">
+                    <!-- Leaderboard data will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community" id="community">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    Nuestra Comunidad
+                </h2>
+                <p>Conecta, compite y diviértete con jugadores de todo el mundo</p>
+            </div>
+            
+            <div class="community-grid">
+                <div class="community-card">
+                    <div class="card-icon">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                    <h3>Servidor Discord</h3>
+                    <p>Únete a nuestra comunidad activa con más de 5,000 miembros</p>
+                    <button class="btn btn-primary" onclick="connectDiscord()">
+                        Unirse al Servidor
+                    </button>
+                </div>
+                
+                <div class="community-card">
+                    <div class="card-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Torneos</h3>
+                    <p>Compite en torneos semanales y gana premios increíbles</p>
+                    <button class="btn btn-secondary">Ver Torneos</button>
+                </div>
+                
+                <div class="community-card">
+                    <div class="card-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Foros</h3>
+                    <p>Discute estrategias, comparte logros y haz amigos</p>
+                    <button class="btn btn-secondary">Ir a los Foros</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Acerca de GameZone</h2>
+                    <p>
+                        GameZone nació de la pasión por los juegos web clásicos y modernos. 
+                        Nuestra misión es crear la mejor plataforma de juegos online que una 
+                        a jugadores de todo el mundo en una experiencia divertida y emocionante.
+                    </p>
+                    <div class="features-list">
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Juegos 100% gratuitos</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Sin descargas necesarias</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Compatible con todos los dispositivos</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Comunidad activa y amigable</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4>Creado con pasión</h4>
+                        <p>Desarrollado por MiniMax Agent con dedicación y amor por los videojuegos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-gamepad"></i>
+                        <span>GameZone</span>
+                    </div>
+                    <p>La mejor plataforma de juegos web gratuitos.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Juegos</h4>
+                    <ul>
+                        <li><a href="#games">Todos los Juegos</a></li>
+                        <li><a href="#games">Juegos Populares</a></li>
+                        <li><a href="#games">Nuevos Lanzamientos</a></li>
+                        <li><a href="#leaderboards">Rankings</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <ul>
+                        <li><a href="#" onclick="connectDiscord()">Servidor Discord</a></li>
+                        <li><a href="#">Foros</a></li>
+                        <li><a href="#">Torneos</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Soporte</h4>
+                    <ul>
+                        <li><a href="#">Ayuda</a></li>
+                        <li><a href="#">Contacto</a></li>
+                        <li><a href="#">Reportar Bug</a></li>
+                        <li><a href="#">Sugerencias</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>&copy; 2025 GameZone. Todos los derechos reservados.</p>
+                    <p>Creado por MiniMax Agent | Powered by Tecnología Web Moderna</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos de Servicio</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Iniciar Sesión</h3>
+                <button class="close-btn" onclick="hideLoginModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="auth-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    Iniciar Sesión
+                </button>
+                <div class="auth-separator">
+                    <span>o</span>
+                </div>
+                <button type="button" class="btn btn-discord btn-full" onclick="loginWithDiscord()">
+                    <i class="fab fa-discord"></i>
+                    Continuar con Discord
+                </button>
+                <p class="auth-footer">
+                    ¿No tienes cuenta? <a href="#" onclick="showRegisterModal(); hideLoginModal()">Regístrate aquí</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Crear Cuenta</h3>
+                <button class="close-btn" onclick="hideRegisterModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="auth-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="registerUsername">Nombre de Usuario</label>
+                    <input type="text" id="registerUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contraseña</label>
+                    <input type="password" id="registerPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Contraseña</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    Crear Cuenta
+                </button>
+                <p class="auth-footer">
+                    ¿Ya tienes cuenta? <a href="#" onclick="showLoginModal(); hideRegisterModal()">Inicia sesión aquí</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Game Modal -->
+    <div class="game-modal" id="gameModal">
+        <div class="game-modal-content">
+            <div class="game-header">
+                <h3 id="gameTitle">Game Title</h3>
+                <div class="game-actions">
+                    <button class="btn btn-secondary" onclick="toggleFullscreen()">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button class="close-btn" onclick="closeGame()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="game-content" id="gameContent">
+                <!-- Game will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/config.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/games.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/discord.js"></script>
+    <script src="./js/leaderboard.js"></script>
+</body>
+</html>
