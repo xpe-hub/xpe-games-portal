@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stickman Fighter Christmas - xpe.games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background: #1e3a8a;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* LOBBY ESTILO SUPREME DUELIST - CHRISTMAS THEME */
+        .lobby {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
+            display: none;
+            flex-direction: column;
+        }
+
+        .lobby.show {
+            display: flex;
+        }
+
+        /* HEADER LOBBY - NAVIDAD */
+        .lobby-header {
+            background: linear-gradient(90deg, #dc2626, #ef4444, #dc2626);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #fca5a5;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lobby-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px),
+                radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px);
+            background-size: 50px 50px, 30px 30px;
+            background-position: 0 0, 25px 25px;
+            animation: snowfall 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes snowfall {
+            0% { transform: translateY(-100px) rotate(0deg); }
+            100% { transform: translateY(100px) rotate(360deg); }
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .menu-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            border: 3px solid #166534;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+        }
+
+        .menu-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 18px rgba(22, 163, 74, 0.6);
+        }
+
+        .level-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            padding: 12px 18px;
+            border-radius: 18px;
+            border: 3px solid #86efac;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+        }
+
+        .level-pumpkin {
+            font-size: 24px;
+            margin-bottom: 4px;
+            animation: twinkle 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from { opacity: 0.8; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.1); }
+        }
+
+        .level-text {
+            font-size: 14px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .header-center {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0,0,0,0.8);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .ads-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border: 3px solid #991b1b;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+            position: relative;
+        }
+
+        .currency-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 3px solid #f59e0b;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+        }
+
+        .currency-icon {
+            font-size: 24px;
+        }
+
+        .currency-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #92400e;
+        }
+
+        /* LOBBY MAIN CONTENT */
+        .lobby-content {
+            flex: 1;
+            display: flex;
+            padding: 30px;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* STICKMAN CENTRAL - CHRISTMAS STYLING */
+        .central-stickmen {
+            display: flex;
+            gap: 100px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stickman-silhouette {
+            width: 120px;
+            height: 180px;
+            position: relative;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+        }
+
+        .stickman-silhouette svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* SIDES */
+        .side-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 140px;
+        }
+
+        .side-btn {
+            padding: 18px;
+            border-radius: 18px;
+            border: 3px solid transparent;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .side-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .shop-btn {
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            border-color: #166534;
+        }
+
+        .discord-btn {
+            background: linear-gradient(45deg, #5865f2, #4752c4);
+            border-color: #404eed;
+        }
+
+        /* PLAYER MODE BUTTONS */
+        .player-mode-btn {
+            padding: 18px;
+            border-radius: 18px;
+            border: 3px solid transparent;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .player-mode-btn.selected {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.6);
+            border-color: #ffffff;
+        }
+
+        .player-1 {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border-color: #991b1b;
+        }
+
+        .player-2 {
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            border-color: #166534;
+        }
+
+        .player-3 {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            border-color: #d97706;
+        }
+
+        .player-4 {
+            background: linear-gradient(45deg, #3b82f6, #2563eb);
+            border-color: #1d4ed8;
+        }
+
+        /* BOTTOM MODES */
+        .bottom-modes {
+            padding: 25px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            background: linear-gradient(90deg, #16a34a, #22c55e, #16a34a);
+            border-top: 3px solid #86efac;
+        }
+
+        .mode-btn {
+            padding: 20px 30px;
+            border-radius: 18px;
+            border: 3px solid transparent;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 140px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .battle-mode {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border-color: #991b1b;
+        }
+
+        .map-editor {
+            background: linear-gradient(45deg, #059669, #047857);
+            border-color: #065f46;
+        }
+
+        .mini-game {
+            background: linear-gradient(45deg, #eab308, #ca8a04);
+            border-color: #a16207;
+        }
+
+        .boss-fight {
+            background: linear-gradient(45deg, #7c2d12, #451a03);
+            border-color: #431407;
+        }
+
+        .survival {
+            background: linear-gradient(45deg, #0f172a, #020617);
+            border-color: #020617;
+        }
+
+        /* GAME AREA */
+        #gameArea {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            display: none;
+        }
+
+        #gameCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            touch-action: none;
+        }
+
+        /* CONTROLES MÓVILES OPTIMIZADOS PARA TABLET */
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 100;
+        }
+
+        .joystick {
+            width: 140px;
+            height: 140px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            position: relative;
+            touch-action: none;
+        }
+
+        .joystick-handle {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            touch-action: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .action-btn {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+
+        .attack-btn {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border-color: #991b1b;
+        }
+
+        .jump-btn {
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            border-color: #166534;
+        }
+
+        .action-btn:active {
+            transform: scale(0.9);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* RESPONSIVE TABLET */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .lobby-content {
+                flex-direction: column;
+                padding: 25px;
+                gap: 25px;
+            }
+
+            .central-stickmen {
+                gap: 60px;
+            }
+
+            .side-buttons {
+                flex-direction: row;
+                width: 100%;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .side-btn, .player-mode-btn {
+                min-width: 100px;
+                min-height: 80px;
+                font-size: 14px;
+            }
+
+            .bottom-modes {
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .mode-btn {
+                min-width: 100px;
+                font-size: 14px;
+                padding: 15px;
+            }
+
+            .controls {
+                bottom: 20px;
+                padding: 0 20px;
+            }
+
+            .joystick {
+                width: 120px;
+                height: 120px;
+            }
+
+            .action-btn {
+                width: 90px;
+                height: 90px;
+                font-size: 16px;
+            }
+        }
+
+        /* RESPONSIVE MÓVIL */
+        @media (max-width: 767px) {
+            .lobby-content {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+            }
+
+            .central-stickmen {
+                gap: 50px;
+            }
+
+            .side-buttons {
+                flex-direction: row;
+                width: 100%;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .side-btn, .player-mode-btn {
+                min-width: 80px;
+                min-height: 70px;
+                font-size: 12px;
+                padding: 12px;
+            }
+
+            .bottom-modes {
+                padding: 15px;
+                gap: 12px;
+            }
+
+            .mode-btn {
+                min-width: 80px;
+                font-size: 12px;
+                padding: 12px;
+            }
+
+            .controls {
+                bottom: 15px;
+                padding: 0 15px;
+            }
+
+            .joystick {
+                width: 100px;
+                height: 100px;
+            }
+
+            .action-btn {
+                width: 75px;
+                height: 75px;
+                font-size: 14px;
+            }
+
+            .game-title {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+
+            .header-left, .header-right {
+                gap: 12px;
+            }
+
+            .menu-btn, .ads-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .currency-display {
+                padding: 8px 12px;
+                gap: 8px;
+            }
+
+            .currency-icon {
+                font-size: 18px;
+            }
+
+            .currency-amount {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- LOBBY PRINCIPAL -->
+        <div class="lobby" id="lobby">
+            <!-- HEADER -->
+            <div class="lobby-header">
+                <div class="header-left">
+                    <button class="menu-btn" onclick="showMenu()">☰</button>
+                    <div class="level-indicator">
+                        <div class="level-pumpkin">🎄</div>
+                        <div class="level-text" id="levelText">LVL 1</div>
+                    </div>
+                </div>
+
+                <div class="header-center">
+                    <div class="game-title">xpe.games</div>
+                    <div class="game-subtitle" style="color: #fef3c7; font-size: 16px;">SUPREME DUELIST STICKMAN</div>
+                </div>
+
+                <div class="header-right">
+                    <button class="ads-btn" onclick="watchAd()">AD</button>
+                    <div class="currency-display">
+                        <span class="currency-icon">💰</span>
+                        <span class="currency-amount" id="currencyAmount">25</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOBBY CONTENT -->
+            <div class="lobby-content">
+                <!-- LEFT SIDE -->
+                <div class="side-buttons">
+                    <button class="side-btn shop-btn" onclick="openShop()">
+                        🛒<br>Tienda
+                    </button>
+                    <button class="side-btn discord-btn" onclick="joinDiscord()">
+                        💬<br>Discord
+                    </button>
+                </div>
+
+                <!-- CENTRAL STICKMEN -->
+                <div class="central-stickmen">
+                    <div class="stickman-silhouette">
+                        <svg viewBox="0 0 100 150" style="width: 100%; height: 100%;">
+                            <circle cx="50" cy="15" r="12" fill="#dc2626"/>
+                            <line x1="50" y1="27" x2="50" y2="60" stroke="#dc2626" stroke-width="5"/>
+                            <line x1="50" y1="35" x2="35" y2="50" stroke="#dc2626" stroke-width="4"/>
+                            <line x1="50" y1="35" x2="65" y2="50" stroke="#dc2626" stroke-width="4"/>
+                            <line x1="50" y1="60" x2="40" y2="90" stroke="#dc2626" stroke-width="4"/>
+                            <line x1="50" y1="60" x2="60" y2="90" stroke="#dc2626" stroke-width="4"/>
+                        </svg>
+                    </div>
+                    <div class="stickman-silhouette">
+                        <svg viewBox="0 0 100 150" style="width: 100%; height: 100%;">
+                            <circle cx="50" cy="15" r="12" fill="#16a34a"/>
+                            <line x1="50" y1="27" x2="50" y2="60" stroke="#16a34a" stroke-width="5"/>
+                            <line x1="50" y1="35" x2="35" y2="50" stroke="#16a34a" stroke-width="4"/>
+                            <line x1="50" y1="35" x2="65" y2="50" stroke="#16a34a" stroke-width="4"/>
+                            <line x1="50" y1="60" x2="40" y2="90" stroke="#16a34a" stroke-width="4"/>
+                            <line x1="50" y1="60" x2="60" y2="90" stroke="#16a34a" stroke-width="4"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE - PLAYER MODES -->
+                <div class="side-buttons">
+                    <button class="player-mode-btn player-1 selected" onclick="selectPlayers(1)">
+                        👤<br>1 PLAYER
+                    </button>
+                    <button class="player-mode-btn player-2" onclick="selectPlayers(2)">
+                        👥<br>2 PLAYERS
+                    </button>
+                    <button class="player-mode-btn player-3" onclick="selectPlayers(3)">
+                        👥👥<br>3 PLAYERS
+                    </button>
+                    <button class="player-mode-btn player-4" onclick="selectPlayers(4)">
+                        👥👥👥<br>4 PLAYERS
+                    </button>
+                </div>
+            </div>
+
+            <!-- BOTTOM MODES -->
+            <div class="bottom-modes">
+                <button class="mode-btn battle-mode" onclick="startBattleMode()">
+                    🥊<br>BATTLE MODE
+                </button>
+                <button class="mode-btn map-editor" onclick="openMapEditor()">
+                    🗺️<br>MAP EDITOR
+                </button>
+                <button class="mode-btn mini-game" onclick="playMiniGame()">
+                    🎮<br>MINI-GAME
+                </button>
+                <button class="mode-btn boss-fight" onclick="startBossFight()">
+                    👹<br>BOSS FIGHT
+                </button>
+                <button class="mode-btn survival" onclick="startSurvival()">
+                    💀<br>SURVIVAL
+                </button>
+            </div>
+        </div>
+
+        <!-- GAME AREA -->
+        <div id="gameArea">
+            <canvas id="gameCanvas"></canvas>
+            
+            <!-- CONTROLES MÓVILES -->
+            <div class="controls">
+                <div class="joystick" id="joystick">
+                    <div class="joystick-handle" id="joystickHandle"></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn jump-btn" id="jumpBtn">JUMP</button>
+                    <button class="action-btn attack-btn" id="attackBtn">ATK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== STICKMAN FIGHTER CHRISTMAS v2.0 TABLET =====
+        // Desarrollado por xpe.nettt para xpe.games
+
+        // VARIABLES GLOBALES
+        let currentPlayerCount = 1;
+        let playerCurrency = 25;
+        let playerLevel = 1;
+        let gameStarted = false;
+
+        // GAME VARIABLES
+        let canvas, ctx;
+        let gameWidth, gameHeight;
+        let player1, player2;
+        let keys = {};
+        let touchControls = {
+            joystickActive: false,
+            joystickStartX: 0,
+            joystickStartY: 0,
+            joystickX: 0,
+            joystickY: 0
+        };
+
+        // ===== GAME SETUP =====
+        function initGame() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            
+            setupCanvas();
+            setupEventListeners();
+            setupTouchControls();
+            createPlayers();
+            
+            gameLoop();
+        }
+
+        function setupCanvas() {
+            function resizeCanvas() {
+                const container = document.getElementById('gameArea');
+                gameWidth = container.clientWidth;
+                gameHeight = container.clientHeight;
+                
+                canvas.width = gameWidth;
+                canvas.height = gameHeight;
+                
+                // Reposition players
+                if (player1) {
+                    player1.x = gameWidth * 0.25;
+                    player1.y = gameHeight - 100;
+                }
+                if (player2) {
+                    player2.x = gameWidth * 0.75;
+                    player2.y = gameHeight - 100;
+                }
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('orientationchange', () => {
+                setTimeout(resizeCanvas, 100);
+            });
+        }
+
+        function setupEventListeners() {
+            document.addEventListener('keydown', (e) => {
+                keys[e.code] = true;
+            });
+            
+            document.addEventListener('keyup', (e) => {
+                keys[e.code] = false;
+            });
+        }
+
+        function setupTouchControls() {
+            const joystick = document.getElementById('joystick');
+            const joystickHandle = document.getElementById('joystickHandle');
+            const jumpBtn = document.getElementById('jumpBtn');
+            const attackBtn = document.getElementById('attackBtn');
+
+            // Joystick events
+            joystick.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                touchControls.joystickActive = true;
+                const touch = e.touches[0];
+                const rect = joystick.getBoundingClientRect();
+                touchControls.joystickStartX = rect.left + rect.width / 2;
+                touchControls.joystickStartY = rect.top + rect.height / 2;
+            });
+
+            joystick.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (!touchControls.joystickActive) return;
+                
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - touchControls.joystickStartX;
+                const deltaY = touch.clientY - touchControls.joystickStartY;
+                
+                // Limit joystick movement
+                const maxDistance = 35;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                if (distance > maxDistance) {
+                    const angle = Math.atan2(deltaY, deltaX);
+                    touchControls.joystickX = Math.cos(angle) * maxDistance;
+                    touchControls.joystickY = Math.sin(angle) * maxDistance;
+                } else {
+                    touchControls.joystickX = deltaX;
+                    touchControls.joystickY = deltaY;
+                }
+                
+                joystickHandle.style.transform = `translate(-50%, -50%) translate(${touchControls.joystickX}px, ${touchControls.joystickY}px)`;
+            });
+
+            joystick.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                touchControls.joystickActive = false;
+                touchControls.joystickX = 0;
+                touchControls.joystickY = 0;
+                joystickHandle.style.transform = 'translate(-50%, -50%)';
+            });
+
+            // Action buttons
+            jumpBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (player1) {
+                    player1.jump();
+                }
+            });
+
+            attackBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (player1) {
+                    player1.attack();
+                }
+            });
+        }
+
+        function createPlayers() {
+            player1 = new Stickman(gameWidth * 0.25, gameHeight - 100, '#dc2626', 1);
+            if (currentPlayerCount > 1) {
+                player2 = new Stickman(gameWidth * 0.75, gameHeight - 100, '#16a34a', 2);
+            }
+        }
+
+        // ===== STICKMAN CLASS MEJORADO =====
+        class Stickman {
+            constructor(x, y, color, playerNum) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.playerNum = playerNum;
+                this.vx = 0;
+                this.vy = 0;
+                this.width = 35;
+                this.height = 70;
+                this.speed = 6;
+                this.jumpPower = 16;
+                this.isGrounded = false;
+                this.health = 100;
+                this.attackCooldown = 0;
+                this.lastAttackTime = 0;
+                this.animationFrame = 0;
+                this.isAttacking = false;
+            }
+
+            update() {
+                // Movement from keyboard
+                if (this.playerNum === 1) {
+                    if (keys['ArrowLeft'] || keys['KeyA']) {
+                        this.vx = -this.speed;
+                    } else if (keys['ArrowRight'] || keys['KeyD']) {
+                        this.vx = this.speed;
+                    } else {
+                        this.vx *= 0.8; // Friction
+                    }
+
+                    // Jump
+                    if ((keys['ArrowUp'] || keys['KeyW'] || keys['Space']) && this.isGrounded) {
+                        this.jump();
+                    }
+
+                    // Attack
+                    if (keys['KeyJ'] || keys['KeyF']) {
+                        this.attack();
+                    }
+                }
+
+                // Movement from touch (only for player 1)
+                if (this.playerNum === 1 && touchControls.joystickActive) {
+                    this.vx = touchControls.joystickX * 0.25;
+                }
+
+                // Apply physics
+                this.vy += 0.8; // Gravity
+                
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Ground collision
+                const groundY = gameHeight - 60;
+                if (this.y > groundY) {
+                    this.y = groundY;
+                    this.vy = 0;
+                    this.isGrounded = true;
+                } else {
+                    this.isGrounded = false;
+                }
+
+                // Boundaries
+                if (this.x < 0) this.x = 0;
+                if (this.x + this.width > gameWidth) this.x = gameWidth - this.width;
+
+                // Attack cooldown
+                if (this.attackCooldown > 0) {
+                    this.attackCooldown--;
+                }
+
+                // Animation
+                this.animationFrame += 0.1;
+            }
+
+            jump() {
+                if (this.isGrounded) {
+                    this.vy = -this.jumpPower;
+                    this.isGrounded = false;
+                }
+            }
+
+            attack() {
+                const now = Date.now();
+                if (now - this.lastAttackTime > 500) {
+                    this.lastAttackTime = now;
+                    this.attackCooldown = 20;
+                    this.isAttacking = true;
+                    
+                    // Attack hitbox mejorado
+                    const attackRange = 45;
+                    const attackHeight = 35;
+                    if (player2) {
+                        const distance = Math.abs(this.x - player2.x);
+                        const heightDiff = Math.abs(this.y - player2.y);
+                        if (distance < attackRange && heightDiff < attackHeight) {
+                            player2.health -= 10;
+                            if (player2.health < 0) player2.health = 0;
+                        }
+                    }
+                    
+                    setTimeout(() => {
+                        this.isAttacking = false;
+                    }, 200);
+                }
+            }
+
+            draw() {
+                // Draw stickman con mejor animación
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+                
+                // Efecto de movimiento
+                const animationOffset = Math.sin(this.animationFrame) * 2;
+
+                // Head
+                ctx.beginPath();
+                ctx.arc(this.x + this.width/2, this.y + animationOffset, 14, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Body
+                ctx.beginPath();
+                ctx.moveTo(this.x + this.width/2, this.y + 14 + animationOffset);
+                ctx.lineTo(this.x + this.width/2, this.y + 52 + animationOffset);
+                ctx.stroke();
+
+                // Arms
+                ctx.beginPath();
+                const armSpread = this.isAttacking ? 25 : 18;
+                ctx.moveTo(this.x + this.width/2, this.y + 23 + animationOffset);
+                ctx.lineTo(this.x + this.width/2 - armSpread, this.y + 35 + animationOffset);
+                ctx.moveTo(this.x + this.width/2, this.y + 23 + animationOffset);
+                ctx.lineTo(this.x + this.width/2 + armSpread, this.y + 35 + animationOffset);
+                ctx.stroke();
+
+                // Legs
+                ctx.beginPath();
+                ctx.moveTo(this.x + this.width/2, this.y + 52 + animationOffset);
+                ctx.lineTo(this.x + this.width/2 - 12, this.y + 70 + animationOffset);
+                ctx.moveTo(this.x + this.width/2, this.y + 52 + animationOffset);
+                ctx.lineTo(this.x + this.width/2 + 12, this.y + 70 + animationOffset);
+                ctx.stroke();
+
+                // Health bar mejorado
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - 5, this.y - 35, 45, 12);
+                ctx.fillStyle = '#22c55e';
+                ctx.fillRect(this.x - 5, this.y - 35, (this.health / 100) * 45, 12);
+
+                // Attack effect mejorado
+                if (this.attackCooldown > 0) {
+                    ctx.strokeStyle = this.isAttacking ? '#fbbf24' : '#fbbf24';
+                    ctx.lineWidth = this.isAttacking ? 8 : 6;
+                    ctx.beginPath();
+                    ctx.arc(this.x + this.width/2, this.y + 35 + animationOffset, 40, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // Efecto de partículas en el ataque
+                if (this.isAttacking) {
+                    for (let i = 0; i < 5; i++) {
+                        ctx.fillStyle = '#fbbf24';
+                        const particleX = this.x + this.width/2 + Math.random() * 20 - 10;
+                        const particleY = this.y + 35 + Math.random() * 20 - 10 + animationOffset;
+                        ctx.fillRect(particleX, particleY, 3, 3);
+                    }
+                }
+            }
+        }
+
+        // ===== GAME LOOP MEJORADO =====
+        function gameLoop() {
+            if (!gameStarted) return;
+
+            // Clear canvas con gradiente
+            const gradient = ctx.createLinearGradient(0, 0, 0, gameHeight);
+            gradient.addColorStop(0, '#0f172a');
+            gradient.addColorStop(0.5, '#1e293b');
+            gradient.addColorStop(1, '#334155');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, gameWidth, gameHeight);
+
+            // Draw ground con efectos
+            const groundGradient = ctx.createLinearGradient(0, gameHeight - 60, 0, gameHeight);
+            groundGradient.addColorStop(0, '#059669');
+            groundGradient.addColorStop(1, '#047857');
+            ctx.fillStyle = groundGradient;
+            ctx.fillRect(0, gameHeight - 60, gameWidth, 60);
+
+            // Update and draw players
+            player1.update();
+            player1.draw();
+
+            if (player2) {
+                player2.update();
+                player2.draw();
+            }
+
+            // Draw UI mejorado
+            drawUI();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function drawUI() {
+            // Health bars con mejor diseño
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 18px Arial';
+            ctx.fillText('Player 1', 15, 35);
+            ctx.fillText('Player 2', gameWidth - 120, 35);
+
+            // Back button mejorado
+            ctx.fillStyle = '#dc2626';
+            ctx.fillRect(15, gameHeight - 50, 100, 35);
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 16px Arial';
+            ctx.fillText('BACK', 40, gameHeight - 25);
+
+            // Efectos de partículas en el fondo
+            for (let i = 0; i < 3; i++) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                const x = Math.random() * gameWidth;
+                const y = Math.random() * gameHeight * 0.7;
+                ctx.fillRect(x, y, 2, 2);
+            }
+        }
+
+        // ===== LOBBY FUNCTIONS =====
+        function showMenu() {
+            alert('Menú de xpe.games\n\n• Configuración\n• Perfil\n• Logros\n• Ayuda\n\n🎄 ¡Versión Navidad! v2.0 Tablet');
+        }
+
+        function watchAd() {
+            const reward = Math.floor(Math.random() * 50) + 25;
+            playerCurrency += reward;
+            updateCurrency();
+            alert(`¡Gracias por ver el anuncio!\n\nHas ganado: +${reward} monedas 💰\n\nMonedas actuales: ${playerCurrency}`);
+        }
+
+        function updateCurrency() {
+            document.getElementById('currencyAmount').textContent = playerCurrency;
+        }
+
+        function selectPlayers(count) {
+            currentPlayerCount = count;
+            
+            // Update button states
+            document.querySelectorAll('.player-mode-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            const selectedBtn = document.querySelector(`.player-${count}`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('selected');
+            }
+        }
+
+        function openShop() {
+            alert('Tienda de xpe.games Navidad\n\n🎄 Skins de personajes Navidad\n⚔️ Armas especiales Navideñas\n🎁 Power-ups temáticos\n🎨 Efectos visuales\n\n¡Próximamente más contenido!');
+        }
+
+        function joinDiscord() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Discord de xpe.games',
+                    text: '¡Únete a nuestra comunidad de Discord!\n\nCompártimos juegos, tips y novedades.\n\n#xpegames #StickmanFighter',
+                    url: 'https://discord.gg/xpegames'
+                });
+            } else {
+                window.open('https://discord.gg/xpegames', '_blank');
+            }
+        }
+
+        function startBattleMode() {
+            // Hide lobby, show game
+            document.getElementById('lobby').classList.remove('show');
+            document.getElementById('gameArea').style.display = 'block';
+            
+            gameStarted = true;
+            initGame();
+        }
+
+        function openMapEditor() {
+            alert('Editor de Mapas Navideño\n\n🗺️ Crea tus propios escenarios de Navidad\n\n• Diseña tus propios campos de batalla\n• Añade obstáculos y power-ups\n• Comparte tus mapas con la comunidad\n\n¡Próximamente disponible!');
+        }
+
+        function playMiniGame() {
+            alert('Mini Juegos Navideño\n\n🎮 ¡Diversión extra!\n\n• Recolección de regalos\n• Carrera de renos\n• Simón dice navideño\n\n¡Próximamente disponible!');
+        }
+
+        function startBossFight() {
+            alert('Combate contra Jefes Navideños\n\n👹 Enfréntate a:\n\n• Snow King 👑\n• Ice Witch 🧙‍♀️\n• Santa Claus 🧑‍🎄\n• Reindeer Boss 🦌\n\n¡Desafíos épicos te esperan!');
+        }
+
+        function startSurvival() {
+            alert('Modo Supervivencia Navideño\n\n💀 Sobrevive la nieve Navideña\n\n• Oleadas infinitas de enemigos\n• Recolecta power-ups para sobrevivir\n• Compite por el mejor puntaje\n\n¡La resistencia definitiva!');
+        }
+
+        // ===== BACK TO LOBBY =====
+        function backToLobby() {
+            gameStarted = false;
+            document.getElementById('gameArea').style.display = 'none';
+            document.getElementById('lobby').classList.add('show');
+        }
+
+        // Click back button
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            if (x >= 15 && x <= 115 && y >= gameHeight - 50 && y <= gameHeight - 15) {
+                backToLobby();
+            }
+        });
+
+        // ===== INITIALIZATION =====
+        function initLobby() {
+            document.getElementById('lobby').classList.add('show');
+            updateCurrency();
+            selectPlayers(1);
+            console.log('🎄 Christmas Lobby v2.0 Tablet initialized!');
+            console.log('Desarrollado por xpe.nettt para xpe.games');
+        }
+
+        document.addEventListener('DOMContentLoaded', initLobby);
+    </script>
+</body>
+</html>
