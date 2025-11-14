@@ -7,7 +7,7 @@ const Config = {
     // Application Info
     APP_NAME: 'xpe.games',
     VERSION: '1.0.0',
-    CREATOR: 'MiniMax Agent',
+    CREATOR: 'xpe.nettt',
     COPYRIGHT: '© 2025 xpe.games. Todos los derechos reservados.',
     
     // API Endpoints
@@ -71,8 +71,8 @@ const Config = {
 
     // Creator Information
     CREATOR_INFO: {
-        NAME: 'MiniMax Agent',
-        DISCORD: 'MiniMax#1234',
+        NAME: 'xpe.nettt',
+        DISCORD: 'xpe.nettt#1234',
         EMAIL: 'contact@xpe.games',
         WEBSITE: 'https://xpe.games',
         TWITTER: '@xpegames',
