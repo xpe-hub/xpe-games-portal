@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameZone - Portal de Juegos Web</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F8F9FA;
+            color: #1D2939;
+            line-height: 1.5;
+        }
+
+        /* Color System */
+        :root {
+            --primary: #7F56D9;
+            --primary-light: #F4EBFF;
+            --primary-dark: #53389E;
+            --text-primary: #1D2939;
+            --text-secondary: #667085;
+            --surface: #FFFFFF;
+            --border: #D0D5DD;
+            
+            /* Category Colors */
+            --action: #F04438;
+            --puzzle: #1570EF;
+            --sports: #12B76A;
+            --classic: #F79009;
+            --arcade: #9333EA;
+            --strategy: #06B6D4;
+        }
+
+        /* Header */
+        .header {
+            background: var(--surface);
+            box-shadow: 0 2px 8px rgba(29, 41, 57, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: radial-gradient(circle at top, #F4EBFF 0%, #F8F9FA 40%);
+            padding: 96px 24px;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 60px);
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 64px;
+            padding: 0 24px 0 64px;
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            font-size: 16px;
+            background: var(--surface);
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Filter Pills */
+        .filters {
+            padding: 0 24px 48px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filters-container {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-pill {
+            height: 48px;
+            padding: 0 24px;
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            background: var(--surface);
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .filter-pill:hover {
+            background: var(--primary-light);
+            border-color: var(--primary-light);
+        }
+
+        .filter-pill.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Game Grid */
+        .games-section {
+            padding: 0 24px 96px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .game-card {
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(29, 41, 57, 0.06);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(127, 86, 217, 0.12);
+        }
+
+        .game-thumbnail {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--primary);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .game-info {
+            padding: 16px;
+        }
+
+        .game-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .category-tag {
+            padding: 6px 12px;
+            border-radius: 32px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+        }
+
+        .stats {
+            display: flex;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Game Screens */
+        .game-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--surface);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: var(--primary);
+            color: white;
+        }
+
+        .game-title-screen {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .game-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+
+        .game-container {
+            text-align: center;
+            max-width: 100%;
+        }
+
+        .game-canvas {
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            background: #000;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .game-controls {
+            margin-top: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .control-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .control-btn:disabled {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 64px 16px;
+            }
+            
+            .filters {
+                padding: 0 16px 32px;
+            }
+            
+            .games-section {
+                padding: 0 16px 64px;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 16px;
+            }
+            
+            .header-container {
+                padding: 12px 16px;
+            }
+            
+            .nav-buttons {
+                gap: 8px;
+            }
+            
+            .nav-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+
+        /* Category Colors */
+        .category-action { background: var(--action); }
+        .category-puzzle { background: var(--puzzle); }
+        .category-sports { background: var(--sports); }
+        .category-classic { background: var(--classic); }
+        .category-arcade { background: var(--arcade); }
+        .category-strategy { background: var(--strategy); }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">GameZone</a>
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="showAbout()">Acerca de</button>
+                <button class="nav-btn" onclick="showContact()">Contacto</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Explora Miles de Juegos Gratuitos</h1>
+            <p>Los mejores juegos web clásicos y modernos, ¡todo gratis y sin descargas!</p>
+            
+            <div class="search-container">
+                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="M21 21l-4.35-4.35"></path>
+                </svg>
+                <input type="text" class="search-input" placeholder="Buscar juegos..." id="searchInput" oninput="filterGames()">
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Pills -->
+    <section class="filters">
+        <div class="filters-container">
+            <button class="filter-pill active" onclick="filterByCategory('all')">Todos</button>
+            <button class="filter-pill" onclick="filterByCategory('classic')">Clásicos</button>
+            <button class="filter-pill" onclick="filterByCategory('action')">Acción</button>
+            <button class="filter-pill" onclick="filterByCategory('puzzle')">Puzzle</button>
+            <button class="filter-pill" onclick="filterByCategory('arcade')">Arcade</button>
+            <button class="filter-pill" onclick="filterByCategory('sports')">Deportes</button>
+            <button class="filter-pill" onclick="filterByCategory('strategy')">Estrategia</button>
+        </div>
+    </section>
+
+    <!-- Games Grid -->
+    <section class="games-section">
+        <h2 class="section-title">Juegos Populares</h2>
+        <div class="games-grid" id="gamesGrid">
+            <!-- Games will be dynamically populated -->
+        </div>
+    </section>
+
+    <!-- Game Screen -->
+    <div class="game-screen" id="gameScreen">
+        <div class="game-header">
+            <h3 class="game-title-screen" id="gameTitle">Game Title</h3>
+            <button class="back-btn" onclick="closeGame()">← Volver</button>
+        </div>
+        <div class="game-content">
+            <div class="game-container" id="gameContainer">
+                <!-- Game content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Games data
+        const games = [
+            {
+                id: 'snake',
+                title: 'Snake',
+                category: 'classic',
+                icon: '🐍',
+                plays: '125K',
+                rating: '4.8',
+                description: 'El clásico juego de la serpiente'
+            },
+            {
+                id: 'tetris',
+                title: 'Tetris',
+                category: 'puzzle',
+                icon: '🧩',
+                plays: '98K',
+                rating: '4.9',
+                description: 'Rompe líneas y conquista el tablero'
+            },
+            {
+                id: 'pacman',
+                title: 'Pac-Man',
+                category: 'classic',
+                icon: '👻',
+                plays: '156K',
+                rating: '4.7',
+                description: 'Come todos los puntos y evita los fantasmas'
+            },
+            {
+                id: 'pong',
+                title: 'Pong',
+                category: 'classic',
+                icon: '🏓',
+                plays: '89K',
+                rating: '4.6',
+                description: 'El juego que comenzó todo'
+            },
+            {
+                id: 'stickman',
+                title: 'Stickman Fighter',
+                category: 'action',
+                icon: '⚔️',
+                plays: '203K',
+                rating: '4.5',
+                description: 'Combate épico de palos'
+            },
+            {
+                id: 'breakout',
+                title: 'Breakout',
+                category: 'arcade',
+                icon: '🧱',
+                plays: '76K',
+                rating: '4.4',
+                description: 'Destruye todos los bloques'
+            },
+            {
+                id: 'memory',
+                title: 'Memory Match',
+                category: 'puzzle',
+                icon: '🧠',
+                plays: '67K',
+                rating: '4.3',
+                description: 'Encuentra las parejas iguales'
+            },
+            {
+                id: 'tetris-3d',
+                title: 'Tetris 3D',
+                category: 'puzzle',
+                icon: '🔮',
+                plays: '45K',
+                rating: '4.2',
+                description: 'Tetris con profundidad'
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        // Initialize the page
+        function init() {
+            renderGames();
+            updateActiveFilter();
+        }
+
+        // Render games in the grid
+        function renderGames() {
+            const grid = document.getElementById('gamesGrid');
+            const filteredGames = getFilteredGames();
+            
+            grid.innerHTML = filteredGames.map(game => `
+                <div class="game-card" onclick="openGame('${game.id}')">
+                    <div class="game-thumbnail">
+                        ${game.icon}
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">${game.title}</h3>
+                        <div class="game-meta">
+                            <span class="category-tag category-${game.category}">${getCategoryName(game.category)}</span>
+                        </div>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                                </svg>
+                                ${game.plays}
+                            </div>
+                            <div class="stat-item">
+                                <svg class="stat-icon" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                                </svg>
+                                ${game.rating}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get category display name
+        function getCategoryName(category) {
+            const names = {
+                classic: 'Clásicos',
+                action: 'Acción',
+                puzzle: 'Puzzle',
+                arcade: 'Arcade',
+                sports: 'Deportes',
+                strategy: 'Estrategia'
+            };
+            return names[category] || category;
+        }
+
+        // Filter games by category
+        function filterByCategory(category) {
+            currentCategory = category;
+            updateActiveFilter();
+            renderGames();
+        }
+
+        // Update active filter button
+        function updateActiveFilter() {
+            const pills = document.querySelectorAll('.filter-pill');
+            pills.forEach(pill => pill.classList.remove('active'));
+            
+            const activePill = Array.from(pills).find(pill => 
+                pill.onclick && pill.onclick.toString().includes(`'${currentCategory}'`)
+            );
+            if (activePill) {
+                activePill.classList.add('active');
+            }
+        }
+
+        // Filter games by search
+        function filterGames() {
+            const searchInput = document.getElementById('searchInput');
+            currentSearch = searchInput.value.toLowerCase();
+            renderGames();
+        }
+
+        // Get filtered games based on category and search
+        function getFilteredGames() {
+            return games.filter(game => {
+                const matchesCategory = currentCategory === 'all' || game.category === currentCategory;
+                const matchesSearch = currentSearch === '' || 
+                    game.title.toLowerCase().includes(currentSearch) ||
+                    game.description.toLowerCase().includes(currentSearch);
+                return matchesCategory && matchesSearch;
+            });
+        }
+
+        // Open game
+        function openGame(gameId) {
+            const gameScreen = document.getElementById('gameScreen');
+            const gameTitle = document.getElementById('gameTitle');
+            const gameContainer = document.getElementById('gameContainer');
+            
+            const game = games.find(g => g.id === gameId);
+            if (!game) return;
+            
+            gameTitle.textContent = game.title;
+            gameScreen.style.display = 'flex';
+            
+            // Load specific game
+            switch(gameId) {
+                case 'snake':
+                    loadSnakeGame(gameContainer);
+                    break;
+                case 'tetris':
+                    loadTetrisGame(gameContainer);
+                    break;
+                case 'pacman':
+                    loadPacmanGame(gameContainer);
+                    break;
+                case 'pong':
+                    loadPongGame(gameContainer);
+                    break;
+                case 'stickman':
+                    loadStickmanGame(gameContainer);
+                    break;
+                case 'breakout':
+                    loadBreakoutGame(gameContainer);
+                    break;
+                case 'memory':
+                    loadMemoryGame(gameContainer);
+                    break;
+                default:
+                    gameContainer.innerHTML = '<p>Juego próximamente...</p>';
+            }
+        }
+
+        // Close game
+        function closeGame() {
+            const gameScreen = document.getElementById('gameScreen');
+            gameScreen.style.display = 'none';
+            
+            // Stop any running games
+            if (window.currentGame && window.currentGame.stop) {
+                window.currentGame.stop();
+            }
+        }
+
+        // Snake Game
+        function loadSnakeGame(container) {
+            window.currentGame = {
+                stop: () => {
+                    if (window.snakeInterval) clearInterval(window.snakeInterval);
+                }
+            };
+            
+            const canvas = document.createElement('canvas');
+            canvas.className = 'game-canvas';
+            canvas.width = 400;
+            canvas.height = 400;
+            canvas.id = 'snakeCanvas';
+            
+            const controls = document.createElement('div');
+            controls.className = 'game-controls';
+            controls.innerHTML = `
+                <button class="control-btn" onclick="startSnake()">Iniciar</button>
+                <button class="control-btn" onclick="stopSnake()" disabled>Detener</button>
+            `;
+            
+            container.innerHTML = '';
+            container.appendChild(canvas);
+            container.appendChild(controls);
+            
+            let snake = [{x: 10, y: 10}];
+            let food = {x: 15, y: 15};
+            let dx = 0;
+            let dy = 0;
+            let gameRunning = false;
+            
+            window.startSnake = () => {
+                if (gameRunning) return;
+                gameRunning = true;
+                snake = [{x: 10, y: 10}];
+                food = {x: 15, y: 15};
+                dx = 0;
+                dy = 0;
+                controls.querySelector('[onclick="startSnake()"]').disabled = true;
+                controls.querySelector('[onclick="stopSnake()"]').disabled = false;
+                
+                window.snakeInterval = setInterval(gameSnake, 150);
+            };
+            
+            window.stopSnake = () => {
+                gameRunning = false;
+                if (window.snakeInterval) clearInterval(window.snakeInterval);
+                controls.querySelector('[onclick="startSnake()"]').disabled = false;
+                controls.querySelector('[onclick="stopSnake()"]').disabled = true;
+            };
+            
+            function gameSnake() {
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Move snake
+                if (dx !== 0 || dy !== 0) {
+                    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+                    snake.unshift(head);
+                    
+                    if (head.x === food.x && head.y === food.y) {
+                        food = {
+                            x: Math.floor(Math.random() * 20),
+                            y: Math.floor(Math.random() * 20)
+                        };
+                    } else {
+                        snake.pop();
+                    }
+                }
+                
+                // Draw snake
+                ctx.fillStyle = '#4ade80';
+                snake.forEach(segment => {
+                    ctx.fillRect(segment.x * 20, segment.y * 20, 18, 18);
+                });
+                
+                // Draw food
+                ctx.fillStyle = '#ef4444';
+                ctx.fillRect(food.x * 20, food.y * 20, 18, 18);
+                
+                // Draw grid
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 20; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(i * 20, 0);
+                    ctx.lineTo(i * 20, 400);
+                    ctx.stroke();
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(0, i * 20);
+                    ctx.lineTo(400, i * 20);
+                    ctx.stroke();
+                }
+            }
+            
+            // Touch controls for mobile
+            let touchStart = {x: 0, y: 0};
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                touchStart = {x: e.touches[0].clientX, y: e.touches[0].clientY};
+            });
+            
+            canvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                const touchEnd = {x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY};
+                const deltaX = touchEnd.x - touchStart.x;
+                const deltaY = touchEnd.y - touchStart.y;
+                
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    if (deltaX > 30 && dx !== -1) { dx = 1; dy = 0; }
+                    if (deltaX < -30 && dx !== 1) { dx = -1; dy = 0; }
+                } else {
+                    if (deltaY > 30 && dy !== -1) { dx = 0; dy = 1; }
+                    if (deltaY < -30 && dy !== 1) { dx = 0; dy = -1; }
+                }
+            });
+        }
+
+        // Stickman Fighter Game (improved version)
+        function loadStickmanGame(container) {
+            window.currentGame = {
+                stop: () => {
+                    if (window.stickmanInterval) cancelAnimationFrame(window.stickmanInterval);
+                }
+            };
+            
+            const canvas = document.createElement('canvas');
+            canvas.className = 'game-canvas';
+            canvas.width = 800;
+            canvas.height = 600;
+            canvas.id = 'stickmanCanvas';
+            
+            const controls = document.createElement('div');
+            controls.className = 'game-controls';
+            controls.innerHTML = `
+                <button class="control-btn" onclick="startStickman()">Iniciar</button>
+                <button class="control-btn" onclick="stopStickman()" disabled>Detener</button>
+            `;
+            
+            container.innerHTML = '';
+            container.appendChild(canvas);
+            container.appendChild(controls);
+            
+            let gameRunning = false;
+            let player = { x: 100, y: 400, health: 100, direction: 1 };
+            let ai = { x: 600, y: 400, health: 100, direction: -1 };
+            let particles = [];
+            
+            window.startStickman = () => {
+                if (gameRunning) return;
+                gameRunning = true;
+                player = { x: 100, y: 400, health: 100, direction: 1 };
+                ai = { x: 600, y: 400, health: 100, direction: -1 };
+                particles = [];
+                controls.querySelector('[onclick="startStickman()"]').disabled = true;
+                controls.querySelector('[onclick="stopStickman()"]').disabled = false;
+                
+                window.stickmanInterval = requestAnimationFrame(gameStickman);
+            };
+            
+            window.stopStickman = () => {
+                gameRunning = false;
+                if (window.stickmanInterval) cancelAnimationFrame(window.stickmanInterval);
+                controls.querySelector('[onclick="startStickman()"]').disabled = false;
+                controls.querySelector('[onclick="stopStickman()"]').disabled = true;
+            };
+            
+            function gameStickman() {
+                const ctx = canvas.getContext('2d');
+                
+                // Clear canvas
+                ctx.fillStyle = '#1a1a2e';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw ground
+                ctx.fillStyle = '#16213e';
+                ctx.fillRect(0, 500, canvas.width, 100);
+                
+                // Draw player
+                drawStickman(ctx, player, '#4ade80');
+                
+                // Draw AI
+                drawStickman(ctx, ai, '#ef4444');
+                
+                // Draw health bars
+                drawHealthBars(ctx);
+                
+                // Update AI
+                updateAI();
+                
+                // Draw particles
+                drawParticles(ctx);
+                
+                if (gameRunning) {
+                    window.stickmanInterval = requestAnimationFrame(gameStickman);
+                }
+            }
+            
+            function drawStickman(ctx, character, color) {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 4;
+                
+                // Head
+                ctx.beginPath();
+                ctx.arc(character.x, character.y - 30, 15, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // Body
+                ctx.beginPath();
+                ctx.moveTo(character.x, character.y - 15);
+                ctx.lineTo(character.x, character.y + 30);
+                ctx.stroke();
+                
+                // Arms
+                ctx.beginPath();
+                ctx.moveTo(character.x - 20, character.y);
+                ctx.lineTo(character.x + 20, character.y);
+                ctx.stroke();
+                
+                // Legs
+                ctx.beginPath();
+                ctx.moveTo(character.x, character.y + 30);
+                ctx.lineTo(character.x - 15, character.y + 60);
+                ctx.moveTo(character.x, character.y + 30);
+                ctx.lineTo(character.x + 15, character.y + 60);
+                ctx.stroke();
+                
+                // Direction indicator
+                ctx.strokeStyle = color + '80';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(character.x + (character.direction * 25), character.y - 10);
+                ctx.lineTo(character.x + (character.direction * 35), character.y - 10);
+                ctx.stroke();
+            }
+            
+            function drawHealthBars(ctx) {
+                // Player health bar
+                ctx.fillStyle = '#333';
+                ctx.fillRect(50, 30, 300, 20);
+                ctx.fillStyle = '#4ade80';
+                ctx.fillRect(50, 30, (player.health / 100) * 300, 20);
+                ctx.strokeStyle = '#666';
+                ctx.strokeRect(50, 30, 300, 20);
+                
+                // AI health bar
+                ctx.fillStyle = '#333';
+                ctx.fillRect(450, 30, 300, 20);
+                ctx.fillStyle = '#ef4444';
+                ctx.fillRect(450, 30, (ai.health / 100) * 300, 20);
+                ctx.strokeStyle = '#666';
+                ctx.strokeRect(450, 30, 300, 20);
+                
+                // Labels
+                ctx.fillStyle = '#fff';
+                ctx.font = '16px Poppins';
+                ctx.fillText('Player', 50, 25);
+                ctx.fillText('AI', 650, 25);
+            }
+            
+            function updateAI() {
+                // Simple AI: move towards player and occasionally attack
+                const distance = Math.abs(player.x - ai.x);
+                
+                if (distance > 100) {
+                    // Move towards player
+                    ai.direction = player.x > ai.x ? 1 : -1;
+                    ai.x += ai.direction * 2;
+                } else if (distance < 50 && Math.random() < 0.02) {
+                    // Attack
+                    createParticles(ai.x + (ai.direction * 30), ai.y - 10, '#ff6b6b');
+                    
+                    if (Math.abs(player.y - ai.y) < 40) {
+                        player.health = Math.max(0, player.health - 5);
+                    }
+                }
+            }
+            
+            function createParticles(x, y, color) {
+                for (let i = 0; i < 5; i++) {
+                    particles.push({
+                        x: x,
+                        y: y,
+                        vx: (Math.random() - 0.5) * 10,
+                        vy: (Math.random() - 0.5) * 10,
+                        color: color,
+                        life: 30
+                    });
+                }
+            }
+            
+            function drawParticles(ctx) {
+                particles = particles.filter(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life--;
+                    
+                    ctx.fillStyle = p.color + Math.floor(p.life / 30 * 255).toString(16).padStart(2, '0');
+                    ctx.fillRect(p.x, p.y, 3, 3);
+                    
+                    return p.life > 0;
+                });
+            }
+            
+            // Touch controls for player movement
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const rect = canvas.getBoundingClientRect();
+                const x = e.touches[0].clientX - rect.left;
+                
+                if (x < canvas.width / 2) {
+                    player.direction = -1;
+                } else {
+                    player.direction = 1;
+                }
+                
+                player.x += player.direction * 20;
+                player.x = Math.max(50, Math.min(canvas.width - 50, player.x));
+            });
+        }
+
+        // Add placeholder functions for other games
+        function loadTetrisGame(container) {
+            container.innerHTML = '<p>🧩 Tetris - Próximamente...</p>';
+        }
+
+        function loadPacmanGame(container) {
+            container.innerHTML = '<p>👻 Pac-Man - Próximamente...</p>';
+        }
+
+        function loadPongGame(container) {
+            container.innerHTML = '<p>🏓 Pong - Próximamente...</p>';
+        }
+
+        function loadBreakoutGame(container) {
+            container.innerHTML = '<p>🧱 Breakout - Próximamente...</p>';
+        }
+
+        function loadMemoryGame(container) {
+            container.innerHTML = '<p>🧠 Memory Match - Próximamente...</p>';
+        }
+
+        function showAbout() {
+            alert('GameZone - Portal de Juegos Web\n\nCreado por MiniMax Agent\nVersión 1.0');
+        }
+
+        function showContact() {
+            alert('Contacto: games@gamezone.com\n\nSíguenos en redes sociales para más juegos!');
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
