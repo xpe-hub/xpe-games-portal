@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stickman Fighter Christmas Complete - xpe.games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background: #1e3a8a;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* LOBBY ESTILO SUPREME DUELIST - CHRISTMAS THEME */
+        .lobby {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #dc2626 0%, #16a34a 50%, #dc2626 100%);
+            display: none;
+            flex-direction: column;
+        }
+
+        .lobby.show {
+            display: flex;
+        }
+
+        /* HEADER LOBBY - NAVIDAD */
+        .lobby-header {
+            background: linear-gradient(90deg, #dc2626, #ef4444, #dc2626);
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #fca5a5;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .menu-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            border: 3px solid #166534;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+        }
+
+        .menu-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 18px rgba(22, 163, 74, 0.6);
+        }
+
+        .level-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            padding: 12px 18px;
+            border-radius: 18px;
+            border: 3px solid #86efac;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+        }
+
+        .level-pumpkin {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .level-text {
+            font-size: 14px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .header-center {
+            text-align: center;
+            flex: 1;
+        }
+
+        .game-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0,0,0,0.8);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ads-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border: 3px solid #991b1b;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+        }
+
+        .currency-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 3px solid #f59e0b;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+        }
+
+        .currency-icon {
+            font-size: 24px;
+        }
+
+        .currency-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #92400e;
+        }
+
+        /* LOBBY MAIN CONTENT */
+        .lobby-content {
+            flex: 1;
+            display: flex;
+            padding: 30px;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* STICKMAN CENTRAL */
+        .central-stickmen {
+            display: flex;
+            gap: 100px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stickman-silhouette {
+            width: 120px;
+            height: 180px;
+            position: relative;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+        }
+
+        .stickman-silhouette svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* SIDES */
+        .side-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 140px;
+        }
+
+        .side-btn {
+            padding: 18px;
+            border-radius: 18px;
+            border: 3px solid transparent;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .side-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .shop-btn {
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            border-color: #166534;
+        }
+
+        .discord-btn {
+            background: linear-gradient(45deg, #5865f2, #4752c4);
+            border-color: #404eed;
+        }
+
+        /* PLAYER MODE BUTTONS */
+        .player-mode-btn {
+            padding: 18px;
+            border-radius: 18px;
+            border: 3px solid transparent;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .player-mode-btn.selected {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.6);
+            border-color: #ffffff;
+        }
+
+        .player-1 {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border-color: #991b1b;
+        }
+
+        .player-2 {
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            border-color: #166534;
+        }
+
+        .player-3 {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            border-color: #d97706;
+        }
+
+        .player-4 {
+            background: linear-gradient(45deg, #3b82f6, #2563eb);
+            border-color: #1d4ed8;
+        }
+
+        /* BOTTOM MODES */
+        .bottom-modes {
+            padding: 25px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            background: linear-gradient(90deg, #16a34a, #22c55e, #16a34a);
+            border-top: 3px solid #86efac;
+        }
+
+        .mode-btn {
+            padding: 20px 30px;
+            border-radius: 18px;
+            border: 3px solid transparent;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 140px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .mode-btn.selected {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.6);
+            border-color: #ffffff;
+        }
+
+        .battle-mode {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border-color: #991b1b;
+        }
+
+        .map-editor {
+            background: linear-gradient(45deg, #059669, #047857);
+            border-color: #065f46;
+        }
+
+        .mini-game {
+            background: linear-gradient(45deg, #eab308, #ca8a04);
+            border-color: #a16207;
+        }
+
+        .boss-fight {
+            background: linear-gradient(45deg, #7c2d12, #451a03);
+            border-color: #431407;
+        }
+
+        .survival {
+            background: linear-gradient(45deg, #0f172a, #020617);
+            border-color: #020617;
+        }
+
+        /* GAME AREA */
+        #gameArea {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            display: none;
+        }
+
+        #gameCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            touch-action: none;
+        }
+
+        /* CONTROLES MÓVILES OPTIMIZADOS PARA TABLET */
+        .controls {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 100;
+        }
+
+        .joystick {
+            width: 140px;
+            height: 140px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            position: relative;
+            touch-action: none;
+        }
+
+        .joystick-handle {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            touch-action: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .action-btn {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+
+        .attack-btn {
+            background: linear-gradient(45deg, #dc2626, #b91c1c);
+            border-color: #991b1b;
+        }
+
+        .jump-btn {
+            background: linear-gradient(45deg, #16a34a, #15803d);
+            border-color: #166534;
+        }
+
+        .action-btn:active {
+            transform: scale(0.9);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* SHOP MODAL */
+        .modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 3px solid #334155;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .shop-item {
+            background: linear-gradient(45deg, #374151, #1f2937);
+            border: 2px solid #4b5563;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .shop-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border-color: #10b981;
+        }
+
+        .shop-item.owned {
+            border-color: #10b981;
+            background: linear-gradient(45deg, #059669, #047857);
+        }
+
+        .close-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            float: right;
+        }
+
+        /* GAME UI */
+        .game-ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .back-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.5);
+        }
+
+        /* EFFECTS */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            animation: particleFloat 1s ease-out forwards;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        .snowflake {
+            position: absolute;
+            color: white;
+            font-size: 20px;
+            animation: snowFall 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes snowFall {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- SNOW EFFECT -->
+        <div id="snowContainer"></div>
+
+        <!-- LOBBY PRINCIPAL -->
+        <div class="lobby show" id="lobby">
+            <!-- HEADER -->
+            <div class="lobby-header">
+                <div class="header-left">
+                    <button class="menu-btn" onclick="openMainMenu()">☰</button>
+                    <div class="level-indicator">
+                        <div class="level-pumpkin">🎄</div>
+                        <div class="level-text" id="levelText">LVL 1</div>
+                    </div>
+                </div>
+
+                <div class="header-center">
+                    <div class="game-title">xpe.games</div>
+                    <div class="game-subtitle" style="color: #fef3c7; font-size: 16px;">SUPREME DUELIST STICKMAN</div>
+                </div>
+
+                <div class="header-right">
+                    <button class="ads-btn" onclick="watchAd()">AD</button>
+                    <div class="currency-display">
+                        <span class="currency-icon">💰</span>
+                        <span class="currency-amount" id="currencyAmount">25</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOBBY CONTENT -->
+            <div class="lobby-content">
+                <!-- LEFT SIDE -->
+                <div class="side-buttons">
+                    <button class="side-btn shop-btn" onclick="openShop()">
+                        🛒<br>Tienda
+                    </button>
+                    <button class="side-btn discord-btn" onclick="joinDiscord()">
+                        💬<br>Discord
+                    </button>
+                </div>
+
+                <!-- CENTRAL STICKMEN -->
+                <div class="central-stickmen">
+                    <div class="stickman-silhouette">
+                        <svg viewBox="0 0 100 150" style="width: 100%; height: 100%;">
+                            <circle cx="50" cy="15" r="12" fill="#dc2626"/>
+                            <line x1="50" y1="27" x2="50" y2="60" stroke="#dc2626" stroke-width="5"/>
+                            <line x1="50" y1="35" x2="35" y2="50" stroke="#dc2626" stroke-width="4"/>
+                            <line x1="50" y1="35" x2="65" y2="50" stroke="#dc2626" stroke-width="4"/>
+                            <line x1="50" y1="60" x2="40" y2="90" stroke="#dc2626" stroke-width="4"/>
+                            <line x1="50" y1="60" x2="60" y2="90" stroke="#dc2626" stroke-width="4"/>
+                        </svg>
+                    </div>
+                    <div class="stickman-silhouette">
+                        <svg viewBox="0 0 100 150" style="width: 100%; height: 100%;">
+                            <circle cx="50" cy="15" r="12" fill="#16a34a"/>
+                            <line x1="50" y1="27" x2="50" y2="60" stroke="#16a34a" stroke-width="5"/>
+                            <line x1="50" y1="35" x2="35" y2="50" stroke="#16a34a" stroke-width="4"/>
+                            <line x1="50" y1="35" x2="65" y2="50" stroke="#16a34a" stroke-width="4"/>
+                            <line x1="50" y1="60" x2="40" y2="90" stroke="#16a34a" stroke-width="4"/>
+                            <line x1="50" y1="60" x2="60" y2="90" stroke="#16a34a" stroke-width="4"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE - PLAYER MODES -->
+                <div class="side-buttons">
+                    <button class="player-mode-btn player-1 selected" onclick="selectPlayers(1)">
+                        👤<br>1 PLAYER
+                    </button>
+                    <button class="player-mode-btn player-2" onclick="selectPlayers(2)">
+                        👥<br>2 PLAYERS
+                    </button>
+                    <button class="player-mode-btn player-3" onclick="selectPlayers(3)">
+                        👥👥<br>3 PLAYERS
+                    </button>
+                    <button class="player-mode-btn player-4" onclick="selectPlayers(4)">
+                        👥👥👥<br>4 PLAYERS
+                    </button>
+                </div>
+            </div>
+
+            <!-- BOTTOM MODES -->
+            <div class="bottom-modes">
+                <button class="mode-btn battle-mode selected" onclick="selectMode('battle')">
+                    🥊<br>BATTLE MODE
+                </button>
+                <button class="mode-btn map-editor" onclick="selectMode('editor')">
+                    🗺️<br>MAP EDITOR
+                </button>
+                <button class="mode-btn mini-game" onclick="selectMode('mini')">
+                    🎮<br>MINI-GAME
+                </button>
+                <button class="mode-btn boss-fight" onclick="selectMode('boss')">
+                    👹<br>BOSS FIGHT
+                </button>
+                <button class="mode-btn survival" onclick="selectMode('survival')">
+                    💀<br>SURVIVAL
+                </button>
+            </div>
+        </div>
+
+        <!-- GAME AREA -->
+        <div id="gameArea">
+            <canvas id="gameCanvas"></canvas>
+            
+            <div class="game-ui">
+                <div id="player1Info">P1: 100 HP</div>
+                <div id="modeInfo">BATTLE MODE</div>
+                <div id="player2Info">P2: 100 HP</div>
+            </div>
+            
+            <!-- CONTROLES MÓVILES -->
+            <div class="controls">
+                <div class="joystick" id="joystick">
+                    <div class="joystick-handle" id="joystickHandle"></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn jump-btn" id="jumpBtn">JUMP</button>
+                    <button class="action-btn attack-btn" id="attackBtn">ATK</button>
+                </div>
+            </div>
+            
+            <button class="back-btn" onclick="backToLobby()">← LOBBY</button>
+        </div>
+
+        <!-- SHOP MODAL -->
+        <div class="modal" id="shopModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeShop()">✕ Cerrar</button>
+                <h2 style="color: white; margin-bottom: 20px;">🎄 Tienda Navideña</h2>
+                <div class="shop-grid" id="shopGrid">
+                    <!-- Items will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN MENU MODAL -->
+        <div class="modal" id="mainMenuModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeMainMenu()">✕ Cerrar</button>
+                <h2 style="color: white; margin-bottom: 20px;">🎄 Menú Principal</h2>
+                <div style="color: white; line-height: 1.8;">
+                    <p><strong>Configuración:</strong></p>
+                    <p>• Sonido: <button onclick="toggleSound()" id="soundBtn">🔊 ON</button></p>
+                    <p>• Vibración: <button onclick="toggleVibration()" id="vibrationBtn">📳 ON</button></p>
+                    <p>• Dificultad IA: <button onclick="cycleDifficulty()" id="difficultyBtn">Normal</button></p>
+                    <br>
+                    <p><strong>Perfil:</strong></p>
+                    <p>• Nivel: <span id="profileLevel">1</span></p>
+                    <p>• Victorias: <span id="profileWins">0</span></p>
+                    <p>• Derrotas: <span id="profileLosses">0</span></p>
+                    <br>
+                    <p><strong>Logros:</strong></p>
+                    <p>🥊 Primera Victoria - Completado</p>
+                    <p>💰 Recolector - 25 monedas</p>
+                    <p>🎄 Navidad Lover - Skin Navideña</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== STICKMAN FIGHTER CHRISTMAS COMPLETE =====
+        // Desarrollado por MiniMax Agent para xpe.games
+
+        // ===== GAME DATA =====
+        const gameData = {
+            playerCurrency: 25,
+            playerLevel: 1,
+            playerWins: 0,
+            playerLosses: 0,
+            soundEnabled: true,
+            vibrationEnabled: true,
+            aiDifficulty: 'Normal',
+            currentMode: 'battle',
+            currentPlayerCount: 1,
+            gameStarted: false,
+            soundEffects: {}
+        };
+
+        // ===== SHOP ITEMS =====
+        const shopItems = [
+            { id: 'christmas_red', name: '🎄 Stickman Rojo Navideño', price: 50, type: 'skin', owned: false },
+            { id: 'christmas_green', name: '🎅 Stickman Verde Navideño', price: 50, type: 'skin', owned: false },
+            { id: 'snow_hat', name: '⛄ Gorro de Nieve', price: 75, type: 'hat', owned: false },
+            { id: 'santa_hat', name: '🧑‍🎄 Gorro Santa', price: 100, type: 'hat', owned: false },
+            { id: 'sled_weapon', name: '🛷 Trineo Arma', price: 150, type: 'weapon', owned: false },
+            { id: 'fireworks', name: '🎆 Fireworks Power', price: 200, type: 'power', owned: false },
+            { id: 'frost_effect', name: '❄️ Efecto Hielo', price: 300, type: 'effect', owned: false },
+            { id: 'golden_snow', name: '✨ Nieve Dorada', price: 500, type: 'effect', owned: false }
+        ];
+
+        // ===== AUDIO SYSTEM =====
+        class SoundManager {
+            constructor() {
+                this.sounds = {};
+                this.enabled = true;
+                this.createSounds();
+            }
+
+            createSounds() {
+                // Create simple sound effects using Web Audio API
+                this.createSound('jump', 200, 0.1);
+                this.createSound('attack', 150, 0.2);
+                this.createSound('hit', 100, 0.3);
+                this.createSound('victory', 400, 0.5);
+                this.createSound('defeat', 80, 0.4);
+                this.createSound('coin', 600, 0.2);
+            }
+
+            createSound(name, frequency, duration) {
+                this.sounds[name] = {
+                    frequency: frequency,
+                    duration: duration,
+                    play: () => {
+                        if (!this.enabled) return;
+                        try {
+                            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                            const oscillator = audioContext.createOscillator();
+                            const gainNode = audioContext.createGain();
+                            
+                            oscillator.connect(gainNode);
+                            gainNode.connect(audioContext.destination);
+                            
+                            oscillator.frequency.value = frequency;
+                            oscillator.type = 'sine';
+                            
+                            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                            
+                            oscillator.start(audioContext.currentTime);
+                            oscillator.stop(audioContext.currentTime + duration);
+                        } catch (e) {
+                            // Audio not supported
+                        }
+                    }
+                };
+            }
+
+            play(name) {
+                if (this.sounds[name]) {
+                    this.sounds[name].play();
+                }
+            }
+
+            toggle() {
+                this.enabled = !this.enabled;
+                return this.enabled;
+            }
+        }
+
+        const soundManager = new SoundManager();
+
+        // ===== GAME VARIABLES =====
+        let canvas, ctx;
+        let gameWidth, gameHeight;
+        let players = [];
+        let particles = [];
+        let snowflakes = [];
+        let keys = {};
+        let touchControls = {
+            joystickActive: false,
+            joystickStartX: 0,
+            joystickStartY: 0,
+            joystickX: 0,
+            joystickY: 0
+        };
+
+        // ===== PARTICLE SYSTEM =====
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.vx = (Math.random() - 0.5) * 10;
+                this.vy = (Math.random() - 0.5) * 10;
+                this.life = 1;
+                this.decay = 0.02;
+                this.size = Math.random() * 5 + 2;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                return this.life > 0;
+            }
+
+            draw() {
+                const alpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // ===== ENHANCED STICKMAN CLASS =====
+        class Stickman {
+            constructor(x, y, color, playerNum, isAI = false, aiType = 'normal') {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.playerNum = playerNum;
+                this.isAI = isAI;
+                this.aiType = aiType;
+                this.vx = 0;
+                this.vy = 0;
+                this.width = 35;
+                this.height = 70;
+                this.speed = isAI ? (aiType === 'easy' ? 4 : aiType === 'hard' ? 8 : 6) : 6;
+                this.jumpPower = 16;
+                this.isGrounded = false;
+                this.health = 100;
+                this.maxHealth = 100;
+                this.attackCooldown = 0;
+                this.lastAttackTime = 0;
+                this.facing = 1; // 1 for right, -1 for left
+                this.isAttacking = false;
+                this.aiDecisionTimer = 0;
+                this.aiTarget = null;
+                this.name = isAI ? `AI ${playerNum}` : `Player ${playerNum}`;
+                this.skin = 'normal';
+                this.weapon = null;
+                this.powerUps = [];
+            }
+
+            update() {
+                if (this.isAI) {
+                    this.updateAI();
+                } else {
+                    this.updatePlayer();
+                }
+
+                // Apply physics
+                this.vy += 0.8; // Gravity
+                
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Ground collision
+                const groundY = gameHeight - 60;
+                if (this.y > groundY) {
+                    this.y = groundY;
+                    this.vy = 0;
+                    this.isGrounded = true;
+                } else {
+                    this.isGrounded = false;
+                }
+
+                // Boundaries
+                if (this.x < 0) this.x = 0;
+                if (this.x + this.width > gameWidth) this.x = gameWidth - this.width;
+
+                // Attack cooldown
+                if (this.attackCooldown > 0) {
+                    this.attackCooldown--;
+                }
+
+                // Update attack animation
+                if (this.isAttacking && this.attackCooldown <= 10) {
+                    this.isAttacking = false;
+                }
+            }
+
+            updatePlayer() {
+                // Movement from keyboard
+                if (this.playerNum === 1) {
+                    if (keys['ArrowLeft'] || keys['KeyA']) {
+                        this.vx = -this.speed;
+                        this.facing = -1;
+                    } else if (keys['ArrowRight'] || keys['KeyD']) {
+                        this.vx = this.speed;
+                        this.facing = 1;
+                    } else {
+                        this.vx *= 0.8; // Friction
+                    }
+
+                    // Jump
+                    if ((keys['ArrowUp'] || keys['KeyW'] || keys['Space']) && this.isGrounded) {
+                        this.jump();
+                    }
+
+                    // Attack
+                    if (keys['KeyJ'] || keys['KeyF']) {
+                        this.attack();
+                    }
+                }
+
+                // Movement from touch (only for player 1)
+                if (this.playerNum === 1 && touchControls.joystickActive) {
+                    this.vx = touchControls.joystickX * 0.25;
+                    if (touchControls.joystickX > 10) this.facing = 1;
+                    if (touchControls.joystickX < -10) this.facing = -1;
+                }
+            }
+
+            updateAI() {
+                this.aiDecisionTimer--;
+                
+                if (this.aiDecisionTimer <= 0) {
+                    this.aiDecisionTimer = 20 + Math.random() * 30; // 20-50 frames between decisions
+                    
+                    if (this.playerNum === 2 && players[0]) {
+                        this.aiTarget = players[0];
+                    }
+                    
+                    // Simple AI behavior
+                    if (this.aiTarget) {
+                        const distance = this.x - this.aiTarget.x;
+                        const heightDiff = Math.abs(this.y - this.aiTarget.y);
+                        
+                        // Move towards player
+                        if (Math.abs(distance) > 60) {
+                            if (distance > 0) {
+                                this.vx = -this.speed * 0.8;
+                                this.facing = -1;
+                            } else {
+                                this.vx = this.speed * 0.8;
+                                this.facing = 1;
+                            }
+                        } else {
+                            this.vx *= 0.7;
+                        }
+                        
+                        // Attack if close
+                        if (Math.abs(distance) < 50 && heightDiff < 40 && this.attackCooldown <= 0) {
+                            this.attack();
+                        }
+                        
+                        // Jump randomly or when blocked
+                        if (this.isGrounded && Math.random() < 0.1 + (this.aiType === 'hard' ? 0.2 : 0)) {
+                            this.jump();
+                        }
+                    }
+                }
+            }
+
+            jump() {
+                if (this.isGrounded) {
+                    this.vy = -this.jumpPower;
+                    this.isGrounded = false;
+                    soundManager.play('jump');
+                }
+            }
+
+            attack() {
+                const now = Date.now();
+                if (now - this.lastAttackTime > 500) {
+                    this.lastAttackTime = now;
+                    this.attackCooldown = 20;
+                    this.isAttacking = true;
+                    
+                    soundManager.play('attack');
+                    
+                    // Enhanced attack hitbox
+                    const attackRange = 55;
+                    const attackHeight = 45;
+                    
+                    particles.push(new Particle(this.x + this.width/2, this.y + this.height/2, '#fbbf24'));
+                    
+                    players.forEach(player => {
+                        if (player !== this && player.health > 0) {
+                            const distance = Math.abs(this.x - player.x);
+                            const heightDiff = Math.abs(this.y - player.y);
+                            
+                            if (distance < attackRange && heightDiff < attackHeight) {
+                                // Calculate damage based on proximity
+                                const damage = Math.max(5, 20 - distance * 0.2);
+                                player.health -= damage;
+                                
+                                if (player.health < 0) player.health = 0;
+                                
+                                // Create hit particles
+                                for (let i = 0; i < 5; i++) {
+                                    particles.push(new Particle(
+                                        player.x + player.width/2, 
+                                        player.y + player.height/2, 
+                                        '#dc2626'
+                                    ));
+                                }
+                                
+                                soundManager.play('hit');
+                                
+                                // Knockback
+                                const knockback = 15;
+                                player.vx += (player.x > this.x ? knockback : -knockback);
+                            }
+                        }
+                    });
+                }
+            }
+
+            draw() {
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+
+                // Apply transformations for facing direction
+                ctx.save();
+                ctx.translate(this.x + this.width/2, this.y);
+                ctx.scale(this.facing, 1);
+
+                // Head
+                ctx.beginPath();
+                ctx.arc(0, 0, 14, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Body
+                ctx.beginPath();
+                ctx.moveTo(0, 14);
+                ctx.lineTo(0, 52);
+                ctx.stroke();
+
+                // Arms (with attack animation)
+                ctx.beginPath();
+                if (this.isAttacking) {
+                    // Attack pose
+                    ctx.moveTo(0, 23);
+                    ctx.lineTo(-25, 35);
+                    ctx.moveTo(0, 23);
+                    ctx.lineTo(25, 35);
+                } else {
+                    // Normal pose
+                    ctx.moveTo(0, 23);
+                    ctx.lineTo(-18, 35);
+                    ctx.moveTo(0, 23);
+                    ctx.lineTo(18, 35);
+                }
+                ctx.stroke();
+
+                // Legs
+                ctx.beginPath();
+                ctx.moveTo(0, 52);
+                ctx.lineTo(-12, 70);
+                ctx.moveTo(0, 52);
+                ctx.lineTo(12, 70);
+                ctx.stroke();
+
+                // Weapon or effects
+                if (this.weapon) {
+                    ctx.fillStyle = '#ffd700';
+                    ctx.fillRect(-5, 40, 30, 8);
+                }
+
+                ctx.restore();
+
+                // Health bar
+                const healthPercent = this.health / this.maxHealth;
+                ctx.fillStyle = '#dc2626';
+                ctx.fillRect(this.x - 5, this.y - 30, 45, 10);
+                ctx.fillStyle = healthPercent > 0.3 ? '#22c55e' : '#fbbf24';
+                ctx.fillRect(this.x - 5, this.y - 30, 45 * healthPercent, 10);
+
+                // Health text
+                ctx.fillStyle = 'white';
+                ctx.font = '12px Arial';
+                ctx.fillText(this.name, this.x - 5, this.y - 35);
+
+                // Attack effect
+                if (this.attackCooldown > 0) {
+                    ctx.strokeStyle = '#fbbf24';
+                    ctx.lineWidth = 7;
+                    ctx.beginPath();
+                    ctx.arc(this.x + this.width/2, this.y + 35, 40, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // AI indicator
+                if (this.isAI) {
+                    ctx.fillStyle = '#fbbf24';
+                    ctx.font = '10px Arial';
+                    ctx.fillText(`AI: ${this.aiType}`, this.x - 5, this.y + this.height + 15);
+                }
+            }
+
+            takeDamage(damage) {
+                this.health -= damage;
+                if (this.health < 0) this.health = 0;
+            }
+        }
+
+        // ===== GAME SETUP =====
+        function initGame() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            
+            setupCanvas();
+            setupEventListeners();
+            setupTouchControls();
+            createPlayers();
+            
+            gameData.gameStarted = true;
+            gameLoop();
+        }
+
+        function setupCanvas() {
+            function resizeCanvas() {
+                const container = document.getElementById('gameArea');
+                gameWidth = container.clientWidth;
+                gameHeight = container.clientHeight;
+                
+                canvas.width = gameWidth;
+                canvas.height = gameHeight;
+                
+                // Reposition players
+                players.forEach((player, index) => {
+                    if (player) {
+                        player.x = gameWidth * (0.2 + index * 0.6 / (players.length - 1 || 1));
+                        player.y = gameHeight - 100;
+                    }
+                });
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('orientationchange', () => {
+                setTimeout(resizeCanvas, 100);
+            });
+        }
+
+        function setupEventListeners() {
+            document.addEventListener('keydown', (e) => {
+                keys[e.code] = true;
+            });
+            
+            document.addEventListener('keyup', (e) => {
+                keys[e.code] = false;
+            });
+        }
+
+        function setupTouchControls() {
+            const joystick = document.getElementById('joystick');
+            const joystickHandle = document.getElementById('joystickHandle');
+            const jumpBtn = document.getElementById('jumpBtn');
+            const attackBtn = document.getElementById('attackBtn');
+
+            // Joystick events
+            joystick.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                touchControls.joystickActive = true;
+                const touch = e.touches[0];
+                const rect = joystick.getBoundingClientRect();
+                touchControls.joystickStartX = rect.left + rect.width / 2;
+                touchControls.joystickStartY = rect.top + rect.height / 2;
+            });
+
+            joystick.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (!touchControls.joystickActive) return;
+                
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - touchControls.joystickStartX;
+                const deltaY = touch.clientY - touchControls.joystickStartY;
+                
+                const maxDistance = 35;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                if (distance > maxDistance) {
+                    const angle = Math.atan2(deltaY, deltaX);
+                    touchControls.joystickX = Math.cos(angle) * maxDistance;
+                    touchControls.joystickY = Math.sin(angle) * maxDistance;
+                } else {
+                    touchControls.joystickX = deltaX;
+                    touchControls.joystickY = deltaY;
+                }
+                
+                joystickHandle.style.transform = `translate(-50%, -50%) translate(${touchControls.joystickX}px, ${touchControls.joystickY}px)`;
+            });
+
+            joystick.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                touchControls.joystickActive = false;
+                touchControls.joystickX = 0;
+                touchControls.joystickY = 0;
+                joystickHandle.style.transform = 'translate(-50%, -50%)';
+            });
+
+            // Action buttons
+            jumpBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (players[0]) {
+                    players[0].jump();
+                }
+            });
+
+            attackBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (players[0]) {
+                    players[0].attack();
+                }
+            });
+        }
+
+        function createPlayers() {
+            players = [];
+            
+            // Create human player
+            players.push(new Stickman(gameWidth * 0.25, gameHeight - 100, '#dc2626', 1, false));
+            
+            // Create AI or human players based on count
+            const aiColors = ['#16a34a', '#fbbf24', '#3b82f6'];
+            const aiTypes = ['easy', 'normal', 'hard'];
+            
+            for (let i = 1; i < gameData.currentPlayerCount; i++) {
+                if (gameData.currentPlayerCount === 1) {
+                    // Single player - add AI
+                    const aiType = gameData.aiDifficulty.toLowerCase();
+                    players.push(new Stickman(
+                        gameWidth * 0.75, 
+                        gameHeight - 100, 
+                        aiColors[0], 
+                        i + 1, 
+                        true, 
+                        aiType
+                    ));
+                } else {
+                    // Multiplayer
+                    players.push(new Stickman(
+                        gameWidth * (0.25 + i * 0.25), 
+                        gameHeight - 100, 
+                        aiColors[i % aiColors.length], 
+                        i + 1, 
+                        false
+                    ));
+                }
+            }
+        }
+
+        // ===== GAME LOOP =====
+        function gameLoop() {
+            if (!gameData.gameStarted) return;
+
+            // Clear canvas with gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, gameHeight);
+            gradient.addColorStop(0, '#0f172a');
+            gradient.addColorStop(0.5, '#1e293b');
+            gradient.addColorStop(1, '#334155');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, gameWidth, gameHeight);
+
+            // Draw ground
+            const groundGradient = ctx.createLinearGradient(0, gameHeight - 60, 0, gameHeight);
+            groundGradient.addColorStop(0, '#059669');
+            groundGradient.addColorStop(1, '#047857');
+            ctx.fillStyle = groundGradient;
+            ctx.fillRect(0, gameHeight - 60, gameWidth, 60);
+
+            // Update and draw players
+            players.forEach(player => {
+                if (player && player.health > 0) {
+                    player.update();
+                    player.draw();
+                }
+            });
+
+            // Update and draw particles
+            particles = particles.filter(particle => {
+                const alive = particle.update();
+                if (alive) {
+                    particle.draw();
+                }
+                return alive;
+            });
+
+            // Check win conditions
+            checkWinConditions();
+
+            // Update UI
+            updateGameUI();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function checkWinConditions() {
+            const alivePlayers = players.filter(p => p && p.health > 0);
+            
+            if (alivePlayers.length <= 1) {
+                const winner = alivePlayers[0];
+                setTimeout(() => {
+                    if (winner) {
+                        if (!winner.isAI && gameData.currentPlayerCount === 1) {
+                            gameData.playerWins++;
+                            gameData.playerCurrency += 25;
+                            soundManager.play('victory');
+                            alert(`¡VICTORIA! 🎉\n\nGanaste contra la IA ${gameData.aiDifficulty}\n\n+25 monedas 💰`);
+                        } else if (gameData.currentPlayerCount > 1) {
+                            soundManager.play('victory');
+                            alert(`${winner.name} GANA! 🏆`);
+                        }
+                    } else {
+                        soundManager.play('defeat');
+                        alert(`¡EMPATE! 🤝`);
+                    }
+                    
+                    updateProfile();
+                    backToLobby();
+                }, 1000);
+            }
+        }
+
+        function updateGameUI() {
+            // Update player info
+            if (players[0]) {
+                document.getElementById('player1Info').textContent = `P1: ${Math.round(players[0].health)} HP`;
+            }
+            
+            if (players[1]) {
+                document.getElementById('player2Info').textContent = `P2: ${Math.round(players[1].health)} HP`;
+            }
+            
+            // Update mode info
+            const modeNames = {
+                'battle': 'BATTLE MODE',
+                'editor': 'MAP EDITOR',
+                'mini': 'MINI-GAME',
+                'boss': 'BOSS FIGHT',
+                'survival': 'SURVIVAL'
+            };
+            document.getElementById('modeInfo').textContent = modeNames[gameData.currentMode] || 'BATTLE MODE';
+        }
+
+        // ===== LOBBY FUNCTIONS =====
+        function updateCurrency() {
+            document.getElementById('currencyAmount').textContent = gameData.playerCurrency;
+        }
+
+        function updateProfile() {
+            document.getElementById('levelText').textContent = `LVL ${gameData.playerLevel}`;
+            document.getElementById('profileLevel').textContent = gameData.playerLevel;
+            document.getElementById('profileWins').textContent = gameData.playerWins;
+            document.getElementById('profileLosses').textContent = gameData.playerLosses;
+        }
+
+        function selectPlayers(count) {
+            gameData.currentPlayerCount = count;
+            
+            document.querySelectorAll('.player-mode-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            const selectedBtn = document.querySelector(`.player-${count}`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('selected');
+            }
+        }
+
+        function selectMode(mode) {
+            gameData.currentMode = mode;
+            
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            const selectedBtn = document.querySelector(`[onclick="selectMode('${mode}')"]`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('selected');
+            }
+        }
+
+        // ===== INTERACTIVE MENU FUNCTIONS =====
+        function openShop() {
+            document.getElementById('shopModal').classList.add('show');
+            populateShop();
+        }
+
+        function closeShop() {
+            document.getElementById('shopModal').classList.remove('show');
+        }
+
+        function populateShop() {
+            const shopGrid = document.getElementById('shopGrid');
+            shopGrid.innerHTML = '';
+            
+            shopItems.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `shop-item ${item.owned ? 'owned' : ''}`;
+                itemDiv.onclick = () => buyItem(item.id);
+                
+                itemDiv.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <p>Precio: ${item.price} 💰</p>
+                    <p>${item.owned ? '✅ Comprado' : '🛒 Comprar'}</p>
+                `;
+                
+                shopGrid.appendChild(itemDiv);
+            });
+        }
+
+        function buyItem(itemId) {
+            const item = shopItems.find(i => i.id === itemId);
+            if (!item) return;
+            
+            if (item.owned) {
+                alert('¡Ya tienes este artículo!');
+                return;
+            }
+            
+            if (gameData.playerCurrency >= item.price) {
+                gameData.playerCurrency -= item.price;
+                item.owned = true;
+                updateCurrency();
+                populateShop();
+                soundManager.play('coin');
+                alert(`¡Comprado! ${item.name}\n\nMonedas restantes: ${gameData.playerCurrency}`);
+            } else {
+                alert('¡No tienes suficientes monedas!');
+            }
+        }
+
+        function openMainMenu() {
+            document.getElementById('mainMenuModal').classList.add('show');
+            updateProfile();
+        }
+
+        function closeMainMenu() {
+            document.getElementById('mainMenuModal').classList.remove('show');
+        }
+
+        function toggleSound() {
+            const enabled = soundManager.toggle();
+            document.getElementById('soundBtn').textContent = enabled ? '🔊 ON' : '🔇 OFF';
+        }
+
+        function toggleVibration() {
+            gameData.vibrationEnabled = !gameData.vibrationEnabled;
+            document.getElementById('vibrationBtn').textContent = gameData.vibrationEnabled ? '📳 ON' : '📵 OFF';
+        }
+
+        function cycleDifficulty() {
+            const difficulties = ['Fácil', 'Normal', 'Difícil', 'Imposible'];
+            const currentIndex = difficulties.indexOf(gameData.aiDifficulty);
+            gameData.aiDifficulty = difficulties[(currentIndex + 1) % difficulties.length];
+            document.getElementById('difficultyBtn').textContent = gameData.aiDifficulty;
+        }
+
+        function watchAd() {
+            const reward = Math.floor(Math.random() * 50) + 25;
+            gameData.playerCurrency += reward;
+            updateCurrency();
+            soundManager.play('coin');
+            alert(`¡Gracias por ver el anuncio! 🎥\n\nHas ganado: +${reward} monedas 💰\n\nMonedas actuales: ${gameData.playerCurrency}`);
+        }
+
+        function joinDiscord() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Discord de xpe.games',
+                    text: '¡Únete a nuestra comunidad de Discord!\n\nCompártimos juegos, tips y novedades.\n\n#xpegames #StickmanFighter',
+                    url: 'https://discord.gg/xpegames'
+                });
+            } else {
+                window.open('https://discord.gg/xpegames', '_blank');
+            }
+        }
+
+        function startGameMode() {
+            if (gameData.currentMode === 'editor' || gameData.currentMode === 'mini' || gameData.currentMode === 'boss' || gameData.currentMode === 'survival') {
+                alert(`¡${gameData.currentMode.toUpperCase()} MODE!\n\n🚧 En desarrollo\n\nPróximamente disponible con:\n• Mapas personalizados\n• Mini-juegos divertidos\n• Combates épicos contra jefes\n• Supervivencia infinita\n\n¡Sigue jugando en BATTLE MODE! 🥊`);
+                return;
+            }
+            
+            // Hide lobby, show game
+            document.getElementById('lobby').classList.remove('show');
+            document.getElementById('gameArea').style.display = 'block';
+            
+            initGame();
+        }
+
+        function backToLobby() {
+            gameData.gameStarted = false;
+            document.getElementById('gameArea').style.display = 'none';
+            document.getElementById('lobby').classList.add('show');
+            
+            // Reset game state
+            players = [];
+            particles = [];
+        }
+
+        // ===== SNOW EFFECT =====
+        function createSnowEffect() {
+            const snowContainer = document.getElementById('snowContainer');
+            
+            function createSnowflake() {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                
+                snowContainer.appendChild(snowflake);
+                
+                setTimeout(() => {
+                    snowflake.remove();
+                }, 5000);
+            }
+            
+            setInterval(createSnowflake, 300);
+        }
+
+        // ===== EVENT LISTENERS =====
+        // Start game when clicking BATTLE MODE button
+        document.addEventListener('DOMContentLoaded', () => {
+            createSnowEffect();
+            updateCurrency();
+            updateProfile();
+            
+            // Add click listener to start game
+            document.querySelector('.battle-mode').addEventListener('click', startGameMode);
+        });
+
+        // Close modals when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('show');
+            }
+        });
+
+        // Forzar inicialización del lobby
+        console.log('🎄 Stickman Fighter Christmas Complete cargado');
+        console.log('Lobby visible:', document.getElementById('lobby').classList.contains('show'));
+    </script>
+</body>
+</html>
