@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stickman Test Básico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #87CEEB;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            touch-action: none;
+        }
+        
+        #gameCanvas {
+            display: block;
+            background: #90EE90;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        #status {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="status">Canvas inicializando...</div>
+    <canvas id="gameCanvas"></canvas>
+    
+    <script>
+        // Configuración del canvas
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const statusDiv = document.getElementById('status');
+        
+        // Función para redimensionar canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            statusDiv.textContent = `Canvas: ${canvas.width}x${canvas.height}`;
+        }
+        
+        // Función para dibujar un stickman básico
+        function drawStickman(x, y, color = 'black') {
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 3;
+            
+            // Cabeza
+            ctx.beginPath();
+            ctx.arc(x, y - 60, 15, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Cuerpo
+            ctx.beginPath();
+            ctx.moveTo(x, y - 45);
+            ctx.lineTo(x, y + 20);
+            ctx.stroke();
+            
+            // Brazos
+            ctx.beginPath();
+            ctx.moveTo(x, y - 30);
+            ctx.lineTo(x - 20, y);
+            ctx.moveTo(x, y - 30);
+            ctx.lineTo(x + 20, y);
+            ctx.stroke();
+            
+            // Piernas
+            ctx.beginPath();
+            ctx.moveTo(x, y + 20);
+            ctx.lineTo(x - 15, y + 50);
+            ctx.moveTo(x, y + 20);
+            ctx.lineTo(x + 15, y + 50);
+            ctx.stroke();
+        }
+        
+        // Función principal de dibujo
+        function draw() {
+            // Limpiar canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Fondo verde
+            ctx.fillStyle = '#90EE90';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Dibujar dos stickmen
+            drawStickman(canvas.width * 0.3, canvas.height - 100, 'blue'); // Stickman izquierdo
+            drawStickman(canvas.width * 0.7, canvas.height - 100, 'red');  // Stickman derecho
+            
+            // Título
+            ctx.fillStyle = 'black';
+            ctx.font = '24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('TEST: Dos Stickmen', canvas.width / 2, 50);
+            
+            statusDiv.textContent = `Canvas renderizado: ${canvas.width}x${canvas.height}`;
+        }
+        
+        // Inicialización
+        window.addEventListener('load', function() {
+            resizeCanvas();
+            draw();
+            statusDiv.textContent = 'Canvas cargado correctamente';
+        });
+        
+        // Redimensionar cuando cambie el tamaño de ventana
+        window.addEventListener('resize', function() {
+            resizeCanvas();
+            draw();
+        });
+        
+        // Evitar zoom en mobile
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        console.log('Canvas test cargado');
+    </script>
+</body>
+</html>
