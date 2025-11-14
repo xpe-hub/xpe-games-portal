@@ -59,16 +59,67 @@ const Config = {
         DEBOUNCE_DELAY: 300
     },
     
-    // Social Media Links
+    // Social Media Links - Personal Information
     SOCIAL: {
-        DISCORD: 'https://discord.gg/gamezone',
-        TWITTER: 'https://twitter.com/gamezone',
-        FACEBOOK: 'https://facebook.com/gamezone',
-        INSTAGRAM: 'https://instagram.com/gamezone',
-        YOUTUBE: 'https://youtube.com/gamezone'
+        DISCORD: 'https://discord.gg/xpegames',
+        TWITTER: 'https://twitter.com/xpegames',
+        FACEBOOK: 'https://facebook.com/xpegames',
+        INSTAGRAM: 'https://instagram.com/xpegames',
+        YOUTUBE: 'https://youtube.com/c/xpegames',
+        TWITCH: 'https://twitch.tv/xpegames'
+    },
+
+    // Creator Information
+    CREATOR_INFO: {
+        NAME: 'MiniMax Agent',
+        DISCORD: 'MiniMax#1234',
+        EMAIL: 'contact@xpe.games',
+        WEBSITE: 'https://xpe.games',
+        TWITTER: '@xpegames',
+        YOUTUBE: 'xpegames',
+        TELEGRAM: '@xpegames',
+        STEAM: 'xpegames',
+        PAYPAL: 'paypal.me/xpegames',
+        PATREON: 'patreon.com/xpegames'
+    },
+
+    // Monetization Configuration
+    MONETIZATION: {
+        AD_NETWORKS: {
+            ADSTHERE: {
+                ENABLED: true,
+                PUBLISHER_ID: 'ca-pub-xxxxxxxxxx',
+                PLACEMENTS: ['header', 'sidebar', 'game-over']
+            },
+            GOOGLE_ADS: {
+                ENABLED: true,
+                CLIENT_ID: 'ca-pub-xxxxxxxxxx',
+                SLOT_IDS: {
+                    HEADER: '1234567890',
+                    SIDEBAR: '1234567891',
+                    GAME_OVER: '1234567892'
+                }
+            }
+        },
+        PREMIUM_FEATURES: {
+            AD_FREE: {
+                PRICE: 4.99,
+                FEATURES: ['No ads', 'Exclusive games', 'Premium themes', 'Cloud saves']
+            },
+            VIP_MEMBERSHIP: {
+                PRICE: 9.99,
+                FEATURES: ['All Premium', 'Early access', 'Custom avatars', 'Priority support']
+            }
+        },
+        DONATION_OPTIONS: [1, 2, 5, 10, 20, 50],
+        CRYPTO_PAYMENTS: {
+            BTC: true,
+            ETH: true,
+            USDT: true
+        }
     },
     
-    // Feature Flags
+    // Feature Flags - Premium Features
     FEATURES: {
         DISCORD_INTEGRATION: true,
         REAL_TIME_CHAT: true,
@@ -76,7 +127,47 @@ const Config = {
         ACHIEVEMENTS: true,
         SOCIAL_LOGIN: true,
         ANALYTICS: true,
-        NOTIFICATIONS: true
+        NOTIFICATIONS: true,
+        // Premium Features
+        AD_FREE: false,
+        PREMIUM_THEMES: false,
+        CLOUD_SAVES: false,
+        CUSTOM_AVATARS: false,
+        MULTIPLAYER: true,
+        LIVE_STREAMING: false,
+        MOBILE_APP: false,
+        PWA_INSTALL: true,
+        OFFLINE_MODE: true,
+        DATA_EXPORT: true,
+        BRANDING_REMOVAL: false
+    },
+
+    // Tournament System
+    TOURNAMENTS: {
+        WEEKLY_REWARDS: {
+            1: { prize: '$50 Gift Card', title: 'Champion' },
+            2: { prize: '$25 Gift Card', title: 'Runner-up' },
+            3: { prize: '$10 Gift Card', title: 'Third Place' },
+            'top10': { prize: 'Premium Membership', title: 'Top 10' }
+        },
+        MONTHLY_PRIZES: {
+            1: { prize: '$200 Cash', title: 'Monthly Champion' },
+            2: { prize: '$100 Cash', title: 'Monthly Runner-up' },
+            3: { prize: '$50 Cash', title: 'Monthly Third' }
+        }
+    },
+
+    // Analytics Configuration
+    ANALYTICS: {
+        GOOGLE_ANALYTICS: {
+            ID: 'GA_MEASUREMENT_ID',
+            ENABLED: true
+        },
+        FACEBOOK_PIXEL: {
+            ID: 'FB_PIXEL_ID',
+            ENABLED: true
+        },
+        CUSTOM_EVENTS: ['game_start', 'game_end', 'achievement_unlock', 'score_submit']
     },
     
     // Local Storage Helper

@@ -1,6 +1,6 @@
 /**
- * GameZone - Games Management System
- * Handles game loading, management, and interface
+ * xpe.games - Premium Games Management System
+ * Handles game loading, management, monetization and advanced features
  */
 
 class GamesManager {
@@ -934,13 +934,19 @@ class SnakeGame {
     }
     
     draw() {
-        // Clear canvas
-        this.ctx.fillStyle = '#000';
+        // Clear canvas with gradient
+        const gradient = this.ctx.createLinearGradient(0, 0, this.canvasSize, this.canvasSize);
+        gradient.addColorStop(0, '#1a1a2e');
+        gradient.addColorStop(1, '#16213e');
+        this.ctx.fillStyle = gradient;
         this.ctx.fillRect(0, 0, this.canvasSize, this.canvasSize);
         
-        // Draw grid
-        this.ctx.strokeStyle = '#333';
+        // Draw grid with glow
+        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
         this.ctx.lineWidth = 1;
+        this.ctx.shadowColor = '#4ecdc4';
+        this.ctx.shadowBlur = 2;
+        
         for (let i = 0; i <= this.canvasSize; i += this.gridSize) {
             this.ctx.beginPath();
             this.ctx.moveTo(i, 0);
@@ -952,26 +958,113 @@ class SnakeGame {
             this.ctx.lineTo(this.canvasSize, i);
             this.ctx.stroke();
         }
+        this.ctx.shadowBlur = 0;
         
-        // Draw snake
-        this.ctx.fillStyle = '#4ade80';
-        this.snake.forEach((segment, index) => {
-            this.ctx.fillRect(
-                segment.x * this.gridSize + 1,
-                segment.y * this.gridSize + 1,
-                this.gridSize - 2,
-                this.gridSize - 2
-            );
-        });
+        // Draw food with glow effect
+        this.ctx.shadowColor = '#ff6b6b';
+        this.ctx.shadowBlur = 15;
         
-        // Draw food
-        this.ctx.fillStyle = '#ef4444';
+        const foodGradient = this.ctx.createRadialGradient(
+            this.food.x * this.gridSize + this.gridSize/2,
+            this.food.y * this.gridSize + this.gridSize/2,
+            0,
+            this.food.x * this.gridSize + this.gridSize/2,
+            this.food.y * this.gridSize + this.gridSize/2,
+            this.gridSize
+        );
+        foodGradient.addColorStop(0, '#ff6b6b');
+        foodGradient.addColorStop(0.7, '#ee5a52');
+        foodGradient.addColorStop(1, '#c44569');
+        
+        this.ctx.fillStyle = foodGradient;
         this.ctx.fillRect(
             this.food.x * this.gridSize + 2,
             this.food.y * this.gridSize + 2,
             this.gridSize - 4,
             this.gridSize - 4
         );
+        this.ctx.shadowBlur = 0;
+        
+        // Draw snake with gradient and glow
+        this.snake.forEach((segment, index) => {
+            const isHead = index === 0;
+            const isTail = index === this.snake.length - 1;
+            
+            // Snake body gradient
+            const snakeGradient = this.ctx.createLinearGradient(
+                segment.x * this.gridSize,
+                segment.y * this.gridSize,
+                (segment.x + 1) * this.gridSize,
+                (segment.y + 1) * this.gridSize
+            );
+            
+            if (isHead) {
+                snakeGradient.addColorStop(0, '#4ecdc4');
+                snakeGradient.addColorStop(1, '#44a08d');
+                this.ctx.shadowColor = '#4ecdc4';
+                this.ctx.shadowBlur = 20;
+            } else if (isTail) {
+                snakeGradient.addColorStop(0, '#7fcdcd');
+                snakeGradient.addColorStop(1, '#79b8b8');
+                this.ctx.shadowColor = '#7fcdcd';
+                this.ctx.shadowBlur = 10;
+            } else {
+                snakeGradient.addColorStop(0, '#6bcf8f');
+                snakeGradient.addColorStop(1, '#5fb87a');
+                this.ctx.shadowColor = '#6bcf8f';
+                this.ctx.shadowBlur = 8;
+            }
+            
+            this.ctx.fillStyle = snakeGradient;
+            this.ctx.fillRect(
+                segment.x * this.gridSize + 1,
+                segment.y * this.gridSize + 1,
+                this.gridSize - 2,
+                this.gridSize - 2
+            );
+            
+            // Add eyes to head
+            if (isHead) {
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.shadowBlur = 0;
+                
+                const eyeSize = 3;
+                const eyeOffset = 5;
+                
+                // Left eye
+                this.ctx.fillRect(
+                    segment.x * this.gridSize + eyeOffset,
+                    segment.y * this.gridSize + 4,
+                    eyeSize,
+                    eyeSize
+                );
+                
+                // Right eye
+                this.ctx.fillRect(
+                    segment.x * this.gridSize + this.gridSize - eyeOffset - eyeSize,
+                    segment.y * this.gridSize + 4,
+                    eyeSize,
+                    eyeSize
+                );
+                
+                // Pupils
+                this.ctx.fillStyle = '#2d3748';
+                this.ctx.fillRect(
+                    segment.x * this.gridSize + eyeOffset + 1,
+                    segment.y * this.gridSize + 5,
+                    1,
+                    1
+                );
+                this.ctx.fillRect(
+                    segment.x * this.gridSize + this.gridSize - eyeOffset - eyeSize + 1,
+                    segment.y * this.gridSize + 5,
+                    1,
+                    1
+                );
+            }
+        });
+        
+        this.ctx.shadowBlur = 0;
     }
     
     generateFood() {

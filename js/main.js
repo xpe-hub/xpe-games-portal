@@ -713,3 +713,386 @@ document.head.appendChild(styleSheet);
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = GameZoneApp;
 }
+
+// ========== PREMIUM FEATURES & MONETIZATION ==========
+
+// Donation Functions
+let selectedDonationAmount = 0;
+
+function showDonationModal() {
+    document.getElementById('donationModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function hideDonationModal() {
+    document.getElementById('donationModal').classList.remove('active');
+    document.body.style.overflow = '';
+    selectedDonationAmount = 0;
+}
+
+function selectDonation(amount) {
+    selectedDonationAmount = amount;
+    // Remove previous selection
+    document.querySelectorAll('.amount-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+    // Add selection to clicked button
+    event.target.classList.add('selected');
+}
+
+function donateWithPayPal() {
+    if (selectedDonationAmount === 0) {
+        alert('Por favor selecciona un monto para donar.');
+        return;
+    }
+    window.open(`https://paypal.me/xpegames/${selectedDonationAmount}`, '_blank');
+    hideDonationModal();
+    showDonationConfirmation();
+}
+
+function donateWithCrypto() {
+    hideDonationModal();
+    showCryptoModal();
+}
+
+function donateWithStripe() {
+    if (selectedDonationAmount === 0) {
+        alert('Por favor selecciona un monto para donar.');
+        return;
+    }
+    // Here you would integrate with Stripe
+    alert(`Donación de $${selectedDonationAmount} procesada. ¡Gracias por tu apoyo!`);
+    hideDonationModal();
+    showDonationConfirmation();
+}
+
+function showDonationConfirmation() {
+    // Show a thank you message
+    const message = document.createElement('div');
+    message.innerHTML = `
+        <div style="position: fixed; top: 20px; right: 20px; background: var(--accent-green); color: white; padding: 1rem 2rem; border-radius: 0.5rem; z-index: 10000; animation: slideIn 0.3s ease;">
+            <i class="fas fa-heart"></i> ¡Gracias por apoyar xpe.games! ❤️
+        </div>
+    `;
+    document.body.appendChild(message);
+    setTimeout(() => message.remove(), 3000);
+}
+
+// Premium Functions
+function showPremiumModal() {
+    document.getElementById('premiumModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function hidePremiumModal() {
+    document.getElementById('premiumModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function subscribePremium() {
+    // Here you would integrate with payment processor
+    alert('Funcionalidad premium próximamente. ¡Mantente atento!');
+}
+
+function subscribeVIP() {
+    // Here you would integrate with payment processor
+    alert('Funcionalidad VIP próximamente. ¡Mantente atento!');
+}
+
+// Crypto Functions
+function showCryptoModal() {
+    document.getElementById('cryptoModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function hideCryptoModal() {
+    document.getElementById('cryptoModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function copyAddress(address) {
+    navigator.clipboard.writeText(address).then(() => {
+        // Show copy confirmation
+        const message = document.createElement('div');
+        message.innerHTML = `
+            <div style="position: fixed; top: 20px; right: 20px; background: var(--primary-color); color: white; padding: 1rem 2rem; border-radius: 0.5rem; z-index: 10000; animation: slideIn 0.3s ease;">
+                <i class="fas fa-copy"></i> ¡Dirección copiada!
+            </div>
+        `;
+        document.body.appendChild(message);
+        setTimeout(() => message.remove(), 2000);
+    }).catch(err => {
+        console.error('Error copying address:', err);
+        alert('Error al copiar la dirección. Por favor cópiala manualmente.');
+    });
+}
+
+// Analytics
+function trackEvent(eventName, eventData = {}) {
+    if (Config.FEATURES.ANALYTICS && Config.ANALYTICS.GOOGLE_ANALYTICS.ENABLED) {
+        // Google Analytics tracking
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, eventData);
+        }
+    }
+    
+    // Console log for development
+    console.log('Event tracked:', eventName, eventData);
+}
+
+// Tournament System
+const TournamentSystem = {
+    currentTournament: null,
+    
+    init() {
+        this.checkActiveTournaments();
+        this.setupTournamentNotifications();
+    },
+    
+    checkActiveTournaments() {
+        // Simulate tournament data
+        this.currentTournament = {
+            name: 'Torneo Semanal Snake',
+            game: 'snake',
+            prize: '$25 Gift Card',
+            participants: 156,
+            maxParticipants: 500,
+            endsIn: '2 días',
+            status: 'active'
+        };
+    },
+    
+    setupTournamentNotifications() {
+        // Show tournament banner if active
+        if (this.currentTournament) {
+            this.showTournamentBanner();
+        }
+    },
+    
+    showTournamentBanner() {
+        const banner = document.createElement('div');
+        banner.className = 'tournament-banner';
+        banner.innerHTML = `
+            <div class="tournament-content">
+                <i class="fas fa-trophy"></i>
+                <div>
+                    <h4>${this.currentTournament.name}</h4>
+                    <p>Premio: ${this.currentTournament.prize} | Termina en: ${this.currentTournament.endsIn}</p>
+                </div>
+                <button class="tournament-btn" onclick="TournamentSystem.joinTournament()">
+                    Unirse
+                </button>
+            </div>
+        `;
+        document.body.insertBefore(banner, document.querySelector('.navbar').nextSibling);
+    },
+    
+    joinTournament() {
+        if (!authSystem.isAuthenticated()) {
+            alert('Debes iniciar sesión para unirte al torneo.');
+            return;
+        }
+        alert('¡Te has unido al torneo! Buena suerte.');
+        trackEvent('tournament_join', { tournament: this.currentTournament.name });
+    }
+};
+
+// Initialize tournament system when app loads
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof TournamentSystem !== 'undefined') {
+        TournamentSystem.init();
+    }
+});
+
+// ========== ENHANCED GAMING FEATURES ==========
+
+// Game Statistics and Analytics
+const GameAnalytics = {
+    sessionData: {
+        startTime: Date.now(),
+        gamesPlayed: 0,
+        totalPlayTime: 0,
+        favoriteGame: null
+    },
+    
+    trackGameStart(gameId) {
+        this.sessionData.gamesPlayed++;
+        this.startTime = Date.now();
+        trackEvent('game_start', { game_id: gameId });
+    },
+    
+    trackGameEnd(gameId, score, playTime) {
+        this.sessionData.totalPlayTime += playTime;
+        
+        // Update local statistics
+        const userStats = Config.storage.get('user_stats', {});
+        if (!userStats[gameId]) {
+            userStats[gameId] = {
+                gamesPlayed: 0,
+                totalScore: 0,
+                bestScore: 0,
+                totalPlayTime: 0
+            };
+        }
+        
+        userStats[gameId].gamesPlayed++;
+        userStats[gameId].totalScore += score;
+        userStats[gameId].bestScore = Math.max(userStats[gameId].bestScore, score);
+        userStats[gameId].totalPlayTime += playTime;
+        
+        Config.storage.set('user_stats', userStats);
+        
+        trackEvent('game_end', { 
+            game_id: gameId, 
+            score: score, 
+            play_time: playTime 
+        });
+    },
+    
+    getPlayerStats() {
+        return Config.storage.get('user_stats', {});
+    }
+};
+
+// Achievement System
+const AchievementSystem = {
+    achievements: [
+        { id: 'first_game', name: 'Primer Juego', description: 'Juega tu primer juego', icon: '🎮' },
+        { id: 'snake_master', name: 'Maestro Serpiente', description: 'Alcanza 100 puntos en Snake', icon: '🐍' },
+        { id: 'high_scorer', name: 'Puntuador Alto', description: 'Alcanza 500 puntos en cualquier juego', icon: '⭐' },
+        { id: 'social_player', name: 'Jugador Social', description: 'Conecta con Discord', icon: '👥' },
+        { id: 'premium_user', name: 'Usuario Premium', description: 'Suscríbete a Premium', icon: '👑' },
+        { id: 'tournament_winner', name: 'Campeón', description: 'Gana un torneo', icon: '🏆' }
+    ],
+    
+    unlocked: new Set(),
+    
+    checkAchievements(action, data = {}) {
+        this.achievements.forEach(achievement => {
+            if (this.unlocked.has(achievement.id)) return;
+            
+            let unlocked = false;
+            
+            switch (achievement.id) {
+                case 'first_game':
+                    unlocked = action === 'game_start';
+                    break;
+                case 'snake_master':
+                    unlocked = action === 'game_end' && data.gameId === 'snake' && data.score >= 100;
+                    break;
+                case 'high_scorer':
+                    unlocked = action === 'game_end' && data.score >= 500;
+                    break;
+                case 'social_player':
+                    unlocked = action === 'discord_connected';
+                    break;
+                case 'premium_user':
+                    unlocked = action === 'premium_subscribed';
+                    break;
+                case 'tournament_winner':
+                    unlocked = action === 'tournament_win';
+                    break;
+            }
+            
+            if (unlocked) {
+                this.unlockAchievement(achievement);
+            }
+        });
+    },
+    
+    unlockAchievement(achievement) {
+        this.unlocked.add(achievement.id);
+        
+        // Save to storage
+        const unlockedAchievements = Config.storage.get('unlocked_achievements', []);
+        unlockedAchievements.push({
+            ...achievement,
+            unlockedAt: new Date().toISOString()
+        });
+        Config.storage.set('unlocked_achievements', unlockedAchievements);
+        
+        // Show notification
+        this.showAchievementNotification(achievement);
+        
+        trackEvent('achievement_unlock', { achievement_id: achievement.id });
+    },
+    
+    showAchievementNotification(achievement) {
+        const notification = document.createElement('div');
+        notification.className = 'achievement-notification';
+        notification.innerHTML = `
+            <div class="achievement-content">
+                <div class="achievement-icon">${achievement.icon}</div>
+                <div class="achievement-info">
+                    <h4>¡Logro Desbloqueado!</h4>
+                    <p>${achievement.name}</p>
+                    <span>${achievement.description}</span>
+                </div>
+                <button class="close-achievement" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        document.body.appendChild(notification);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 5000);
+    },
+    
+    getUnlockedAchievements() {
+        return Array.from(this.unlocked);
+    }
+};
+
+// PWA Installation
+const PWAInstaller = {
+    deferredPrompt: null,
+    
+    init() {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            this.deferredPrompt = e;
+            this.showInstallBanner();
+        });
+    },
+    
+    showInstallBanner() {
+        const banner = document.createElement('div');
+        banner.className = 'pwa-install-banner';
+        banner.innerHTML = `
+            <div class="install-content">
+                <i class="fas fa-download"></i>
+                <div>
+                    <h4>¡Instala xpe.games!</h4>
+                    <p>Agrega xpe.games a tu pantalla de inicio para acceso rápido</p>
+                </div>
+                <div class="install-actions">
+                    <button onclick="PWAInstaller.installApp()">Instalar</button>
+                    <button onclick="this.parentElement.parentElement.parentElement.remove()">Ahora no</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(banner);
+    },
+    
+    async installApp() {
+        if (this.deferredPrompt) {
+            this.deferredPrompt.prompt();
+            const { outcome } = await this.deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                trackEvent('pwa_install', { result: 'accepted' });
+            }
+            this.deferredPrompt = null;
+            document.querySelector('.pwa-install-banner')?.remove();
+        }
+    }
+};
+
+// Initialize PWA installer
+document.addEventListener('DOMContentLoaded', () => {
+    PWAInstaller.init();
+});
