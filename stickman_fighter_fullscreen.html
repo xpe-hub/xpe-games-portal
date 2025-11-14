@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Stickman Fighter - Pantalla Completa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #87CEEB 0%, #90EE90 50%, #8B4513 100%);
+            font-family: Arial, sans-serif;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        #gameCanvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, #87CEEB 0%, #90EE90 70%, #8B4513 100%);
+        }
+        
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+        }
+        
+        .health-bar {
+            width: 200px;
+            height: 20px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .health-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        #p1Health { background: linear-gradient(to right, #4CAF50, #2E7D32); }
+        #p2Health { background: linear-gradient(to right, #4CAF50, #2E7D32); }
+        
+        #gameMode {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            pointer-events: none;
+        }
+        
+        .joystick {
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.2);
+            border: 3px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            position: relative;
+            pointer-events: auto;
+            touch-action: none;
+        }
+        
+        .joystick-knob {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: none;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: auto;
+        }
+        
+        .action-btn {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.3);
+            border: 3px solid rgba(255,255,255,0.6);
+            border-radius: 50%;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            touch-action: manipulation;
+            transition: all 0.1s ease;
+        }
+        
+        .action-btn:active {
+            background: rgba(255,255,255,0.6);
+            transform: scale(0.95);
+        }
+        
+        #score {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-float 2s ease-out forwards;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-50px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="ui">
+            <div id="hud">
+                <div>
+                    <div style="color: white; font-weight: bold;">JUGADOR 1</div>
+                    <div class="health-bar">
+                        <div id="p1Health" class="health-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div style="color: white; font-weight: bold;">IA</div>
+                    <div class="health-bar">
+                        <div id="p2Health" class="health-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="gameMode">BATALLA</div>
+            
+            <div id="score">
+                <div>Victorias: <span id="wins">0</span></div>
+                <div>Derrotas: <span id="losses">0</span></div>
+            </div>
+            
+            <div id="controls">
+                <div class="joystick" id="joystick">
+                    <div class="joystick-knob" id="joystickKnob"></div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" id="jumpBtn">SALTAR</button>
+                    <button class="action-btn" id="attackBtn">ATACAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración del canvas
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Variables del juego
+        let gameRunning = true;
+        let lastTime = 0;
+        let score = { wins: 0, losses: 0 };
+        
+        // Personajes
+        const player = {
+            x: 200,
+            y: 400,
+            width: 40,
+            height: 100,
+            speed: 5,
+            jumpPower: -15,
+            health: 100,
+            maxHealth: 100,
+            isJumping: false,
+            isAttacking: false,
+            facing: 'right',
+            color: '#4169E1'
+        };
+        
+        const ai = {
+            x: 600,
+            y: 400,
+            width: 40,
+            height: 100,
+            speed: 3,
+            jumpPower: -12,
+            health: 100,
+            maxHealth: 100,
+            isJumping: false,
+            isAttacking: false,
+            facing: 'left',
+            color: '#DC143C',
+            aiState: 'idle',
+            aiTimer: 0
+        };
+        
+        // Configurar canvas a pantalla completa
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            // Reposicionar personajes si es necesario
+            player.y = canvas.height - 150;
+            ai.y = canvas.height - 150;
+        }
+        
+        // Función para dibujar stickman
+        function drawStickman(character) {
+            ctx.save();
+            ctx.translate(character.x, character.y);
+            
+            if (character.facing === 'left') {
+                ctx.scale(-1, 1);
+            }
+            
+            // Colores
+            ctx.strokeStyle = character.color;
+            ctx.fillStyle = character.color;
+            ctx.lineWidth = 4;
+            
+            // Cabeza
+            ctx.beginPath();
+            ctx.arc(0, -60, 20, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Cuerpo
+            ctx.beginPath();
+            ctx.moveTo(0, -40);
+            ctx.lineTo(0, 30);
+            ctx.stroke();
+            
+            // Brazos
+            ctx.beginPath();
+            if (character.isAttacking) {
+                // Brazos de ataque
+                ctx.moveTo(0, -20);
+                ctx.lineTo(30, -10);
+                ctx.moveTo(0, -20);
+                ctx.lineTo(25, 10);
+            } else {
+                // Brazos normales
+                ctx.moveTo(0, -20);
+                ctx.lineTo(-25, 10);
+                ctx.moveTo(0, -20);
+                ctx.lineTo(25, 10);
+            }
+            ctx.stroke();
+            
+            // Piernas
+            ctx.beginPath();
+            if (character.isJumping) {
+                // Piernas de salto
+                ctx.moveTo(0, 30);
+                ctx.lineTo(-15, 5);
+                ctx.moveTo(0, 30);
+                ctx.lineTo(15, 5);
+            } else {
+                // Piernas normales
+                ctx.moveTo(0, 30);
+                ctx.lineTo(-15, 60);
+                ctx.moveTo(0, 30);
+                ctx.lineTo(15, 60);
+            }
+            ctx.stroke();
+            
+            // Efectos de ataque
+            if (character.isAttacking) {
+                ctx.strokeStyle = '#FFD700';
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                ctx.arc(35, -10, 15, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+            
+            ctx.restore();
+        }
+        
+        // Función de IA
+        function updateAI() {
+            ai.aiTimer++;
+            
+            // IA simple: acercarse al jugador y atacar ocasionalmente
+            const distance = Math.abs(player.x - ai.x);
+            
+            if (distance > 100) {
+                // Acercarse
+                if (player.x > ai.x) {
+                    ai.x += ai.speed;
+                    ai.facing = 'left';
+                } else {
+                    ai.x -= ai.speed;
+                    ai.facing = 'right';
+                }
+            } else if (distance < 50 && ai.aiTimer % 120 === 0) {
+                // Atacar ocasionalmente
+                ai.isAttacking = true;
+                setTimeout(() => {
+                    ai.isAttacking = false;
+                    if (distance < 50 && Math.random() > 0.5) {
+                        damagePlayer(15);
+                    }
+                }, 500);
+            }
+            
+            // Saltar ocasionalmente
+            if (!ai.isJumping && Math.random() > 0.98 && ai.aiTimer % 60 === 0) {
+                ai.isJumping = true;
+                setTimeout(() => {
+                    ai.isJumping = false;
+                }, 600);
+            }
+        }
+        
+        // Sistema de daño
+        function damagePlayer(damage) {
+            player.health = Math.max(0, player.health - damage);
+            updateHealthBars();
+            createParticle(player.x, player.y - 50);
+            
+            if (player.health <= 0) {
+                score.losses++;
+                updateScore();
+                resetCharacters();
+            }
+        }
+        
+        function damageAI(damage) {
+            ai.health = Math.max(0, ai.health - damage);
+            updateHealthBars();
+            createParticle(ai.x, ai.y - 50);
+            
+            if (ai.health <= 0) {
+                score.wins++;
+                updateScore();
+                resetCharacters();
+            }
+        }
+        
+        // Actualizar barras de vida
+        function updateHealthBars() {
+            const p1Percent = (player.health / player.maxHealth) * 100;
+            const p2Percent = (ai.health / ai.maxHealth) * 100;
+            
+            document.getElementById('p1Health').style.width = p1Percent + '%';
+            document.getElementById('p2Health').style.width = p2Percent + '%';
+        }
+        
+        // Actualizar puntuación
+        function updateScore() {
+            document.getElementById('wins').textContent = score.wins;
+            document.getElementById('losses').textContent = score.losses;
+        }
+        
+        // Crear partículas
+        function createParticle(x, y) {
+            for (let i = 0; i < 3; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = (x + (Math.random() - 0.5) * 40) + 'px';
+                particle.style.top = (y + (Math.random() - 0.5) * 40) + 'px';
+                document.getElementById('gameContainer').appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 2000);
+            }
+        }
+        
+        // Resetear personajes
+        function resetCharacters() {
+            player.x = 200;
+            player.y = canvas.height - 150;
+            player.health = player.maxHealth;
+            player.isJumping = false;
+            player.isAttacking = false;
+            
+            ai.x = canvas.width - 200;
+            ai.y = canvas.height - 150;
+            ai.health = ai.maxHealth;
+            ai.isJumping = false;
+            ai.isAttacking = false;
+            ai.aiTimer = 0;
+            
+            updateHealthBars();
+        }
+        
+        // Controles
+        const joystick = document.getElementById('joystick');
+        const joystickKnob = document.getElementById('joystickKnob');
+        let joystickActive = false;
+        let joystickCenter = { x: 0, y: 0 };
+        
+        // Joystick controls
+        joystick.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            joystickActive = true;
+            const rect = joystick.getBoundingClientRect();
+            joystickCenter.x = rect.left + rect.width / 2;
+            joystickCenter.y = rect.top + rect.height / 2;
+            updateJoystick(e.touches[0]);
+        });
+        
+        joystick.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (joystickActive) {
+                updateJoystick(e.touches[0]);
+            }
+        });
+        
+        joystick.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            joystickActive = false;
+            joystickKnob.style.left = '50%';
+            joystickKnob.style.top = '50%';
+            joystickKnob.style.transform = 'translate(-50%, -50%)';
+        });
+        
+        function updateJoystick(touch) {
+            const deltaX = touch.clientX - joystickCenter.x;
+            const deltaY = touch.clientY - joystickCenter.y;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const maxDistance = 40;
+            
+            if (distance <= maxDistance) {
+                joystickKnob.style.left = (50 + (deltaX / maxDistance) * 25) + '%';
+                joystickKnob.style.top = (50 + (deltaY / maxDistance) * 25) + '%';
+                joystickKnob.style.transform = 'translate(-50%, -50%)';
+                
+                // Movimiento del personaje
+                player.x += deltaX * 0.1;
+                player.facing = deltaX >= 0 ? 'right' : 'left';
+                
+                // Limitar movimiento
+                player.x = Math.max(50, Math.min(canvas.width - 50, player.x));
+            }
+        }
+        
+        // Botones de acción
+        document.getElementById('jumpBtn').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (!player.isJumping) {
+                player.isJumping = true;
+                player.y += player.jumpPower;
+                
+                setTimeout(() => {
+                    player.isJumping = false;
+                }, 600);
+            }
+        });
+        
+        document.getElementById('attackBtn').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (!player.isAttacking) {
+                player.isAttacking = true;
+                
+                // Verificar si el golpe conecta con la IA
+                const distance = Math.abs(player.x - ai.x);
+                if (distance < 80) {
+                    damageAI(20);
+                }
+                
+                setTimeout(() => {
+                    player.isAttacking = false;
+                }, 500);
+            }
+        });
+        
+        // Loop principal del juego
+        function gameLoop(currentTime) {
+            if (!gameRunning) return;
+            
+            const deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+            
+            // Actualizar física
+            if (player.isJumping) {
+                player.y += 1; // Gravedad
+                if (player.y >= canvas.height - 150) {
+                    player.y = canvas.height - 150;
+                    player.isJumping = false;
+                }
+            }
+            
+            if (ai.isJumping) {
+                ai.y += 1; // Gravedad
+                if (ai.y >= canvas.height - 150) {
+                    ai.y = canvas.height - 150;
+                    ai.isJumping = false;
+                }
+            }
+            
+            // Actualizar IA
+            updateAI();
+            
+            // Renderizar
+            render();
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Función de renderizado
+        function render() {
+            // Limpiar canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Fondo del juego
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(0, 0, canvas.width, canvas.height * 0.3);
+            
+            ctx.fillStyle = '#90EE90';
+            ctx.fillRect(0, canvas.height * 0.3, canvas.width, canvas.height * 0.4);
+            
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(0, canvas.height * 0.7, canvas.width, canvas.height * 0.3);
+            
+            // Dibujar stickmen
+            drawStickman(player);
+            drawStickman(ai);
+        }
+        
+        // Inicialización
+        function init() {
+            resizeCanvas();
+            updateHealthBars();
+            updateScore();
+            gameRunning = true;
+            lastTime = performance.now();
+            requestAnimationFrame(gameLoop);
+            
+            console.log('Juego inicializado');
+        }
+        
+        // Event listeners
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('load', init);
+        
+        // Prevenir zoom en mobile
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
