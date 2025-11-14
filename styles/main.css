@@ -1,24 +1,24 @@
-/* GameZone - Main Styles */
+/* xpe.games - Main Styles */
 
 /* CSS Variables */
 :root {
-    /* Primary Colors */
-    --primary-color: #7c3aed;
-    --primary-dark: #5b21b6;
-    --primary-light: #a855f7;
-    --primary-gradient: linear-gradient(135deg, #7c3aed, #a855f7);
+    /* Primary Colors - xpe.games Premium */
+    --primary-color: #8b5cf6;
+    --primary-dark: #7c3aed;
+    --primary-light: #a78bfa;
+    --primary-gradient: linear-gradient(135deg, #8b5cf6, #a78bfa);
     
-    /* Secondary Colors */
+    /* Secondary Colors - Gold accents with crown theme */
     --secondary-color: #f59e0b;
     --secondary-dark: #d97706;
     --secondary-light: #fbbf24;
     
-    /* Neutral Colors */
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
+    /* Neutral Colors - White Theme */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
     --text-muted: #64748b;
     
     /* Accent Colors */
@@ -28,12 +28,12 @@
     --accent-yellow: #f59e0b;
     --accent-purple: #8b5cf6;
     
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    /* Shadows - Soft and modern */
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.3);
+    --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.15);
     
     /* Spacing */
     --spacing-xs: 0.25rem;
@@ -204,9 +204,10 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(15, 23, 42, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+    box-shadow: var(--shadow-sm);
     z-index: var(--z-sticky);
     transition: all var(--transition-base);
 }

@@ -1,28 +1,28 @@
 /**
- * GameZone - Configuration File
- * Global configuration for the application
+ * xpe.games - Configuration File
+ * Global configuration for the premium gaming platform
  */
 
 const Config = {
     // Application Info
-    APP_NAME: 'GameZone',
+    APP_NAME: 'xpe.games',
     VERSION: '1.0.0',
     CREATOR: 'MiniMax Agent',
-    COPYRIGHT: '© 2025 GameZone. Todos los derechos reservados.',
+    COPYRIGHT: '© 2025 xpe.games. Todos los derechos reservados.',
     
     // API Endpoints
-    API_BASE_URL: 'https://api.gamezone.com',
+    API_BASE_URL: 'https://api.xpe.games',
     DISCORD_CLIENT_ID: 'your_discord_client_id',
-    DISCORD_REDIRECT_URI: 'https://gamezone.com/auth/discord/callback',
+    DISCORD_REDIRECT_URI: 'https://xpe.games/auth/discord/callback',
     
     // Local Storage Keys
     STORAGE_KEYS: {
-        USER_TOKEN: 'gamezone_user_token',
-        USER_DATA: 'gamezone_user_data',
-        GAME_PROGRESS: 'gamezone_game_progress',
-        SETTINGS: 'gamezone_settings',
-        THEME: 'gamezone_theme',
-        LANGUAGE: 'gamezone_language'
+        USER_TOKEN: 'xpe_user_token',
+        USER_DATA: 'xpe_user_data',
+        GAME_PROGRESS: 'xpe_game_progress',
+        SETTINGS: 'xpe_settings',
+        THEME: 'xpe_theme',
+        LANGUAGE: 'xpe_language'
     },
     
     // Default Game Settings
