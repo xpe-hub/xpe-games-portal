@@ -1,0 +1,92 @@
+[
+  {
+    "query": "A simple gray user avatar placeholder image, 128x128 pixels, clean design for user profile default avatar",
+    "image_info": {
+      "url": "https://static.vecteezy.com/system/resources/previews/042/332/066/non_2x/person-photo-placeholder-woman-default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-social-media-free-vector.jpg",
+      "img_format": "JPEG",
+      "mode": "RGB",
+      "file_size": 22787,
+      "width": 980,
+      "height": 980,
+      "total_pixels": 960400,
+      "basic_score": 0.9184143690333735,
+      "file_name": "default_avatar_7.jpg"
+    },
+    "llm_score": null
+  },
+  {
+    "query": "A simple gray user avatar placeholder image, 128x128 pixels, clean design for user profile default avatar",
+    "image_info": {
+      "url": "https://static.vecteezy.com/system/resources/previews/039/844/996/non_2x/profile-photo-illustration-isolated-on-white-background-male-person-default-profile-gray-photo-picture-avatar-man-silhouette-placeholder-user-symbol-free-vector.jpg",
+      "img_format": "JPEG",
+      "mode": "RGB",
+      "file_size": 20001,
+      "width": 980,
+      "height": 980,
+      "total_pixels": 960400,
+      "basic_score": 0.9181205378103717,
+      "file_name": "default_avatar_4.jpg"
+    },
+    "llm_score": null
+  },
+  {
+    "query": "A simple gray user avatar placeholder image, 128x128 pixels, clean design for user profile default avatar",
+    "image_info": {
+      "url": "https://static.vecteezy.com/system/resources/previews/045/944/199/non_2x/male-default-placeholder-avatar-profile-gray-picture-isolated-on-background-man-silhouette-picture-for-user-profile-in-social-media-forum-chat-greyscale-illustration-vector.jpg",
+      "img_format": "JPEG",
+      "mode": "RGB",
+      "file_size": 15920,
+      "width": 980,
+      "height": 980,
+      "total_pixels": 960400,
+      "basic_score": 0.9176890637720468,
+      "file_name": "default_avatar_0.jpg"
+    },
+    "llm_score": null
+  },
+  {
+    "query": "A simple gaming controller favicon icon, 32x32 pixels, ICO format suitable for website favicon",
+    "image_info": {
+      "url": "https://static.vecteezy.com/system/resources/previews/041/301/179/non_2x/game-icon-pixelart-design-illustration-vector.jpg",
+      "img_format": "JPEG",
+      "mode": "RGB",
+      "file_size": 32752,
+      "width": 980,
+      "height": 980,
+      "total_pixels": 960400,
+      "basic_score": 0.91946045773612,
+      "file_name": "favicon_creation_5.jpg"
+    },
+    "llm_score": null
+  },
+  {
+    "query": "A simple gaming controller favicon icon, 32x32 pixels, ICO format suitable for website favicon",
+    "image_info": {
+      "url": "https://freepngimg.com/download/game/88075-art-text-controllers-game-black-bead-pixel.png",
+      "img_format": "PNG",
+      "mode": "RGBA",
+      "file_size": 7529,
+      "width": 1190,
+      "height": 1120,
+      "total_pixels": 1332800,
+      "basic_score": 0.8816204449857482,
+      "file_name": "favicon_creation_7.png"
+    },
+    "llm_score": null
+  },
+  {
+    "query": "A simple gaming controller favicon icon, 32x32 pixels, ICO format suitable for website favicon",
+    "image_info": {
+      "url": "https://static.vecteezy.com/system/resources/thumbnails/027/879/933/small_2x/console-stick-controller-in-pixel-art-style-vector.jpg",
+      "img_format": "JPEG",
+      "mode": "RGB",
+      "file_size": 16326,
+      "width": 700,
+      "height": 700,
+      "total_pixels": 490000,
+      "basic_score": 0.8440040727944563,
+      "file_name": "favicon_creation_6.jpg"
+    },
+    "llm_score": null
+  }
+]
