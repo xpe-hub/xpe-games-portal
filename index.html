@@ -3,700 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xpe.games - Portal de Juegos Web Premium</title>
+    <title>xpe.games - Plataforma de Juegos Premium</title>
     <meta name="description" content="xpe.games - La mejor plataforma de juegos web gratuitos con comunidad Discord, sistema de usuarios y juegos clásicos modernos.">
     <meta name="keywords" content="juegos, web, gratis, online, friv, discord, gaming, multiplayer">
+    <meta property="og:description" content="La mejor plataforma de juegos web gratuitos con corona y estilo premium">
     <meta name="author" content="xpe.nettt">
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="xpe.games - Portal de Juegos Web Premium">
-    <meta property="og:description" content="La mejor plataforma de juegos web gratuitos con corona y estilo premium">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="./assets/logo.png">
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Stylesheets -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- Styles -->
     <link rel="stylesheet" href="./styles/main.css">
     <link rel="stylesheet" href="./styles/games.css">
     <link rel="stylesheet" href="./styles/auth.css">
     <link rel="stylesheet" href="./styles/responsive.css">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+    <!-- Removed favicon and avatar references for now -->
 </head>
 <body>
     <!-- Loading Screen -->
     <div id="loadingScreen" class="loading-screen">
         <div class="loading-content">
-            <div class="logo-loading">
-                <i class="fas fa-crown"></i>
-                <h1>xpe.games</h1>
+            <div class="loading-logo">
+                <i class="fas fa-gamepad"></i>
+                <h2>xpe.games</h2>
             </div>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
+            <div class="loading-spinner">
+                <div class="spinner"></div>
             </div>
-            <p>Cargando juegos épicos...</p>
+            <p class="loading-text">Cargando juegos épicos...</p>
         </div>
     </div>
 
-    <!-- Navigation Header -->
-    <header class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fas fa-crown"></i>
-                <span>xpe.games</span>
+    <!-- Main Content -->
+    <div id="mainContent" class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="nav-brand">
+                    <i class="fas fa-gamepad"></i>
+                    <span class="brand-text">xpe.games</span>
+                </div>
+                
+                <nav class="nav-menu">
+                    <a href="#home" class="nav-link active">Inicio</a>
+                    <a href="#games" class="nav-link">Juegos</a>
+                    <a href="#leaderboard" class="nav-link">Ranking</a>
+                    <a href="#community" class="nav-link">Comunidad</a>
+                </nav>
+                
+                <div class="nav-actions">
+                    <button class="discord-btn" onclick="connectDiscord()">
+                        <i class="fab fa-discord"></i>
+                        <span>Conectar Discord</span>
+                    </button>
+                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <div class="nav-brand">
+                    <i class="fas fa-gamepad"></i>
+                    <span class="brand-text">xpe.games</span>
+                </div>
+                <button class="mobile-menu-close" onclick="closeMobileMenu()">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             
-            <nav class="nav-menu">
-                <a href="#home" class="nav-link active">Inicio</a>
-                <a href="#games" class="nav-link">Juegos</a>
-                <a href="#leaderboards" class="nav-link">Ranking</a>
-                <a href="#community" class="nav-link">Comunidad</a>
-                <a href="#about" class="nav-link">Acerca de</a>
+            <nav class="mobile-nav">
+                <a href="#home" class="mobile-nav-link" onclick="closeMobileMenu()">Inicio</a>
+                <a href="#games" class="mobile-nav-link" onclick="closeMobileMenu()">Juegos</a>
+                <a href="#leaderboard" class="mobile-nav-link" onclick="closeMobileMenu()">Ranking</a>
+                <a href="#community" class="mobile-nav-link" onclick="closeMobileMenu()">Comunidad</a>
             </nav>
             
-            <div class="nav-actions">
-                <button class="donate-btn" onclick="showDonationModal()">
-                    <i class="fas fa-heart"></i>
-                    Donar
-                </button>
-                <button class="premium-btn" onclick="showPremiumModal()">
-                    <i class="fas fa-crown"></i>
-                    Premium
-                </button>
-                <button class="discord-btn" onclick="connectDiscord()">
+            <div class="mobile-actions">
+                <button class="discord-btn mobile-discord" onclick="connectDiscord()">
                     <i class="fab fa-discord"></i>
-                    Discord
+                    <span>Conectar Discord</span>
                 </button>
-                <div class="user-menu" id="userMenu" style="display: none;">
-                    <button class="user-btn" onclick="toggleUserMenu()">
-                        <img src="./assets/default-avatar.png" alt="Avatar" class="user-avatar">
-                        <span id="username">Usuario</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-dropdown" id="userDropdown">
-                        <a href="#profile"><i class="fas fa-user"></i> Perfil</a>
-                        <a href="#settings"><i class="fas fa-cog"></i> Configuración</a>
-                        <a href="#achievements"><i class="fas fa-trophy"></i> Logros</a>
-                        <a href="#tournaments"><i class="fas fa-trophy"></i> Torneos</a>
-                        <a href="#analytics"><i class="fas fa-chart-line"></i> Estadísticas</a>
-                        <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-background">
+                <div class="hero-particles"></div>
+            </div>
+            
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="title-main">xpe.games</span>
+                        <span class="title-sub">La Mejor Plataforma de Gaming</span>
+                    </h1>
+                    
+                    <p class="hero-description">
+                        Disfruta de juegos épicos gratis, conecta con nuestra comunidad Discord 
+                        y compite en rankings globales. Una experiencia gaming premium te espera.
+                    </p>
+                    
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" onclick="scrollToGames()">
+                            <i class="fas fa-play"></i>
+                            Jugar Ahora
+                        </button>
+                        <button class="btn btn-secondary" onclick="connectDiscord()">
+                            <i class="fab fa-discord"></i>
+                            Unirse a Discord
+                        </button>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <i class="fas fa-gamepad"></i>
+                            <span class="stat-number" data-target="50">0</span>
+                            <span class="stat-label">Juegos</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-users"></i>
+                            <span class="stat-number" data-target="1000">0</span>
+                            <span class="stat-label">Jugadores</span>
+                        </div>
+                        <div class="stat">
+                            <i class="fab fa-discord"></i>
+                            <span class="stat-number" data-target="500">0</span>
+                            <span class="stat-label">Discord</span>
+                        </div>
                     </div>
                 </div>
-                <button class="login-btn" onclick="showLoginModal()">Iniciar Sesión</button>
             </div>
-            
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+        </section>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <nav class="mobile-nav">
-            <a href="#home" class="mobile-link" onclick="closeMobileMenu()">Inicio</a>
-            <a href="#games" class="mobile-link" onclick="closeMobileMenu()">Juegos</a>
-            <a href="#leaderboards" class="mobile-link" onclick="closeMobileMenu()">Ranking</a>
-            <a href="#community" class="mobile-link" onclick="closeMobileMenu()">Comunidad</a>
-            <a href="#about" class="mobile-link" onclick="closeMobileMenu()">Acerca de</a>
-            <button class="discord-btn mobile-discord" onclick="connectDiscord()">
-                <i class="fab fa-discord"></i>
-                Discord
-            </button>
-            <button class="login-btn mobile-login" onclick="showLoginModal(); closeMobileMenu()">
-                Iniciar Sesión
-            </button>
-        </nav>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-background">
-            <div class="animated-bg"></div>
-            <div class="floating-icons">
-                <i class="fas fa-gamepad floating-icon"></i>
-                <i class="fas fa-trophy floating-icon"></i>
-                <i class="fas fa-star floating-icon"></i>
-                <i class="fas fa-heart floating-icon"></i>
-            </div>
-        </div>
-        
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    <span class="title-main">xpe.games</span>
-                    <span class="title-sub">Portal de Juegos con Corona</span>
-                </h1>
-                <p class="hero-description">
-                    Explora miles de juegos gratuitos, conecta con nuestra comunidad Discord,
-                    compite en rankings y vive la experiencia gaming más épica de internet.
-                </p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary" onclick="scrollToGames()">
-                        <i class="fas fa-play"></i>
-                        Jugar Ahora
-                    </button>
-                    <button class="btn btn-secondary" onclick="connectDiscord()">
-                        <i class="fab fa-discord"></i>
-                        Únete a Discord
-                    </button>
-                </div>
-            </div>
-            
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <i class="fas fa-users"></i>
-                    <div class="stat-number" data-target="25000">0</div>
-                    <div class="stat-label">Jugadores Activos</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-gamepad"></i>
-                    <div class="stat-number" data-target="150">0</div>
-                    <div class="stat-label">Juegos Disponibles</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-trophy"></i>
-                    <div class="stat-number" data-target="50000">0</div>
-                    <div class="stat-label">Partidas Jugadas</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Games Section -->
-    <section class="featured-games" id="games">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-star"></i>
-                    Juegos Destacados
-                </h2>
-                <div class="game-filters">
-                    <button class="filter-btn active" data-filter="all">Todos</button>
-                    <button class="filter-btn" data-filter="popular">Populares</button>
-                    <button class="filter-btn" data-filter="new">Nuevos</button>
-                    <button class="filter-btn" data-filter="classic">Clásicos</button>
-                </div>
-            </div>
-            
-            <div class="games-grid" id="gamesGrid">
-                <!-- Games will be loaded dynamically -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Leaderboards Section -->
-    <section class="leaderboards" id="leaderboards">
-        <div class="container">
-            <h2 class="section-title">
-                <i class="fas fa-trophy"></i>
-                Rankings
-            </h2>
-            
-            <div class="leaderboard-tabs">
-                <button class="tab-btn active" data-tab="snake">Snake</button>
-                <button class="tab-btn" data-tab="tetris">Tetris</button>
-                <button class="tab-btn" data-tab="stickman">Stickman Fighter</button>
-                <button class="tab-btn" data-tab="overall">General</button>
-            </div>
-            
-            <div class="leaderboard-content">
-                <div class="leaderboard-table" id="leaderboardTable">
-                    <!-- Leaderboard data will be loaded here -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Community Section -->
-    <section class="community" id="community">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-users"></i>
-                    Nuestra Comunidad
-                </h2>
-                <p>Conecta, compite y diviértete con jugadores de todo el mundo</p>
-            </div>
-            
-            <div class="community-grid">
-                <div class="community-card">
-                    <div class="card-icon">
-                        <i class="fab fa-discord"></i>
-                    </div>
-                    <h3>Servidor Discord</h3>
-                    <p>Únete a nuestra comunidad activa con más de 5,000 miembros</p>
-                    <button class="btn btn-primary" onclick="connectDiscord()">
-                        Unirse al Servidor
-                    </button>
+        <!-- Games Section -->
+        <section class="games-section" id="games">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-fire"></i>
+                        Juegos Destacados
+                    </h2>
+                    <p class="section-subtitle">
+                        Los juegos más populares y emocionantes te están esperando
+                    </p>
                 </div>
                 
-                <div class="community-card">
-                    <div class="card-icon">
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar juegos...">
+                    </div>
+                </div>
+                
+                <!-- Games Grid -->
+                <div class="games-grid" id="gamesGrid">
+                    <!-- Games will be loaded here by JavaScript -->
+                    <div class="game-card" data-category="classic">
+                        <div class="game-image">
+                            <img src="https://via.placeholder.com/300x200/4f46e5/ffffff?text=Tetris" alt="Tetris Clásico">
+                            <div class="game-overlay">
+                                <button class="play-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="game-info">
+                            <h3 class="game-title">Tetris Clásico</h3>
+                            <p class="game-description">El icónico juego de bloques que todo el mundo conoce y ama</p>
+                            <div class="game-stats">
+                                <span class="game-rating">
+                                    <i class="fas fa-star"></i> 4.8
+                                </span>
+                                <span class="game-plays">
+                                    <i class="fas fa-play"></i> 1.2M
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- More game cards can be added here -->
+                </div>
+                
+                <div class="text-center">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-plus"></i>
+                        Ver Más Juegos
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Section -->
+        <section class="leaderboard-section" id="leaderboard">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
                         <i class="fas fa-trophy"></i>
-                    </div>
-                    <h3>Torneos</h3>
-                    <p>Compite en torneos semanales y gana premios increíbles</p>
-                    <button class="btn btn-secondary">Ver Torneos</button>
-                </div>
-                
-                <div class="community-card">
-                    <div class="card-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>Foros</h3>
-                    <p>Discute estrategias, comparte logros y haz amigos</p>
-                    <button class="btn btn-secondary">Ir a los Foros</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>Acerca de xpe.games</h2>
-                    <p>
-                        xpe.games nació de la pasión por los juegos web clásicos y modernos. 
-                        Nuestra misión es crear la mejor plataforma de juegos online que una 
-                        a jugadores de todo el mundo en una experiencia divertida y emocionante.
-                    </p>
-                    <div class="features-list">
-                        <div class="feature">
-                            <i class="fas fa-check"></i>
-                            <span>Juegos 100% gratuitos</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check"></i>
-                            <span>Sin descargas necesarias</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check"></i>
-                            <span>Compatible con todos los dispositivos</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-check"></i>
-                            <span>Comunidad activa y amigable</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-image">
-                    <div class="about-card">
-                        <div class="card-icon">
-                            <i class="fas fa-rocket"></i>
-                        </div>
-                        <h4>Creado con pasión</h4>
-                        <p>Desarrollado por xpe.nettt con dedicación y amor por los videojuegos</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Creator Information Section -->
-    <section class="creator-info" id="creator">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-user-circle"></i>
-                    Conoce al Creador
-                </h2>
-                <p>Sígueme en mis redes sociales y únete a mi comunidad</p>
-            </div>
-            
-            <div class="creator-content">
-                <div class="creator-profile">
-                    <div class="creator-avatar">
-                        <i class="fas fa-crown"></i>
-                    </div>
-                    <div class="creator-details">
-                        <h3>xpe.nettt</h3>
-                        <p class="creator-title">Desarrollador & Creador de xpe.games</p>
-                        <p class="creator-bio">
-                            Apasionado por los videojuegos y el desarrollo web. Creando experiencias 
-                            gaming únicas y manteniendo la comunidad activa día a día.
-                        </p>
-                        <div class="creator-stats">
-                            <div class="stat">
-                                <span class="stat-number">50K+</span>
-                                <span class="stat-label">Jugadores</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">100+</span>
-                                <span class="stat-label">Juegos Creados</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">24/7</span>
-                                <span class="stat-label">Soporte</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="social-grid">
-                    <div class="social-card" onclick="window.open(Config.SOCIAL.DISCORD, '_blank')">
-                        <i class="fab fa-discord"></i>
-                        <h4>Discord</h4>
-                        <p>MiniMax#1234</p>
-                        <span class="social-link">Únete al servidor</span>
-                    </div>
-                    
-                    <div class="social-card" onclick="window.open('https://twitter.com/xpegames', '_blank')">
-                        <i class="fab fa-twitter"></i>
-                        <h4>Twitter</h4>
-                        <p>@xpegames</p>
-                        <span class="social-link">Sígueme</span>
-                    </div>
-                    
-                    <div class="social-card" onclick="window.open('https://youtube.com/c/xpegames', '_blank')">
-                        <i class="fab fa-youtube"></i>
-                        <h4>YouTube</h4>
-                        <p>xpegames</p>
-                        <span class="social-link">Mira mis videos</span>
-                    </div>
-                    
-                    <div class="social-card" onclick="window.open('https://twitch.tv/xpegames', '_blank')">
-                        <i class="fab fa-twitch"></i>
-                        <h4>Twitch</h4>
-                        <p>xpegames</p>
-                        <span class="social-link">Ver streams</span>
-                    </div>
-                    
-                    <div class="social-card" onclick="window.open('https://t.me/xpegames', '_blank')">
-                        <i class="fab fa-telegram"></i>
-                        <h4>Telegram</h4>
-                        <p>@xpegames</p>
-                        <span class="social-link">Canal oficial</span>
-                    </div>
-                    
-                    <div class="social-card" onclick="window.open('https://steamcommunity.com/id/xpegames', '_blank')">
-                        <i class="fab fa-steam"></i>
-                        <h4>Steam</h4>
-                        <p>xpegames</p>
-                        <span class="social-link">Mi perfil</span>
-                    </div>
-                </div>
-                
-                <div class="support-section">
-                    <h3>¿Quieres apoyar el proyecto?</h3>
-                    <div class="support-options">
-                        <button class="support-btn" onclick="showDonationModal()">
-                            <i class="fas fa-heart"></i>
-                            Donar
-                        </button>
-                        <button class="support-btn" onclick="window.open('https://paypal.me/xpegames', '_blank')">
-                            <i class="fab fa-paypal"></i>
-                            PayPal
-                        </button>
-                        <button class="support-btn" onclick="window.open('https://patreon.com/xpegames', '_blank')">
-                            <i class="fab fa-patreon"></i>
-                            Patreon
-                        </button>
-                        <button class="support-btn" onclick="showCryptoModal()">
-                            <i class="fab fa-bitcoin"></i>
-                            Crypto
-                        </button>
-                    </div>
-                    <p class="support-text">
-                        Tu apoyo ayuda a mantener el servidor, desarrollar nuevos juegos y mejorar la experiencia para todos.
+                        Ranking Global
+                    </h2>
+                    <p class="section-subtitle">
+                        Los mejores jugadores de nuestra comunidad
                     </p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <i class="fas fa-crown"></i>
-                        <span>xpe.games</span>
+                
+                <div class="leaderboard-container">
+                    <div class="leaderboard-tabs">
+                        <button class="tab-btn active" data-game="tetris">Tetris</button>
+                        <button class="tab-btn" data-game="overall">General</button>
                     </div>
-                    <p>La mejor plataforma de juegos web gratuitos.</p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    
+                    <div class="leaderboard-list">
+                        <div class="leaderboard-item">
+                            <span class="rank rank-1">1</span>
+                            <span class="player">Player_Pro</span>
+                            <span class="score">1,234,567 pts</span>
+                        </div>
+                        <div class="leaderboard-item">
+                            <span class="rank rank-2">2</span>
+                            <span class="player">GameMaster</span>
+                            <span class="score">987,654 pts</span>
+                        </div>
+                        <div class="leaderboard-item">
+                            <span class="rank rank-3">3</span>
+                            <span class="player">TetrisKing</span>
+                            <span class="score">856,432 pts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section class="community-section" id="community">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-users"></i>
+                        Nuestra Comunidad
+                    </h2>
+                    <p class="section-subtitle">
+                        Únete a nuestra vibrante comunidad de gamers
+                    </p>
+                </div>
+                
+                <div class="community-features">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <h3>Discord Activo</h3>
+                        <p>Chatea, organiza partidas y haz nuevos amigos en nuestro servidor Discord</p>
+                        <button class="btn btn-primary" onclick="connectDiscord()">
+                            <i class="fab fa-discord"></i>
+                            Unirse Ahora
+                        </button>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3>Competencias</h3>
+                        <p>Participa en torneos y competencias semanales con premios increíbles</p>
+                        <button class="btn btn-outline">
+                            Ver Torneos
+                        </button>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Logros</h3>
+                        <p>Desbloquea logros, colecciona medallas y demuestra tu habilidad</p>
+                        <button class="btn btn-outline">
+                            Mis Logros
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <div class="nav-brand">
+                            <i class="fas fa-gamepad"></i>
+                            <span class="brand-text">xpe.games</span>
+                        </div>
+                        <p>La mejor plataforma de juegos web gratuitos con estilo premium</p>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <div class="footer-section">
+                            <h4>Plataforma</h4>
+                            <a href="#games">Juegos</a>
+                            <a href="#leaderboard">Ranking</a>
+                            <a href="#community">Comunidad</a>
+                        </div>
+                        
+                        <div class="footer-section">
+                            <h4>Soporte</h4>
+                            <a href="#help">Ayuda</a>
+                            <a href="#contact">Contacto</a>
+                            <a href="#feedback">Feedback</a>
+                        </div>
+                        
+                        <div class="footer-section">
+                            <h4>Legal</h4>
+                            <a href="#privacy">Privacidad</a>
+                            <a href="#terms">Términos</a>
+                            <a href="#cookies">Cookies</a>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="footer-section">
-                    <h4>Juegos</h4>
-                    <ul>
-                        <li><a href="#games">Todos los Juegos</a></li>
-                        <li><a href="#games">Juegos Populares</a></li>
-                        <li><a href="#games">Nuevos Lanzamientos</a></li>
-                        <li><a href="#leaderboards">Rankings</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Comunidad</h4>
-                    <ul>
-                        <li><a href="#" onclick="connectDiscord()">Servidor Discord</a></li>
-                        <li><a href="#">Foros</a></li>
-                        <li><a href="#">Torneos</a></li>
-                        <li><a href="#">Blog</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Soporte</h4>
-                    <ul>
-                        <li><a href="#">Ayuda</a></li>
-                        <li><a href="#">Contacto</a></li>
-                        <li><a href="#">Reportar Bug</a></li>
-                        <li><a href="#">Sugerencias</a></li>
-                    </ul>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 xpe.games - Creado por xpe.nettt. Todos los derechos reservados.</p>
                 </div>
             </div>
-            
-            <div class="footer-bottom">
-                <div class="copyright">
-                    <p>&copy; 2025 xpe.games. Todos los derechos reservados.</p>
-                    <p>Creado por xpe.nettt | Portal Premium de Juegos Web</p>
-                </div>
-                <div class="footer-links">
-                    <a href="#">Términos de Servicio</a>
-                    <a href="#">Política de Privacidad</a>
-                    <a href="#">Cookies</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Iniciar Sesión</h3>
-                <button class="close-btn" onclick="hideLoginModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form class="auth-form" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Contraseña</label>
-                    <input type="password" id="loginPassword" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full">
-                    Iniciar Sesión
-                </button>
-                <div class="auth-separator">
-                    <span>o</span>
-                </div>
-                <button type="button" class="btn btn-discord btn-full" onclick="loginWithDiscord()">
-                    <i class="fab fa-discord"></i>
-                    Continuar con Discord
-                </button>
-                <p class="auth-footer">
-                    ¿No tienes cuenta? <a href="#" onclick="showRegisterModal(); hideLoginModal()">Regístrate aquí</a>
-                </p>
-            </form>
-        </div>
+        </footer>
     </div>
 
-    <!-- Register Modal -->
-    <div class="modal" id="registerModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Crear Cuenta</h3>
-                <button class="close-btn" onclick="hideRegisterModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <form class="auth-form" onsubmit="handleRegister(event)">
-                <div class="form-group">
-                    <label for="registerUsername">Nombre de Usuario</label>
-                    <input type="text" id="registerUsername" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">Email</label>
-                    <input type="email" id="registerEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerPassword">Contraseña</label>
-                    <input type="password" id="registerPassword" required minlength="6">
-                </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirmar Contraseña</label>
-                    <input type="password" id="confirmPassword" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-full">
-                    Crear Cuenta
-                </button>
-                <p class="auth-footer">
-                    ¿Ya tienes cuenta? <a href="#" onclick="showLoginModal(); hideRegisterModal()">Inicia sesión aquí</a>
-                </p>
-            </form>
-        </div>
-    </div>
-
-    <!-- Game Modal -->
-    <div class="game-modal" id="gameModal">
-        <div class="game-modal-content">
-            <div class="game-header">
-                <h3 id="gameTitle">Game Title</h3>
-                <div class="game-actions">
-                    <button class="btn btn-secondary" onclick="toggleFullscreen()">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                    <button class="close-btn" onclick="closeGame()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="game-content" id="gameContent">
-                <!-- Game will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Donation Modal -->
-    <div class="modal" id="donationModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Apoya xpe.games</h3>
-                <button class="close-btn" onclick="hideDonationModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="donation-content">
-                <p>Tu donación ayuda a mantener el servidor y desarrollar nuevos juegos.</p>
-                <div class="donation-amounts">
-                    <button class="amount-btn" onclick="selectDonation(1)">$1</button>
-                    <button class="amount-btn" onclick="selectDonation(2)">$2</button>
-                    <button class="amount-btn" onclick="selectDonation(5)">$5</button>
-                    <button class="amount-btn" onclick="selectDonation(10)">$10</button>
-                    <button class="amount-btn" onclick="selectDonation(20)">$20</button>
-                    <button class="amount-btn" onclick="selectDonation(50)">$50</button>
-                </div>
-                <div class="payment-methods">
-                    <button class="payment-btn" onclick="donateWithPayPal()">
-                        <i class="fab fa-paypal"></i>
-                        PayPal
-                    </button>
-                    <button class="payment-btn" onclick="donateWithCrypto()">
-                        <i class="fab fa-bitcoin"></i>
-                        Criptomoneda
-                    </button>
-                    <button class="payment-btn" onclick="donateWithStripe()">
-                        <i class="fab fa-stripe"></i>
-                        Tarjeta
-                    </button>
-                </div>
-                <p class="donation-thanks">¡Gracias por apoyar xpe.games! ❤️</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Premium Modal -->
-    <div class="modal" id="premiumModal">
-        <div class="modal-content premium-modal">
-            <div class="modal-header">
-                <h3><i class="fas fa-crown"></i> Premium Membership</h3>
-                <button class="close-btn" onclick="hidePremiumModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="premium-content">
-                <div class="premium-card">
-                    <div class="premium-header">
-                        <h4>Ad-Free Experience</h4>
-                        <span class="price">$4.99/mes</span>
-                    </div>
-                    <ul class="premium-features">
-                        <li><i class="fas fa-check"></i> Sin anuncios</li>
-                        <li><i class="fas fa-check"></i> Juegos exclusivos</li>
-                        <li><i class="fas fa-check"></i> Temas premium</li>
-                        <li><i class="fas fa-check"></i> Guardado en la nube</li>
-                        <li><i class="fas fa-check"></i> Soporte prioritario</li>
-                    </ul>
-                    <button class="btn btn-premium" onclick="subscribePremium()">
-                        Suscribirse
-                    </button>
-                </div>
-                <div class="premium-card">
-                    <div class="premium-header">
-                        <h4>VIP Membership</h4>
-                        <span class="price">$9.99/mes</span>
-                    </div>
-                    <ul class="premium-features">
-                        <li><i class="fas fa-check"></i> Todo lo de Ad-Free</li>
-                        <li><i class="fas fa-check"></i> Acceso anticipado</li>
-                        <li><i class="fas fa-check"></i> Avatares personalizados</li>
-                        <li><i class="fas fa-check"></i> Torneos exclusivos</li>
-                        <li><i class="fas fa-check"></i> Rol VIP en Discord</li>
-                    </ul>
-                    <button class="btn btn-vip" onclick="subscribeVIP()">
-                        Suscribirse VIP
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Crypto Modal -->
-    <div class="modal" id="cryptoModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Pago con Criptomoneda</h3>
-                <button class="close-btn" onclick="hideCryptoModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="crypto-content">
-                <div class="crypto-option">
-                    <i class="fab fa-bitcoin"></i>
-                    <h4>Bitcoin (BTC)</h4>
-                    <p>bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</p>
-                    <button class="copy-btn" onclick="copyAddress('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')">
-                        Copiar dirección
-                    </button>
-                </div>
-                <div class="crypto-option">
-                    <i class="fab fa-ethereum"></i>
-                    <h4>Ethereum (ETH)</h4>
-                    <p>0x742d35Cc6337C8B0b4C3b2F8f8B8B8B8B8B8B8B8</p>
-                    <button class="copy-btn" onclick="copyAddress('0x742d35Cc6337C8B0b4C3b2F8f8B8B8B8B8B8B8B8')">
-                        Copiar dirección
-                    </button>
-                </div>
-                <div class="crypto-option">
-                    <i class="fas fa-coins"></i>
-                    <h4>Tether (USDT)</h4>
-                    <p>TYjQHNwsryRYCKvhFQDGzKLwqZkytCjWjy</p>
-                    <button class="copy-btn" onclick="copyAddress('TYjQHNwsryRYCKvhFQDGzKLwqZkytCjWjy')">
-                        Copiar dirección
-                    </button>
-                </div>
-                <p class="crypto-note">
-                    Envía el monto exacto. Las transacciones pueden tomar 10-30 minutos en confirmarse.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
+    <!-- Scripts - ORDEN CORREGIDO -->
     <script src="./js/config.js"></script>
+    <script src="./js/discord.js"></script> <!-- MOVED BEFORE main.js -->
     <script src="./js/auth.js"></script>
     <script src="./js/games.js"></script>
     <script src="./js/tetris.js"></script>
     <script src="./js/main.js"></script>
-    <script src="./js/discord.js"></script>
     <script src="./js/leaderboard.js"></script>
 </body>
-</html>
+    </html>
