@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👑 xpe.games - Portal Gaming Súper Divertido</title>
+    <style>
+        :root {
+            --primary-color: #ff6b35;
+            --primary-dark: #e55a2e;
+            --secondary-color: #4ecdc4;
+            --accent-color: #ffd23f;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] {
+            --text-primary: #ecf0f1;
+            --text-secondary: #bdc3c7;
+            --bg-primary: #2c3e50;
+            --bg-secondary: #34495e;
+            --border-color: #4a6741;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+
+        /* Header Premium */
+        .header {
+            background: var(--bg-primary);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 28px;
+            animation: sparkle 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes sparkle {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.3); }
+        }
+
+        /* Navigation Premium */
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav a:hover:before {
+            left: 100%;
+        }
+
+        .nav a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .nav a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Hero Premium */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="60" cy="40" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover:before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-color);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Games Section Premium */
+        .games-section {
+            padding: 80px 0;
+            background: var(--bg-primary);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .game-card {
+            background: var(--bg-primary);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .game-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .game-image {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            position: relative;
+        }
+
+        .game-image:after {
+            content: '🎮';
+            font-size: 64px;
+            opacity: 0.3;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .game-info {
+            padding: 25px;
+        }
+
+        .game-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .game-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .game-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .game-rating {
+            color: var(--accent-color);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .game-plays {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .game-play-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .game-play-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--bg-secondary);
+            padding: 60px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background: var(--bg-primary);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        /* Community Section */
+        .community-section {
+            background: var(--bg-primary);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .community-card {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 60px 40px;
+            border-radius: 25px;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        .community-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .community-card p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Footer Premium */
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <span class="logo-icon">👑</span>
+                <span>xpe.games</span>
+            </a>
+            
+            <nav class="nav">
+                <a href="#inicio" class="active">🏠 Inicio</a>
+                <a href="#juegos">🎮 Juegos</a>
+                <a href="#comunidad">👥 Comunidad</a>
+                <a href="#ranking">🏆 Ranking</a>
+            </nav>
+            
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span id="themeIcon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="container">
+            <div class="hero-content">
+                <h1>👑 Portal Gaming Súper Divertido</h1>
+                <p>La experiencia gaming más increíble con corona de calidad. Disfruta de los mejores juegos súper divertidos y únete a nuestra comunidad genial.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#juegos" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Jugar Ya
+                    </a>
+                    <a href="#comunidad" class="btn btn-secondary">
+                        <i class="fab fa-discord"></i> Unirse a Discord
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">100+</span>
+                    <span class="stat-label">🎮 Juegos Súper Divertidos</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">👥 Jugadores Súper Geniales</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">1M+</span>
+                    <span class="stat-label">⭐ Partidas Súper Divertidas</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="games-section" id="juegos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🎯 Juegos Súper Divertidos</h2>
+                <p class="section-subtitle">Los juegos más geniales con calidad de corona</p>
+            </div>
+            
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-image">
+                        <span style="position: relative; z-index: 2; font-size: 32px;">🧩</span>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">👑 Tetris Divertido</h3>
+                        <p class="game-description">El juego de bloques más divertido con efectos increíbles y skins súper cool</p>
+                        <div class="game-meta">
+                            <span class="game-rating">
+                                <i class="fas fa-star"></i> 4.9/5
+                            </span>
+                            <span class="game-plays">
+                                <i class="fas fa-play"></i> 2.3M jugadas
+                            </span>
+                        </div>
+                        <button class="game-play-btn">👑 ¡Jugar Ya!</button>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">
+                        <span style="position: relative; z-index: 2; font-size: 32px;">🐍</span>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">👑 Snake Súper Divertido</h3>
+                        <p class="game-description">La serpiente más divertida con power-ups geniales y partidas épicas</p>
+                        <div class="game-meta">
+                            <span class="game-rating">
+                                <i class="fas fa-star"></i> 4.8/5
+                            </span>
+                            <span class="game-plays">
+                                <i class="fas fa-play"></i> 1.8M jugadas
+                            </span>
+                        </div>
+                        <button class="game-play-btn">👑 ¡Jugar Ya!</button>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">
+                        <span style="position: relative; z-index: 2; font-size: 32px;">👾</span>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">👑 Pac-Man Súper Divertido</h3>
+                        <p class="game-description">El arcade más divertido con gráficos geniales y efectos súper cool</p>
+                        <div class="game-meta">
+                            <span class="game-rating">
+                                <i class="fas fa-star"></i> 4.7/5
+                            </span>
+                            <span class="game-plays">
+                                <i class="fas fa-play"></i> 1.5M jugadas
+                            </span>
+                        </div>
+                        <button class="game-play-btn">👑 ¡Jugar Ya!</button>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">
+                        <span style="position: relative; z-index: 2; font-size: 32px;">🕹️</span>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">👑 Arcade Súper Divertido</h3>
+                        <p class="game-description">La colección más divertida con historias épicas y logros increíbles</p>
+                        <div class="game-meta">
+                            <span class="game-rating">
+                                <i class="fas fa-star"></i> 4.6/5
+                            </span>
+                            <span class="game-plays">
+                                <i class="fas fa-play"></i> 900K jugadas
+                            </span>
+                        </div>
+                        <button class="game-play-btn">👑 ¡Jugar Ya!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="community-section" id="comunidad">
+        <div class="container">
+            <div class="community-card">
+                <h2>👑 Comunidad Súper Divertida</h2>
+                <p>Únete a los jugadores más geniales en nuestro Discord increíble. Torneos, eventos súper divertidos y mucho más.</p>
+                <a href="#" class="btn btn-primary">
+                    <i class="fab fa-discord"></i> Unirse a Discord Súper Divertido
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="games-section" id="ranking">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🏆 Ranking Súper Divertido</h2>
+                <p class="section-subtitle">Los jugadores más geniales con corona de honor</p>
+            </div>
+            
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-info">
+                        <h3 class="game-title">🥇 #1 - Jugador Súper Divertido</h3>
+                        <p class="game-description">Puntuación Total: 2,450,000 pts</p>
+                        <div class="game-meta">
+                            <span class="game-rating">
+                                <i class="fas fa-crown"></i> Corona Súper Cool
+                            </span>
+                            <span class="game-plays">
+                                <i class="fas fa-trophy"></i> 245 Torneos
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-info">
+                        <h3 class="game-title">🥈 #2 - Gamer Súper Genial</h3>
+                        <p class="game-description">Puntuación Total: 2,180,000 pts</p>
+                        <div class="game-meta">
+                            <span class="game-rating">
+                                <i class="fas fa-crown"></i> Corona Súper Cool
+                            </span>
+                            <span class="game-plays">
+                                <i class="fas fa-trophy"></i> 198 Torneos
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-info">
+                        <h3 class="game-title">🥉 #3 - Tetris Súper Cool</h3>
+                        <p class="game-description">Puntuación Total: 1,950,000 pts</p>
+                        <div class="game-meta">
+                            <span class="game-rating">
+                                <i class="fas fa-crown"></i> Corona Súper Cool
+                            </span>
+                            <span class="game-plays">
+                                <i class="fas fa-trophy"></i> 156 Torneos
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-icon">👑</span>
+                    <span>xpe.games</span>
+                </div>
+                <p>Portal Gaming Súper Divertido - Creado por xpe.nettt</p>
+                <p>© 2025 xpe.games - Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀️';
+            } else {
+                themeIcon.textContent = '🌙';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active class to current nav item
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav a');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Animate stats on scroll
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            animateNumber(entry.target);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                observer.observe(stat);
+            });
+        }
+
+        function animateNumber(element) {
+            const target = parseInt(element.textContent.replace(/[^\d]/g, ''));
+            const increment = target / 50;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                if (element.textContent.includes('+')) {
+                    element.textContent = Math.floor(current) + '+';
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        // Initialize page
+        window.addEventListener('load', () => {
+            loadTheme();
+            animateStats();
+        });
+
+        window.addEventListener('scroll', updateActiveNav);
+
+        // Console message
+        console.log('👑 xpe.games Súper Divertido - Portal Gaming increíble cargado exitosamente!');
+    </script>
+</body>
+</html>
