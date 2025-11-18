@@ -289,6 +289,12 @@
             color: white;
         }
 
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
         /* Theme Toggles */
         .theme-toggle, .christmas-toggle {
             background: #f1f5f9;
@@ -321,6 +327,24 @@
         /* Main Content */
         .main-content {
             padding: 40px 0;
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Overlay for mobile sidebar */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1400;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
         }
 
         .hero-section {
@@ -648,6 +672,8 @@
             color: white;
             padding: 40px 0 20px;
             text-align: center;
+            position: relative;
+            z-index: 100;
         }
 
         .footer-content {
@@ -793,22 +819,6 @@
             }
         }
 
-        /* Sidebar Overlay for Mobile */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1400;
-        }
-
-        .sidebar-overlay.active {
-            display: block;
-        }
-
         /* Dark Theme */
         [data-theme="dark"] {
             --bg-primary: #1e293b;
@@ -937,6 +947,7 @@
             </div>
         </div>
     </aside>
+
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
@@ -982,7 +993,6 @@
                         <i class="fas fa-snowflake"></i>
                     </button>
                 </div>
-                </nav>
             </div>
         </div>
     </header>
@@ -1447,33 +1457,6 @@
             });
         }
 
-        // Theme toggle functionality
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const themeIcon = document.getElementById('themeIcon');
-            
-            if (currentTheme === 'dark') {
-                html.removeAttribute('data-theme');
-                themeIcon.className = 'fas fa-moon';
-                localStorage.removeItem('theme');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                themeIcon.className = 'fas fa-sun';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const themeIcon = document.getElementById('themeIcon');
-            
-            if (savedTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeIcon.className = 'fas fa-sun';
-            }
-        }
-
         // Sidebar functionality
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -1559,6 +1542,33 @@
                 if (count < 1000) count = 1000; // Minimum threshold
                 counter.textContent = count.toLocaleString();
             }, 5000); // Update every 5 seconds
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (currentTheme === 'dark') {
+                html.removeAttribute('data-theme');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.removeItem('theme');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+            }
         }
 
         // Smooth scrolling for navigation
