@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xpe.games - Portal de Gaming</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #1a1a1a; color: white; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        .header { background: #000; padding: 15px 0; border-bottom: 1px solid #333; }
+        .header .container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: bold; }
+        .logo i { color: #ff6b6b; }
+        
+        .nav { display: flex; gap: 20px; }
+        .nav a { color: white; text-decoration: none; padding: 10px 15px; border-radius: 5px; transition: 0.3s; }
+        .nav a:hover { background: #333; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 100px 0; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
+        
+        .btn { padding: 15px 30px; border: none; border-radius: 25px; font-size: 16px; cursor: pointer; text-decoration: none; display: inline-block; margin: 10px; transition: 0.3s; }
+        .btn-primary { background: #ff6b6b; color: white; }
+        .btn-primary:hover { background: #ff5252; transform: translateY(-2px); }
+        .btn-secondary { background: #333; color: white; }
+        .btn-secondary:hover { background: #555; }
+        
+        .games-section { padding: 80px 0; background: #111; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
+        .section-subtitle { text-align: center; font-size: 1.1rem; opacity: 0.8; margin-bottom: 50px; }
+        
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        
+        .game-card { background: #222; border-radius: 15px; overflow: hidden; transition: transform 0.3s; cursor: pointer; }
+        .game-card:hover { transform: translateY(-10px); }
+        
+        .game-image { height: 200px; background: #333; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+        .game-info { padding: 20px; }
+        .game-title { font-size: 1.5rem; margin-bottom: 10px; }
+        .game-description { opacity: 0.8; margin-bottom: 15px; }
+        
+        .footer { background: #000; padding: 40px 0; text-align: center; border-top: 1px solid #333; }
+        
+        @media (max-width: 768px) {
+            .header .container { flex-direction: column; gap: 15px; }
+            .nav { flex-wrap: wrap; justify-content: center; }
+            .hero h1 { font-size: 2rem; }
+            .hero { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <span>xpe.games</span>
+            </div>
+            <nav class="nav">
+                <a href="#inicio">Inicio</a>
+                <a href="#juegos">Juegos</a>
+                <a href="#comunidad">Comunidad</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <div class="container">
+            <h1>Bienvenido a xpe.games</h1>
+            <p>La plataforma de gaming más épica está aquí</p>
+            <a href="#juegos" class="btn btn-primary">Jugar Ahora</a>
+            <a href="#comunidad" class="btn btn-secondary">Unirse a Discord</a>
+        </div>
+    </section>
+
+    <section class="games-section" id="juegos">
+        <div class="container">
+            <h2 class="section-title">Juegos Destacados</h2>
+            <p class="section-subtitle">Los mejores juegos te están esperando</p>
+            
+            <div class="games-grid">
+                <div class="game-card">
+                    <div class="game-image">🧩</div>
+                    <div class="game-info">
+                        <h3 class="game-title">Tetris Clásico</h3>
+                        <p class="game-description">El icónico juego de bloques que todo el mundo conoce</p>
+                        <a href="#" class="btn btn-primary">Jugar</a>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">🐍</div>
+                    <div class="game-info">
+                        <h3 class="game-title">Snake</h3>
+                        <p class="game-description">El clásico juego de la serpiente</p>
+                        <a href="#" class="btn btn-primary">Jugar</a>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">👾</div>
+                    <div class="game-info">
+                        <h3 class="game-title">Pac-Man</h3>
+                        <p class="game-description">Come puntos y evita a los fantasmas</p>
+                        <a href="#" class="btn btn-primary">Jugar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero" id="comunidad">
+        <div class="container">
+            <h2>Únete a Nuestra Comunidad</h2>
+            <p>Conecta con otros jugadores en Discord</p>
+            <a href="#" class="btn btn-primary">Unirse a Discord</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 xpe.games - Creado por xpe.nettt. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
