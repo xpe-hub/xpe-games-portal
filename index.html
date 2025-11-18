@@ -18,6 +18,179 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
+            transition: all 0.3s ease;
+        }
+
+        /* Christmas Theme */
+        body.christmas-theme {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #dc2626 100%);
+            position: relative;
+        }
+
+        body.christmas-theme::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: snowfall 20s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes snowfall {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .christmas-decoration {
+            position: fixed;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .christmas-decoration.tree { top: 20px; right: 20px; color: #22c55e; }
+        .christmas-decoration.gift { bottom: 20px; left: 20px; color: #dc2626; }
+        .christmas-decoration.santa { top: 20px; left: 20px; color: #fbbf24; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            transition: left 0.3s ease;
+            z-index: 1500;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #475569;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fbbf24;
+        }
+
+        .sidebar-logo i {
+            margin-right: 8px;
+            color: #fbbf24;
+            animation: crown-glow 2s infinite;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .close-sidebar:hover {
+            background: #475569;
+            color: white;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section-title {
+            color: #fbbf24;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-item {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .sidebar-item:hover {
+            background: #475569;
+            color: #fbbf24;
+            transform: translateX(5px);
+        }
+
+        .sidebar-item.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .sidebar-stats {
+            background: rgba(51, 65, 85, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .sidebar-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .sidebar-stat:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-stat-label {
+            color: #94a3b8;
+        }
+
+        .sidebar-stat-value {
+            color: #fbbf24;
+            font-weight: bold;
         }
 
         /* Header */
@@ -43,6 +216,29 @@
             align-items: center;
         }
 
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #4f46e5;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .menu-toggle:hover {
+            background: #f1f5f9;
+            transform: scale(1.1);
+        }
+
         .logo {
             display: flex;
             align-items: center;
@@ -59,9 +255,10 @@
         }
 
         @keyframes crown-glow {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            75% { transform: rotate(-5deg); }
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(5deg) scale(1.1); }
+            50% { transform: rotate(-5deg) scale(1.1); }
+            75% { transform: rotate(5deg) scale(1.1); }
         }
 
         .header-nav {
@@ -92,8 +289,8 @@
             color: white;
         }
 
-        /* Theme Toggle */
-        .theme-toggle {
+        /* Theme Toggles */
+        .theme-toggle, .christmas-toggle {
             background: #f1f5f9;
             border: none;
             padding: 10px 15px;
@@ -103,9 +300,22 @@
             font-size: 16px;
         }
 
-        .theme-toggle:hover {
+        .theme-toggle:hover, .christmas-toggle:hover {
             background: #e2e8f0;
             transform: scale(1.05);
+        }
+
+        .christmas-toggle {
+            background: #dc2626;
+            color: white;
+        }
+
+        .christmas-toggle:hover {
+            background: #b91c1c;
+        }
+
+        .christmas-toggle.active {
+            background: #22c55e;
         }
 
         /* Main Content */
@@ -223,6 +433,23 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
         }
 
         .category-card:hover {
@@ -490,8 +717,37 @@
             font-weight: bold;
         }
 
+        /* Christmas Theme Additional Styles */
+        body.christmas-theme .header {
+            background: rgba(220, 38, 38, 0.95);
+        }
+
+        body.christmas-theme .header-nav .nav-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        body.christmas-theme .search-btn {
+            background: #22c55e;
+        }
+
+        body.christmas-theme .play-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+
+        body.christmas-theme .logo {
+            color: #fbbf24;
+        }
+
+        body.christmas-theme .logo i {
+            color: #22c55e;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
             .header-nav {
                 display: none;
             }
@@ -530,6 +786,27 @@
             .games-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .sidebar {
+                width: 250px;
+                left: -250px;
+            }
+        }
+
+        /* Sidebar Overlay for Mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1400;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
         }
 
         /* Dark Theme */
@@ -575,6 +852,91 @@
     </style>
 </head>
 <body>
+    <!-- Christmas Decorations -->
+    <div class="christmas-decoration tree">🎄</div>
+    <div class="christmas-decoration gift">🎁</div>
+    <div class="christmas-decoration santa">🎅</div>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-crown"></i>
+                xpe.games
+            </div>
+            <button class="close-sidebar" onclick="closeSidebar()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li class="sidebar-section">
+                <div class="sidebar-section-title">Principal</div>
+                <a href="#" class="sidebar-item active" onclick="navigateToSection('home')">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="#" class="sidebar-item" onclick="navigateToSection('new')">
+                    <i class="fas fa-star"></i> Nuevos Juegos
+                </a>
+                <a href="#" class="sidebar-item" onclick="navigateToSection('popular')">
+                    <i class="fas fa-trophy"></i> Más Populares
+                </a>
+                <a href="#" class="sidebar-item" onclick="navigateToSection('multiplayer')">
+                    <i class="fas fa-users"></i> Multijugador
+                </a>
+            </li>
+
+            <li class="sidebar-section">
+                <div class="sidebar-section-title">Categorías</div>
+                <a href="#" class="sidebar-item" onclick="filterCategory('accion')">
+                    <i class="fas fa-bolt"></i> Acción
+                </a>
+                <a href="#" class="sidebar-item" onclick="filterCategory('aventura')">
+                    <i class="fas fa-compass"></i> Aventura
+                </a>
+                <a href="#" class="sidebar-item" onclick="filterCategory('deportes')">
+                    <i class="fas fa-futbol"></i> Deportes
+                </a>
+                <a href="#" class="sidebar-item" onclick="filterCategory('puzzle')">
+                    <i class="fas fa-puzzle-piece"></i> Puzzle
+                </a>
+                <a href="#" class="sidebar-item" onclick="filterCategory('estrategia')">
+                    <i class="fas fa-chess"></i> Estrategia
+                </a>
+                <a href="#" class="sidebar-item" onclick="filterCategory('carreras')">
+                    <i class="fas fa-car"></i> Carreras
+                </a>
+            </li>
+
+            <li class="sidebar-section">
+                <div class="sidebar-section-title">Ranking</div>
+                <a href="#" class="sidebar-item" onclick="navigateToSection('leaderboard')">
+                    <i class="fas fa-crown"></i> Top Jugadores
+                </a>
+                <a href="#" class="sidebar-item" onclick="navigateToSection('achievements')">
+                    <i class="fas fa-medal"></i> Logros
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-stats">
+            <div class="sidebar-stat">
+                <span class="sidebar-stat-label">Jugadores Online</span>
+                <span class="sidebar-stat-value" id="onlinePlayers">1,234</span>
+            </div>
+            <div class="sidebar-stat">
+                <span class="sidebar-stat-label">Juegos Disponibles</span>
+                <span class="sidebar-stat-value">500+</span>
+            </div>
+            <div class="sidebar-stat">
+                <span class="sidebar-stat-label">Partidas Hoy</span>
+                <span class="sidebar-stat-value">8,432</span>
+            </div>
+        </div>
+    </aside>
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
@@ -585,10 +947,15 @@
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <a href="#" class="logo">
-                    <i class="fas fa-crown"></i>
-                    xpe.games
-                </a>
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="#" class="logo">
+                        <i class="fas fa-crown"></i>
+                        xpe.games
+                    </a>
+                </div>
                 <nav class="header-nav">
                     <a href="#" class="nav-item active">
                         <i class="fas fa-home"></i>
@@ -606,9 +973,15 @@
                         <i class="fas fa-users"></i>
                         Multijugador
                     </a>
+                </nav>
+                <div class="header-controls">
                     <button class="theme-toggle" onclick="toggleTheme()">
                         <i class="fas fa-moon" id="themeIcon"></i>
                     </button>
+                    <button class="christmas-toggle" onclick="toggleChristmasTheme()" id="christmasBtn">
+                        <i class="fas fa-snowflake"></i>
+                    </button>
+                </div>
                 </nav>
             </div>
         </div>
@@ -908,6 +1281,12 @@
 
             // Load theme
             loadTheme();
+
+            // Load Christmas theme
+            loadChristmasTheme();
+
+            // Update online players counter
+            updateOnlinePlayers();
         });
 
         function hideLoadingScreen() {
@@ -1033,6 +1412,11 @@
                 'carreras': 'Juegos de Carreras'
             };
             sectionTitle.textContent = categoryNames[category] || 'Juegos Filtrados';
+
+            // Close sidebar on mobile after filtering
+            if (window.innerWidth <= 768) {
+                closeSidebar();
+            }
         }
 
         function searchGames() {
@@ -1090,6 +1474,93 @@
             }
         }
 
+        // Sidebar functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        }
+
+        // Close sidebar when clicking overlay
+        document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
+
+        // Navigation functions
+        function navigateToSection(section) {
+            // Update active states
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Perform navigation
+            const sectionTitles = {
+                'home': 'Juegos Destacados',
+                'new': 'Nuevos Juegos',
+                'popular': 'Juegos Más Populares',
+                'multiplayer': 'Juegos Multijugador',
+                'leaderboard': 'Ranking de Jugadores',
+                'achievements': 'Logros y Trofeos'
+            };
+
+            if (sectionTitles[section]) {
+                document.querySelector('.games-section .section-title').textContent = sectionTitles[section];
+                loadGames(); // In a real app, this would filter games by section
+            }
+
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                closeSidebar();
+            }
+        }
+
+        // Christmas theme functionality
+        function toggleChristmasTheme() {
+            const body = document.body;
+            const christmasBtn = document.getElementById('christmasBtn');
+            
+            if (body.classList.contains('christmas-theme')) {
+                body.classList.remove('christmas-theme');
+                christmasBtn.classList.remove('active');
+                localStorage.removeItem('christmasTheme');
+            } else {
+                body.classList.add('christmas-theme');
+                christmasBtn.classList.add('active');
+                localStorage.setItem('christmasTheme', 'enabled');
+            }
+        }
+
+        function loadChristmasTheme() {
+            const savedTheme = localStorage.getItem('christmasTheme');
+            const christmasBtn = document.getElementById('christmasBtn');
+            
+            if (savedTheme === 'enabled') {
+                document.body.classList.add('christmas-theme');
+                christmasBtn.classList.add('active');
+            }
+        }
+
+        // Online players counter
+        function updateOnlinePlayers() {
+            const counter = document.getElementById('onlinePlayers');
+            let count = 1234;
+            
+            setInterval(() => {
+                count += Math.floor(Math.random() * 3) - 1; // Random change between -1 and 1
+                if (count < 1000) count = 1000; // Minimum threshold
+                counter.textContent = count.toLocaleString();
+            }, 5000); // Update every 5 seconds
+        }
+
         // Smooth scrolling for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1126,6 +1597,13 @@
 
         // Initialize animations after page load
         setTimeout(addInteractiveAnimations, 2500);
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeSidebar();
+            }
+        });
     </script>
 </body>
 </html>
