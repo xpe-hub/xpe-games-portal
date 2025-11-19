@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bloque Tetris Tetromino -->
+  <defs>
+    <filter id="tetris-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#0066cc" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Tetromino T (azul) -->
+  <rect x="16" y="16" width="12" height="12" fill="#0066cc" rx="2" filter="url(#tetris-shadow)"/>
+  <rect x="20" y="12" width="12" height="12" fill="#0066cc" rx="2" filter="url(#tetris-shadow)"/>
+  <rect x="24" y="16" width="12" height="12" fill="#0066cc" rx="2" filter="url(#tetris-shadow)"/>
+  <rect x="20" y="20" width="12" height="12" fill="#0066cc" rx="2" filter="url(#tetris-shadow)"/>
+  
+  <!-- Efecto de brillo -->
+  <rect x="17" y="17" width="3" height="3" fill="#ffffff" opacity="0.6"/>
+  <rect x="21" y="13" width="3" height="3" fill="#ffffff" opacity="0.6"/>
+  <rect x="25" y="17" width="3" height="3" fill="#ffffff" opacity="0.6"/>
+  <rect x="21" y="21" width="3" height="3" fill="#ffffff" opacity="0.6"/>
+</svg>

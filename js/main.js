@@ -289,6 +289,42 @@ const gamesData = [
         rating: 4.4,
         plays: "530K",
         tags: ["animales", "educativo", "familia"]
+    },
+
+    // New Functional Games
+    {
+        id: 18,
+        title: "Tateti Clásico",
+        description: "El juego de tres en raya más divertido. ¡Desafía a tus amigos o juega contra la computadora!",
+        category: "clasicos",
+        icon: "🎯",
+        rating: 4.8,
+        plays: "650K",
+        isFeatured: true,
+        difficulty: 2,
+        tags: ["tres en raya", "mesa", "estrategia"]
+    },
+    {
+        id: 19,
+        title: "Snake Legend",
+        description: "Revive el clásico Snake. ¡Haz crecer tu serpiente y come las manzanas sin chocar!",
+        category: "clasicos",
+        icon: "🐍",
+        rating: 4.6,
+        plays: "890K",
+        tags: ["serpiente", "clásico", "arcade"]
+    },
+    {
+        id: 20,
+        title: "Super Mario Flash",
+        description: "La aventura definitiva de Mario en HTML5. Salta, corre y recoge las monedas en niveles épicos.",
+        category: "mario-bros",
+        icon: "🍄",
+        rating: 4.9,
+        plays: "1.8M",
+        isFeatured: true,
+        difficulty: 3,
+        tags: ["mario", "plataforma", "aventura"]
     }
 ];
 
@@ -637,6 +673,12 @@ function toggleSortMenu() {
 function playGame(category, gameId) {
     const game = games.find(g => g.id === gameId);
     if (!game) return;
+    
+    // Special handling for functional games
+    if (gameId === 18) { // Tateti
+        window.location.href = 'games/tateti.html';
+        return;
+    }
     
     showNotification(`¡Iniciando ${game.title}!`, 'success');
     

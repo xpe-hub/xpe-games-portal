@@ -1,0 +1,29 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Seta Super Mario Bros -->
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Base del hongo -->
+  <ellipse cx="32" cy="20" rx="24" ry="18" fill="#ff4444" filter="url(#shadow)"/>
+  
+  <!-- Puntos blancos del hongo -->
+  <circle cx="22" cy="16" r="3" fill="#ffffff"/>
+  <circle cx="32" cy="12" r="3" fill="#ffffff"/>
+  <circle cx="42" cy="16" r="3" fill="#ffffff"/>
+  <circle cx="26" cy="22" r="3" fill="#ffffff"/>
+  <circle cx="38" cy="22" r="3" fill="#ffffff"/>
+  <circle cx="32" cy="18" r="3" fill="#ffffff"/>
+  
+  <!-- Tallo del hongo -->
+  <ellipse cx="32" cy="40" rx="10" ry="16" fill="#ffebcc"/>
+  <ellipse cx="32" cy="38" rx="8" ry="8" fill="#ffebcc"/>
+  
+  <!-- Línea de división del tallo -->
+  <ellipse cx="32" cy="40" rx="10" ry="16" fill="none" stroke="#ffdd99" stroke-width="2"/>
+  
+  <!-- Efecto de brillo -->
+  <ellipse cx="28" cy="14" rx="8" ry="6" fill="#ffffff" opacity="0.3"/>
+</svg>
