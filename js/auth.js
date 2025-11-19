@@ -1,5 +1,5 @@
 /**
- * xpe games - Authentication System
+ * GameZone - Authentication System
  * Handles user authentication, registration, and session management
  */
 

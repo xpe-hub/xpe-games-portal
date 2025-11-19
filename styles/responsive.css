@@ -1,6 +1,6 @@
-/* GameZone - Responsive Design Styles */
+/* ===== RESPONSIVE DESIGN STYLES ===== */
 
-/* Base Responsive Breakpoints */
+/* Large Desktop (1200px and up) */
 @media (max-width: 1200px) {
     .container {
         max-width: 100%;
