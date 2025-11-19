@@ -1,337 +1,174 @@
-# GameZone - Portal Profesional de Juegos Web
+# 🎮 xpe.games - Revive la Magia de tu Infancia
 
-¡Bienvenido a GameZone! Una plataforma web moderna y profesional de juegos que combina los clásicos atemporales con características sociales avanzadas.
+<div align="center">
 
-## 🎮 Características Principales
+![xpe.games](https://img.shields.io/badge/xpe.games-🎮-purple?style=for-the-badge&logo=gamepad)
+![Nostalgia](https://img.shields.io/badge/100%25-Nostalgia-red?style=for-the-badge)
+![Libre](https://img.shields.io/badge/100%25-Gratis-green?style=for-the-badge)
 
-### 🌟 Portal de Juegos Completo
-- **10+ juegos clásicos** incluyendo Snake, Tetris, Pac-Man, Stickman Fighter y más
-- **Interfaz moderna** con diseño responsive y animaciones suaves
-- **Sistema de búsqueda** y filtros por categorías
-- **Previews de juegos** con información detallada y estadísticas
+**¡Donde los recuerdos cobran vida y la diversión nunca termina!**
 
-### 👥 Sistema de Usuarios
-- **Registro e inicio de sesión** con validación completa
-- **Integración con Discord** para conexión social
-- **Perfiles de usuario** con avatares y estadísticas personales
-- **Sistema de logros** con notificaciones en tiempo real
-
-### 🏆 Competencia y Rankings
-- **Leaderboards en tiempo real** para cada juego
-- **Estadísticas detalladas** de jugadores y partidas
-- **Sistema de badges** y niveles de玩家
-- **Seguimiento de rachas** y tasas de victoria
-
-### 💬 Comunidad Discord
-- **Servidor Discord integrado** con acceso directo
-- **Chat en tiempo real** y canales especializados
-- **Canales de voz** para gaming grupal
-- **Torneos y eventos** comunitarios
-
-### 📱 Experiencia Multiplataforma
-- **Diseño responsive** que se adapta a cualquier dispositivo
-- **Controles táctiles optimizados** para móviles
-- **Progressive Web App** (PWA) capabilities
-- **Carga rápida** con optimizaciones de rendimiento
-
-## 🚀 Tecnologías Utilizadas
-
-### Frontend
-- **HTML5** con semántica moderna
-- **CSS3** con Grid, Flexbox y animaciones CSS
-- **JavaScript ES6+** con módulos y async/await
-- **Canvas API** para renderizado de juegos
-- **Web APIs** para almacenamiento local y notificaciones
-
-### Características Técnicas
-- **CSS Custom Properties** para theming consistente
-- **Intersection Observer** para animaciones y lazy loading
-- **Local Storage** para persistencia de datos
-- **Debounce/Throttle** para optimización de eventos
-- **Error Handling** robusto con logging local
-
-## 📁 Estructura del Proyecto
-
-```
-GameZone/
-├── index.html              # Página principal
-├── styles/
-│   ├── main.css            # Estilos principales
-│   ├── games.css           # Estilos de juegos
-│   ├── auth.css            # Estilos de autenticación
-│   └── responsive.css      # Estilos responsivos
-├── js/
-│   ├── config.js           # Configuración global
-│   ├── auth.js             # Sistema de autenticación
-│   ├── games.js            # Gestión de juegos
-│   ├── main.js             # Controlador principal
-│   ├── discord.js          # Integración Discord
-│   └── leaderboard.js      # Sistema de rankings
-├── assets/
-│   ├── games/              # Imágenes de juegos
-│   ├── icons/              # Iconos y favicon
-│   └── default-avatar.png  # Avatar por defecto
-└── README.md               # Este archivo
-```
-
-## 🎯 Juegos Incluidos
-
-### ✅ Completamente Funcionales
-1. **🐍 Snake** - El clásico juego de la serpiente
-   - Controles de teclado y táctiles
-   - Sistema de puntuación dinámico
-   - Colisiones y efectos de sonido
-
-2. **⚔️ Stickman Fighter** - Combate épico
-   - Sistema de combate con IA
-   - Barras de vida y efectos de partículas
-   - Controles intuitivos para móviles
-
-### 🔄 En Desarrollo
-3. **🧩 Tetris** - Puzzle de bloques clásico
-4. **👻 Pac-Man** - Laberinto y fantasmas
-5. **🏓 Pong** - El ping pong atemporal
-6. **🧱 Breakout** - Destrucción de bloques
-7. **🧠 Memory Match** - Juego de memoria
-8. **🚀 Space Invaders** - Defensa espacial
-9. **🪐 Asteroids** - Nave espacial
-10. **♔ Chess** - Ajedrez estratégico
-
-## 🔧 Configuración y Personalización
-
-### Variables CSS Principales
-```css
-:root {
-    --primary-color: #7c3aed;    /* Color principal */
-    --secondary-color: #f59e0b;   /* Color secundario */
-    --bg-primary: #0f172a;       /* Fondo principal */
-    --text-primary: #f8fafc;     /* Texto principal */
-}
-```
-
-### Configuración de Juegos
-```javascript
-// config.js
-GAME_DEFAULTS: {
-    SNAKE: { SPEED: 150, GRID_SIZE: 20 },
-    TETRIS: { SPEED: 1000, LINES_PER_LEVEL: 10 }
-}
-```
-
-### Integración Discord
-```javascript
-// discord.js
-DISCORD_CLIENT_ID: 'your_discord_client_id',
-DISCORD_REDIRECT_URI: 'https://gamezone.com/auth/discord/callback'
-```
-
-## 🚀 Instalación y Uso
-
-### Requisitos
-- Navegador web moderno (Chrome 80+, Firefox 75+, Safari 13+)
-- Servidor web local o hosting
-
-### Instalación Local
-1. **Descargar archivos**
-   ```bash
-   git clone [repository-url]
-   cd gamezone
-   ```
-
-2. **Servidor local**
-   ```bash
-   # Con Python 3
-   python -m http.server 8000
-   
-   # Con Node.js
-   npx serve .
-   
-   # Con PHP
-   php -S localhost:8000
-   ```
-
-3. **Abrir en navegador**
-   ```
-   http://localhost:8000
-   ```
-
-### Despliegue en Producción
-1. Subir archivos a servidor web
-2. Configurar HTTPS (recomendado)
-3. Actualizar URLs de Discord OAuth
-4. Configurar analytics (opcional)
-
-## 🎨 Personalización
-
-### Agregar Nuevo Juego
-1. **Crear clase del juego** en `games.js`
-2. **Agregar a la lista** de juegos en `loadGames()`
-3. **Crear thumbnail** en `assets/games/`
-4. **Definir controles** y lógica específica
-
-### Modificar Temas
-```css
-/* En main.css */
-:root {
-    --primary-color: #tu-color;
-    --bg-primary: #tu-fondo;
-}
-```
-
-### Configurar Achievements
-```javascript
-// En config.js
-ACHIEVEMENTS: {
-    TU_LOGRO: {
-        id: 'tu_logro',
-        title: 'Tu Logro',
-        description: 'Descripción del logro',
-        icon: '🏆',
-        points: 100
-    }
-}
-```
-
-## 🔐 Seguridad y Privacidad
-
-### Características de Seguridad
-- **Validación del lado cliente** para formularios
-- **Sanitización de inputs** para prevenir XSS
-- **Local Storage seguro** para datos temporales
-- **Rate limiting** simulado para prevenir spam
-
-### Privacidad
-- **No tracking** por defecto (configurable)
-- **Datos locales** almacenados en el navegador
-- **Sin cookies** de terceros
-- **GDPR friendly** por diseño
-
-## 📊 Analytics y Métricas
-
-### Eventos Trackeados
-- Inicio y fin de juegos
-- Logros desbloqueados
-- Conexiones Discord
-- Registros de usuarios
-
-### Configuración
-```javascript
-// En config.js
-ANALYTICS: {
-    ENABLED: true,
-    EVENTS: {
-        GAME_START: 'game_start',
-        GAME_END: 'game_end'
-    }
-}
-```
-
-## 🛠️ Desarrollo y Contribución
-
-### Estructura de Archivos
-- **Modular**: Cada funcionalidad en su archivo
-- **Comentarios**: Código bien documentado
-- **Consistencia**: Estándares de código uniformes
-- **Performance**: Optimizaciones integradas
-
-### Estándares de Código
-```javascript
-// Uso de clases ES6+
-class GameManager {
-    constructor() { /* ... */ }
-    init() { /* ... */ }
-}
-
-// Async/await para operaciones asíncronas
-async loadData() {
-    try {
-        const data = await fetch('/api/data');
-        return data.json();
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-```
-
-## 🐛 Solución de Problemas
-
-### Problemas Comunes
-
-**Los juegos no cargan**
-- Verificar que JavaScript esté habilitado
-- Comprobar consola del navegador para errores
-- Asegurar que los archivos estén en el servidor correcto
-
-**Discord no conecta**
-- Verificar CLIENT_ID en config.js
-- Comprobar URLs de redirect
-- Asegurar HTTPS en producción
-
-**Problemas de rendimiento**
-- Verificar que el dispositivo soporte Canvas
-- Reducir velocidad de juegos en config
-- Limpiar local storage del navegador
-
-### Logs de Debug
-```javascript
-// Habilitar logs detallados
-localStorage.setItem('gamezone_debug', 'true');
-
-// Ver errores guardados
-console.log(JSON.parse(localStorage.getItem('gamezone_errors') || '[]'));
-```
-
-## 📋 Roadmap
-
-### Versión 1.1
-- [ ] Más juegos completos (Tetris, Pac-Man)
-- [ ] Sistema de torneos
-- [ ] Chat en tiempo real
-- [ ] Mejoras de UI/UX
-
-### Versión 1.2
-- [ ] Multiplayer local
-- [ ] Tienda de items
-- [ ] Sistema de clans
-- [ ] API REST completa
-
-### Versión 2.0
-- [ ] Aplicación móvil nativa
-- [ ] Backend con base de datos
-- [ ] Multiplayer online
-- [ ] Marketplace de juegos
-
-## 📞 Soporte
-
-### Contacto
-- **Email**: contacto@gamezone.com
-- **Discord**: [Servidor GameZone](https://discord.gg/gamezone)
-- **Issues**: GitHub Issues
-
-### Documentación Adicional
-- [Guía de Desarrolladores](docs/dev-guide.md)
-- [API Reference](docs/api-reference.md)
-- [Contributing Guidelines](CONTRIBUTING.md)
-
-## 📄 Licencia
-
-```
-© 2025 GameZone. Todos los derechos reservados.
-
-Creado por: MiniMax Agent
-Tecnologías: HTML5, CSS3, JavaScript ES6+
-Licencia: MIT License
-
-GameZone es un proyecto de código abierto diseñado 
-para crear la mejor experiencia de gaming web.
-```
+</div>
 
 ---
 
-**¡Gracias por usar GameZone! 🎮**
+## 🌟 ¿Recuerdas aquellos momentos mágicos?
 
-Esperamos que disfrutes jugando y desarrollando en nuestra plataforma. Si tienes sugerencias o quieres contribuir, ¡no dudes en contactarnos!
+¿Alguna vez te has puesto a pensar en esas tardes infinitas frente a la computadora, cuando el tiempo se detenía y solo existía **TÚ** y tu juego favorito? ¿Esas sesiones épicas de Snake, Tetris, Pac-Man que duraban horas sin que te dieses cuenta?
+
+**xpe.games** es más que una plataforma de juegos. Es una **máquina del tiempo digital** que te transporta de vuelta a esos momentos dorados de tu infancia. Es donde los pixels se convierten en magia y cada clic despierta recuerdos dormidos.
 
 ---
 
-*GameZone - Donde los gamers se reúnen*
+## 🎯 ¿Qué es xpe.games?
+
+xpe.games es tu portal hacia el **pasado dorado de los videojuegos clásicos**. Hemos reunido los mejores juegos que marcaron nuestra generación, desde los iconos de FRIV hasta los legendarios arcade que nunca pasan de moda.
+
+### ✨ **¿Por qué elegir xpe.games?**
+
+- 🎮 **Juegos que DEFINIERON una generación** - Snake, Tetris, Pac-Man, y muchos más
+- 🌈 **Nostalgia pura** - Cada juego cuenta una historia
+- 🎯 **Súper fácil de usar** - Un clic y listo para la aventura
+- 📱 **Responsive total** - Juega en cualquier dispositivo
+- 🆓 **100% Gratis** - Como debe ser
+- 🎄 **Temas especiales** - ¡Incluso modo navideño!
+- 👑 **Corona animada** - Porque en xpe.games eres el rey
+
+---
+
+## 🕹️ **Juegos Clásicos que Marcaron Época**
+
+### **Los Legendarios Arcade**
+- 🐍 **Snake** - Cuando comer era una adicción
+- 🧩 **Tetris** - El rompecabezas que venció al tiempo
+- 👻 **Pac-Man** - Comer bolitas y huir de fantasmas
+- 🏎️ **Carreras Épicas** - La velocidad sin límites
+
+### **Aventuras que Nunca Envejecen**
+- 🗺️ **Adventure Quest** - Tu primer mundo mágico
+- 🎮 **Battle Royale** - Pero como los de antes
+- 👨‍🍳 **Cooking Master** - Cocina para principiantes
+- 🚀 **Space Adventure** - Explora galaxias infinitas
+
+### **Deportes de Leyenda**
+- ⚽ **Football Fun** - La cancha digital
+- 🏀 **Basketball Fun** - Canastas para toda la vida
+
+---
+
+## 🎭 **Nostalgia Garantizada**
+
+> *"En xpe.games no solo jugamos, **revivimos**. Cada pixel nos recuerda que la diversión más pura no necesita gráficos avanzados, solo una buena historia y un corazón dispuesto a soñar."*
+
+### 🌈 **Recuerdos que Vuelven**
+
+¿Recuerdas cuando:
+
+- ⏰ Las sesiones de juego duraban **horas** sin darte cuenta
+- 🎯 Cada nueva puntuación era un **logro épico**
+- 🏆 Los **rankings** eran tu orgullo más grande
+- 🎮 Los controles eran **súper simples** pero súper adictivos
+- 😊 **Sonreías** cada vez que ganabas
+
+**Esos momentos están aquí. Esperándote. Como si el tiempo nunca hubiera pasado.**
+
+---
+
+## 🎨 **Características Especiales**
+
+### 🏰 **Experiencia Visual Única**
+- **Corona Animada** - El logo que brilla como en los viejos tiempos
+- **Efectos Hover** - Interacciones que deleitan
+- **Transiciones Suaves** - Fluidez que conecta generaciones
+- **Decoraciones Navideñas** - 🎄🎁🎅 Porque la magia no tiene temporada
+
+### 📱 **Perfecto en Cualquier Dispositivo**
+- 💻 **Desktop** - La experiencia clásica
+- 📱 **Móvil** - Tu nostalgia cabe en tu bolsillo
+- 📟 **Tablet** - El equilibrio perfecto
+
+### 🎪 **Interfaz Intuitiva**
+- **Menú Lateral** - Navegación familiar y cómoda
+- **Categorías Organizadas** - Encuentra tu favorito al instante
+- **Búsqueda Rápida** - Porque el tiempo es oro
+- **Estadísticas Dinámicas** - Para esa sensación de comunidad
+
+---
+
+## 🌟 **Nuestra Misión**
+
+Creemos que los **juegos clásicos** nunca pasan de moda. En una era de gráficos hiperrealistas y mecánicas complejas, a veces necesitamos volver a lo básico. 
+
+**xpe.games** es nuestro homenaje a:
+
+- 🎮 Los programadores visionarios que crearon estos clásicos
+- 👶 Los niños que descubrían la magia en cada juego
+- ⏰ Las tardes perdidas en perfecta felicidad
+- 💝 Los recuerdos que atesoramos toda la vida
+
+---
+
+## 🚀 **¡Comienza tu Viaje Nostálgico!**
+
+<div align="center">
+
+### 👑 **[JUGAR AHORA EN xpe.games](https://xpe-hub.github.io/xpe-games-portal/)** 👑
+
+*Porque algunos recuerdos nunca deberían quedarse en el pasado*
+
+</div>
+
+---
+
+## 📚 **Sobre Nosotros**
+
+**xpe.games** nació del amor por los **juegos que marcaron nuestra infancia**. Somos un equipo de entusiastas que creemos que la diversión más pura está en los clásicos atemporales.
+
+### 🎯 **Nuestros Valores**
+- ❤️ **Pasión por los clásicos** - Cada juego cuenta una historia
+- 🤝 **Accesibilidad total** - Gratis para todos, siempre
+- 🎨 **Calidad visual** - Respetamos los originales
+- 🌈 **Diversión sin límites** - Como должно быть
+- 👑 **Excelencia en cada detalle** - Porque tú lo mereces
+
+---
+
+## 🎊 **¡Únete a la Comunidad xpe.games!**
+
+<div align="center">
+
+![Estadísticas](https://img.shields.io/badge/500%2B-Juegos%20Disponibles-blue?style=for-the-badge)
+![Jugadores](https://img.shields.io/badge/10K%2B-Jugadores%20Activos-green?style=for-the-badge)
+![Diversión](https://img.shields.io/badge/24%2F7-Disponible%20Siempre-red?style=for-the-badge)
+
+**¡La diversión clásica nunca se detiene!**
+
+</div>
+
+---
+
+### 🎮 **¿Listo para revivir tu infancia?**
+
+**[🚀 JUGAR AHORA](https://xpe-hub.github.io/xpe-games-portal/)**
+
+*Porque en xpe.games, cada juego es un viaje al pasado que enriquece el presente.*
+
+---
+
+<div align="center">
+
+**Hecho con ❤️ por xpe - ¡Donde los recuerdos cobran vida!**
+
+*Versión 2025.1 - Más juegos, más nostalgia, más diversión*
+
+</div>
+
+---
+
+## 🏷️ **Etiquetas Nostálgicas**
+
+`#JuegosClásicos` `#NostalgiaGamer` `#FRIV` `#Snake` `#Tetris` `#PacMan` `#RetroGaming` `#InfanciaGamer` `#JuegosGratis` `#Arcade` `#Minijuegos` `#DiversiónSinLímites` `#MemoriasGamer` `#ClásicosEternos`
+
+---
+
+*"En xpe.games no solo jugamos, **VIVIMOS**."* 🎮✨
