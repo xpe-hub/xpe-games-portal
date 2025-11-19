@@ -375,5 +375,407 @@
     <script src="js/main.js"></script>
     <script src="js/games.js"></script>
     <script src="js/sidebar.js"></script>
+
+    <!-- Tateti Game Modal -->
+    <div class="tateti-modal" id="tatetiModal" style="display: none;">
+        <div class="tateti-modal-content">
+            <span class="tateti-close" id="tatetiClose">&times;</span>
+            <div class="tateti-game-container">
+                <h1 class="tateti-game-title">🎯 Tateti Clásico</h1>
+                <p class="tateti-game-subtitle">¡El juego que nunca pasa de moda!</p>
+                
+                <div class="tateti-current-player">Jugador actual: <span id="tatetiCurrentPlayer" class="X">X</span></div>
+                
+                <div class="tateti-board" id="tatetiGameBoard">
+                    <div class="tateti-cell" data-index="0"></div>
+                    <div class="tateti-cell" data-index="1"></div>
+                    <div class="tateti-cell" data-index="2"></div>
+                    <div class="tateti-cell" data-index="3"></div>
+                    <div class="tateti-cell" data-index="4"></div>
+                    <div class="tateti-cell" data-index="5"></div>
+                    <div class="tateti-cell" data-index="6"></div>
+                    <div class="tateti-cell" data-index="7"></div>
+                    <div class="tateti-cell" data-index="8"></div>
+                </div>
+                
+                <div class="tateti-game-info">
+                    <div class="tateti-score">
+                        <h3>Jugador X</h3>
+                        <span id="tatetiScoreX">0</span>
+                    </div>
+                    <div class="tateti-score">
+                        <h3>Jugador O</h3>
+                        <span id="tatetiScoreO">0</span>
+                    </div>
+                    <div class="tateti-score">
+                        <h3>Empates</h3>
+                        <span id="tatetiScoreDraws">0</span>
+                    </div>
+                </div>
+                
+                <div class="tateti-game-controls">
+                    <button class="tateti-btn tateti-btn-primary" onclick="resetTatetiGame()">Nuevo Juego</button>
+                    <button class="tateti-btn tateti-btn-secondary" onclick="resetTatetiScores()">Reiniciar Puntuación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .tateti-modal {
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tateti-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .tateti-close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .tateti-close:hover {
+            color: #000;
+        }
+
+        .tateti-game-title {
+            font-size: 2.5rem;
+            color: #8b5cf6;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tateti-game-subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tateti-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 8px;
+            background: #8b5cf6;
+            padding: 12px;
+            border-radius: 15px;
+            margin: 2rem auto;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        .tateti-cell {
+            background: white;
+            border: 3px solid #8b5cf6;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #8b5cf6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tateti-cell:hover {
+            background: #f1f5f9;
+            transform: scale(1.05);
+        }
+
+        .tateti-cell.X {
+            color: #dc2626;
+        }
+
+        .tateti-cell.O {
+            color: #2563eb;
+        }
+
+        .tateti-cell.filled {
+            cursor: default;
+        }
+
+        .tateti-current-player {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 25px;
+            display: inline-block;
+        }
+
+        .tateti-current-player.X {
+            color: #dc2626;
+        }
+
+        .tateti-current-player.O {
+            color: #2563eb;
+        }
+
+        .tateti-game-info {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tateti-score {
+            background: rgba(139, 92, 246, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            min-width: 120px;
+        }
+
+        .tateti-score h3 {
+            color: #8b5cf6;
+            margin-bottom: 0.5rem;
+        }
+
+        .tateti-score span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .tateti-game-controls {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tateti-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tateti-btn-primary {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .tateti-btn-primary:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .tateti-btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .tateti-btn-secondary:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+
+        .tateti-winning-cell {
+            background: #10b981 !important;
+            color: white !important;
+            animation: tatetiWinningGlow 1s ease-in-out;
+        }
+
+        @keyframes tatetiWinningGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
+        }
+
+        @media (max-width: 600px) {
+            .tateti-modal-content {
+                padding: 1rem;
+                margin: 1rem;
+            }
+            
+            .tateti-game-title {
+                font-size: 2rem;
+            }
+            
+            .tateti-board {
+                grid-template-columns: repeat(3, 80px);
+                grid-template-rows: repeat(3, 80px);
+            }
+            
+            .tateti-cell {
+                font-size: 2.5rem;
+            }
+            
+            .tateti-game-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+
+    <script>
+        // Tateti Game Logic
+        let tatetiGameBoard = Array(9).fill('');
+        let tatetiCurrentPlayer = 'X';
+        let tatetiGameActive = true;
+        let tatetiScores = { X: 0, O: 0, draws: 0 };
+
+        const tatetiWinningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Filas
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columnas
+            [0, 4, 8], [2, 4, 6] // Diagonales
+        ];
+
+        function initTatetiGame() {
+            // Cargar puntuaciones guardadas
+            const savedScores = localStorage.getItem('tateti-scores');
+            if (savedScores) {
+                tatetiScores = JSON.parse(savedScores);
+            }
+            updateTatetiScores();
+            
+            // Reiniciar el juego
+            resetTatetiGame();
+        }
+
+        function checkTatetiWinner() {
+            for (let combination of tatetiWinningCombinations) {
+                const [a, b, c] = combination;
+                if (tatetiGameBoard[a] && tatetiGameBoard[a] === tatetiGameBoard[b] && tatetiGameBoard[a] === tatetiGameBoard[c]) {
+                    return { winner: tatetiGameBoard[a], combination: combination };
+                }
+            }
+            
+            if (!tatetiGameBoard.includes('')) {
+                return { winner: 'draw' };
+            }
+            
+            return null;
+        }
+
+        function makeTatetiMove(cellIndex) {
+            if (!tatetiGameActive || tatetiGameBoard[cellIndex]) return;
+
+            tatetiGameBoard[cellIndex] = tatetiCurrentPlayer;
+            const cell = document.querySelector(`[data-index="${cellIndex}"]`);
+            cell.textContent = tatetiCurrentPlayer;
+            cell.classList.add(tatetiCurrentPlayer, 'filled');
+
+            const result = checkTatetiWinner();
+
+            if (result) {
+                tatetiGameActive = false;
+                
+                if (result.winner === 'draw') {
+                    tatetiScores.draws++;
+                } else {
+                    tatetiScores[result.winner]++;
+                    
+                    // Resaltar celdas ganadoras
+                    result.combination.forEach(index => {
+                        document.querySelector(`#tatetiGameBoard [data-index="${index}"]`).classList.add('tateti-winning-cell');
+                    });
+                }
+                
+                saveTatetiScores();
+                updateTatetiScores();
+            } else {
+                tatetiCurrentPlayer = tatetiCurrentPlayer === 'X' ? 'O' : 'X';
+                updateTatetiCurrentPlayer();
+            }
+        }
+
+        function updateTatetiCurrentPlayer() {
+            const playerElement = document.getElementById('tatetiCurrentPlayer');
+            playerElement.textContent = tatetiCurrentPlayer;
+            playerElement.className = tatetiCurrentPlayer;
+        }
+
+        function updateTatetiScores() {
+            document.getElementById('tatetiScoreX').textContent = tatetiScores.X;
+            document.getElementById('tatetiScoreO').textContent = tatetiScores.O;
+            document.getElementById('tatetiScoreDraws').textContent = tatetiScores.draws;
+        }
+
+        function saveTatetiScores() {
+            localStorage.setItem('tateti-scores', JSON.stringify(tatetiScores));
+        }
+
+        function resetTatetiGame() {
+            tatetiGameBoard = Array(9).fill('');
+            tatetiCurrentPlayer = 'X';
+            tatetiGameActive = true;
+            
+            document.querySelectorAll('#tatetiGameBoard .tateti-cell').forEach(cell => {
+                cell.textContent = '';
+                cell.className = 'tateti-cell';
+            });
+            
+            updateTatetiCurrentPlayer();
+        }
+
+        function resetTatetiScores() {
+            if (confirm('¿Estás seguro de que quieres reiniciar todas las puntuaciones?')) {
+                tatetiScores = { X: 0, O: 0, draws: 0 };
+                saveTatetiScores();
+                updateTatetiScores();
+                resetTatetiGame();
+            }
+        }
+
+        function openTatetiModal() {
+            document.getElementById('tatetiModal').style.display = 'flex';
+            initTatetiGame();
+        }
+
+        function closeTatetiModal() {
+            document.getElementById('tatetiModal').style.display = 'none';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tateti cell click events
+            document.querySelectorAll('#tatetiGameBoard .tateti-cell').forEach(cell => {
+                cell.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    makeTatetiMove(index);
+                });
+            });
+
+            // Modal close events
+            document.getElementById('tatetiClose').addEventListener('click', closeTatetiModal);
+            document.getElementById('tatetiModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeTatetiModal();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

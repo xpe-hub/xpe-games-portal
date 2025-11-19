@@ -679,7 +679,7 @@ function playGame(category, gameId) {
     
     // Special handling for functional games
     if (gameId === 18) { // Tateti
-        window.location.href = 'games/tateti.html';
+        openTatetiModal();
         return;
     }
     
