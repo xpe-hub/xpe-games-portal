@@ -1,0 +1,433 @@
+/* ===== INTRO ANIMATION STYLES ===== */
+
+/* Intro Container */
+.intro-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 1;
+    visibility: visible;
+    transition: all 1s ease-in-out;
+    overflow: hidden;
+}
+
+.intro-container.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Floating Background Particles */
+.intro-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 4s;
+}
+
+.particle:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    top: 20%;
+    right: 15%;
+    animation-delay: 1s;
+    animation-duration: 6s;
+}
+
+.particle:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 2s;
+    animation-duration: 5s;
+}
+
+.particle:nth-child(4) {
+    width: 40px;
+    height: 40px;
+    bottom: 30%;
+    right: 10%;
+    animation-delay: 3s;
+    animation-duration: 7s;
+}
+
+.particle:nth-child(5) {
+    width: 70px;
+    height: 70px;
+    top: 50%;
+    left: 5%;
+    animation-delay: 4s;
+    animation-duration: 4.5s;
+}
+
+.particle:nth-child(6) {
+    width: 50px;
+    height: 50px;
+    top: 60%;
+    right: 25%;
+    animation-delay: 5s;
+    animation-duration: 5.5s;
+}
+
+/* Logo Animation */
+.intro-logo {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.5) translateY(50px);
+    animation: logoAppear 2s ease-out 0.5s forwards;
+}
+
+.logo-icon {
+    font-size: 80px;
+    color: #fbbf24;
+    margin-bottom: 20px;
+    animation: crownBounce 2s ease-in-out 1s infinite;
+}
+
+.logo-text {
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.logo-subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* Loading Progress */
+.intro-progress {
+    position: relative;
+    z-index: 10;
+    width: 300px;
+    margin-top: 40px;
+    opacity: 0;
+    animation: progressAppear 2s ease-out 1.5s forwards;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    border-radius: 2px;
+    width: 0%;
+    animation: progressFill 3s ease-out 2s forwards;
+}
+
+.progress-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Loading Text Animation */
+.loading-text {
+    position: relative;
+    z-index: 10;
+    margin-top: 20px;
+    opacity: 0;
+    animation: textAppear 2s ease-out 3s forwards;
+}
+
+.loading-text p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    margin: 5px 0;
+    opacity: 0;
+    animation: textFadeIn 2s ease-out forwards;
+}
+
+.loading-text p:nth-child(1) { animation-delay: 3.5s; }
+.loading-text p:nth-child(2) { animation-delay: 4s; }
+.loading-text p:nth-child(3) { animation-delay: 4.5s; }
+.loading-text p:nth-child(4) { animation-delay: 5s; }
+
+/* Sparkle Effects */
+.intro-sparkles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.sparkle {
+    position: absolute;
+    color: #fbbf24;
+    font-size: 20px;
+    opacity: 0;
+    animation: sparkle 3s ease-in-out infinite;
+}
+
+.sparkle:nth-child(1) {
+    top: 15%;
+    left: 20%;
+    animation-delay: 2s;
+}
+
+.sparkle:nth-child(2) {
+    top: 25%;
+    right: 15%;
+    animation-delay: 2.5s;
+}
+
+.sparkle:nth-child(3) {
+    top: 40%;
+    left: 10%;
+    animation-delay: 3s;
+}
+
+.sparkle:nth-child(4) {
+    top: 60%;
+    right: 20%;
+    animation-delay: 3.5s;
+}
+
+.sparkle:nth-child(5) {
+    bottom: 25%;
+    left: 25%;
+    animation-delay: 4s;
+}
+
+.sparkle:nth-child(6) {
+    bottom: 15%;
+    right: 15%;
+    animation-delay: 4.5s;
+}
+
+/* Welcome Message */
+.welcome-message {
+    position: relative;
+    z-index: 10;
+    margin-top: 30px;
+    opacity: 0;
+    animation: welcomeAppear 2s ease-out 5.5s forwards;
+}
+
+.welcome-text {
+    color: white;
+    font-size: 20px;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Christmas Version */
+.intro-container.christmas-theme {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #dc2626 100%);
+}
+
+.christmas-sparkles .sparkle {
+    color: #fbbf24;
+}
+
+.christmas-welcome {
+    color: #fbbf24;
+}
+
+/* Keyframe Animations */
+@keyframes logoAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(50px);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.1) translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes crownBounce {
+    0%, 100% { 
+        transform: translateY(0) rotate(0deg);
+        filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
+    }
+    50% { 
+        transform: translateY(-10px) rotate(5deg);
+        filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.8));
+    }
+}
+
+@keyframes progressAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes progressFill {
+    0% { width: 0%; }
+    100% { width: 100%; }
+}
+
+@keyframes textAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes textFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes welcomeAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.1;
+    }
+    25% {
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.1;
+    }
+    75% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .logo-icon {
+        font-size: 60px;
+        margin-bottom: 15px;
+    }
+    
+    .logo-text {
+        font-size: 36px;
+    }
+    
+    .logo-subtitle {
+        font-size: 16px;
+    }
+    
+    .intro-progress {
+        width: 250px;
+    }
+    
+    .welcome-text {
+        font-size: 18px;
+    }
+    
+    .particle {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+    
+    .logo-text {
+        font-size: 28px;
+    }
+    
+    .logo-subtitle {
+        font-size: 14px;
+    }
+    
+    .intro-progress {
+        width: 200px;
+    }
+    
+    .welcome-text {
+        font-size: 16px;
+    }
+}

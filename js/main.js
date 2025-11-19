@@ -1,46 +1,29 @@
-/**
- * GameZone - Main Application Controller
- * Handles page initialization, navigation, and general functionality
- */
+// ===== MAIN APPLICATION SCRIPT =====
 
-class GameZoneApp {
-    constructor() {
-        this.isLoading = true;
-        this.currentSection = 'home';
-        this.scrollThrottle = null;
-        this.init();
-    }
+// Global variables
+let currentView = 'grid';
+let currentSort = 'popular';
+let games = [];
+let filteredGames = [];
+let isChristmasTheme = false;
+
+// Initialize the main application
+function initializeApp() {
+    console.log('🎮 Initializing xpe.games...');
     
-    async init() {
-        try {
-            // Show loading screen
-            this.showLoadingScreen();
-            
-            // Initialize components
-            await this.initializeComponents();
-            
-            // Setup event listeners
-            this.setupEventListeners();
-            
-            // Setup navigation
-            this.setupNavigation();
-            
-            // Setup animations
-            this.setupAnimations();
-            
-            // Setup statistics counter
-            this.setupStatsCounter();
-            
-            // Hide loading screen
-            await this.hideLoadingScreen();
-            
-            console.log('🎮 GameZone initialized successfully');
-            
-        } catch (error) {
-            console.error('Error initializing GameZone:', error);
-            this.hideLoadingScreen();
-        }
-    }
+    // Load theme from localStorage
+    loadTheme();
+    
+    // Initialize components
+    initializeEventListeners();
+    loadGames();
+    updateStats();
+    
+    // Handle window resize
+    window.addEventListener('resize', handleResize);
+    
+    console.log('✅ xpe.games initialized successfully!');
+}
     
     showLoadingScreen() {
         const loadingScreen = document.getElementById('loadingScreen');
