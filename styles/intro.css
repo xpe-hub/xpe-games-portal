@@ -1,433 +1,249 @@
-/* ===== INTRO ANIMATION STYLES ===== */
+/* ===== SIMPLE INTRO STYLES ===== */
 
-/* Intro Container */
-.intro-container {
+/* Main intro container */
+.simple-intro {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10000;
-    opacity: 1;
-    visibility: visible;
-    transition: all 1s ease-in-out;
-    overflow: hidden;
+    transition: all 0.5s ease-out;
 }
 
-.intro-container.fade-out {
-    opacity: 0;
-    visibility: hidden;
+/* Christmas theme variations */
+.simple-intro.christmas-theme {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 50%, #6bcf7f 100%);
 }
 
-/* Floating Background Particles */
-.intro-particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 0;
+.simple-intro.christmas-theme .intro-title {
+    color: #fff;
+    text-shadow: 0 0 20px #ff6b6b;
 }
 
-.particle {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: float 6s ease-in-out infinite;
+.simple-intro.christmas-theme .crown-icon {
+    color: #ffd93d;
+    animation: crownGlow 2s ease-in-out infinite alternate;
 }
 
-.particle:nth-child(1) {
-    width: 80px;
-    height: 80px;
-    top: 10%;
-    left: 10%;
-    animation-delay: 0s;
-    animation-duration: 4s;
-}
-
-.particle:nth-child(2) {
-    width: 60px;
-    height: 60px;
-    top: 20%;
-    right: 15%;
-    animation-delay: 1s;
-    animation-duration: 6s;
-}
-
-.particle:nth-child(3) {
-    width: 100px;
-    height: 100px;
-    bottom: 20%;
-    left: 20%;
-    animation-delay: 2s;
-    animation-duration: 5s;
-}
-
-.particle:nth-child(4) {
-    width: 40px;
-    height: 40px;
-    bottom: 30%;
-    right: 10%;
-    animation-delay: 3s;
-    animation-duration: 7s;
-}
-
-.particle:nth-child(5) {
-    width: 70px;
-    height: 70px;
-    top: 50%;
-    left: 5%;
-    animation-delay: 4s;
-    animation-duration: 4.5s;
-}
-
-.particle:nth-child(6) {
-    width: 50px;
-    height: 50px;
-    top: 60%;
-    right: 25%;
-    animation-delay: 5s;
-    animation-duration: 5.5s;
-}
-
-/* Logo Animation */
-.intro-logo {
-    position: relative;
-    z-index: 10;
+/* Content wrapper */
+.intro-content {
     text-align: center;
-    opacity: 0;
-    transform: scale(0.5) translateY(50px);
-    animation: logoAppear 2s ease-out 0.5s forwards;
-}
-
-.logo-icon {
-    font-size: 80px;
-    color: #fbbf24;
-    margin-bottom: 20px;
-    animation: crownBounce 2s ease-in-out 1s infinite;
-}
-
-.logo-text {
-    font-size: 48px;
-    font-weight: bold;
     color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    margin-bottom: 10px;
-    letter-spacing: 2px;
-}
-
-.logo-subtitle {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 300;
-    letter-spacing: 1px;
-}
-
-/* Loading Progress */
-.intro-progress {
+    max-width: 500px;
+    padding: 40px;
     position: relative;
-    z-index: 10;
-    width: 300px;
-    margin-top: 40px;
-    opacity: 0;
-    animation: progressAppear 2s ease-out 1.5s forwards;
+    z-index: 2;
+}
+
+/* Logo section */
+.intro-logo {
+    margin-bottom: 40px;
+}
+
+.crown-icon {
+    font-size: 4rem;
+    color: #ffd93d;
+    animation: crownFloat 3s ease-in-out infinite;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.intro-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    background: linear-gradient(45deg, #fff, #ffd93d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.intro-subtitle {
+    font-size: 1.2rem;
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* Progress section */
+.progress-section {
+    margin: 40px 0;
 }
 
 .progress-bar {
-    width: 100%;
-    height: 4px;
+    width: 300px;
+    height: 8px;
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
+    border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 15px;
+    margin: 0 auto 15px auto;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #fbbf24, #f59e0b);
-    border-radius: 2px;
+    background: linear-gradient(90deg, #ffd93d, #ff6b6b, #6bcf7f);
+    border-radius: 10px;
     width: 0%;
-    animation: progressFill 3s ease-out 2s forwards;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
 }
 
 .progress-text {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
-    text-align: center;
+    font-size: 1rem;
     font-weight: 500;
+    opacity: 0.9;
 }
 
-/* Loading Text Animation */
+/* Loading text */
 .loading-text {
-    position: relative;
-    z-index: 10;
+    font-size: 1.1rem;
     margin-top: 20px;
-    opacity: 0;
-    animation: textAppear 2s ease-out 3s forwards;
+    opacity: 0.8;
+    font-weight: 300;
+    transition: opacity 0.3s ease;
 }
 
-.loading-text p {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 16px;
-    margin: 5px 0;
-    opacity: 0;
-    animation: textFadeIn 2s ease-out forwards;
-}
-
-.loading-text p:nth-child(1) { animation-delay: 3.5s; }
-.loading-text p:nth-child(2) { animation-delay: 4s; }
-.loading-text p:nth-child(3) { animation-delay: 4.5s; }
-.loading-text p:nth-child(4) { animation-delay: 5s; }
-
-/* Sparkle Effects */
-.intro-sparkles {
+/* Christmas decorations */
+.christmas-decorations {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
 }
 
-.sparkle {
+.snowflake {
     position: absolute;
-    color: #fbbf24;
-    font-size: 20px;
-    opacity: 0;
-    animation: sparkle 3s ease-in-out infinite;
+    font-size: 2rem;
+    animation: snowfall 4s linear infinite;
+    opacity: 0.7;
 }
 
-.sparkle:nth-child(1) {
-    top: 15%;
-    left: 20%;
-    animation-delay: 2s;
-}
+.snowflake:nth-child(1) { left: 10%; animation-delay: 0s; }
+.snowflake:nth-child(2) { left: 30%; animation-delay: 0.5s; }
+.snowflake:nth-child(3) { left: 50%; animation-delay: 1s; }
+.snowflake:nth-child(4) { left: 70%; animation-delay: 1.5s; }
+.snowflake:nth-child(5) { left: 90%; animation-delay: 2s; }
 
-.sparkle:nth-child(2) {
-    top: 25%;
-    right: 15%;
-    animation-delay: 2.5s;
-}
-
-.sparkle:nth-child(3) {
-    top: 40%;
-    left: 10%;
-    animation-delay: 3s;
-}
-
-.sparkle:nth-child(4) {
-    top: 60%;
-    right: 20%;
-    animation-delay: 3.5s;
-}
-
-.sparkle:nth-child(5) {
-    bottom: 25%;
-    left: 25%;
-    animation-delay: 4s;
-}
-
-.sparkle:nth-child(6) {
-    bottom: 15%;
-    right: 15%;
-    animation-delay: 4.5s;
-}
-
-/* Welcome Message */
-.welcome-message {
-    position: relative;
-    z-index: 10;
-    margin-top: 30px;
-    opacity: 0;
-    animation: welcomeAppear 2s ease-out 5.5s forwards;
-}
-
-.welcome-text {
+/* Skip button */
+.skip-intro {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.1);
     color: white;
-    font-size: 20px;
-    font-weight: 300;
-    text-align: center;
-    margin-bottom: 10px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.welcome-subtitle {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
-    text-align: center;
-    font-style: italic;
+.skip-intro:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
-/* Christmas Version */
-.intro-container.christmas-theme {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #dc2626 100%);
+.skip-intro i {
+    margin-right: 8px;
 }
 
-.christmas-sparkles .sparkle {
-    color: #fbbf24;
+/* Animations */
+@keyframes crownFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
 }
 
-.christmas-welcome {
-    color: #fbbf24;
+@keyframes crownGlow {
+    0% { text-shadow: 0 0 20px #ffd93d; }
+    100% { text-shadow: 0 0 30px #ffd93d, 0 0 40px #ffd93d; }
 }
 
-/* Keyframe Animations */
-@keyframes logoAppear {
-    0% {
+@keyframes snowfall {
+    0% { 
+        top: -50px; 
+        opacity: 0; 
+        transform: translateX(0px) rotate(0deg); 
+    }
+    10% { 
+        opacity: 1; 
+    }
+    90% { 
+        opacity: 1; 
+    }
+    100% { 
+        top: 100vh; 
+        opacity: 0; 
+        transform: translateX(50px) rotate(360deg); 
+    }
+}
+
+/* Fade in for main content */
+.fade-in {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
         opacity: 0;
-        transform: scale(0.5) translateY(50px);
+        transform: translateY(30px);
     }
-    60% {
-        opacity: 1;
-        transform: scale(1.1) translateY(-10px);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-@keyframes crownBounce {
-    0%, 100% { 
-        transform: translateY(0) rotate(0deg);
-        filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
-    }
-    50% { 
-        transform: translateY(-10px) rotate(5deg);
-        filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.8));
-    }
-}
-
-@keyframes progressAppear {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
+    to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes progressFill {
-    0% { width: 0%; }
-    100% { width: 100%; }
-}
-
-@keyframes textAppear {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes textFadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes welcomeAppear {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-        opacity: 0.1;
-    }
-    25% {
-        opacity: 0.3;
-    }
-    50% {
-        transform: translateY(-20px) rotate(180deg);
-        opacity: 0.1;
-    }
-    75% {
-        opacity: 0.3;
-    }
-}
-
-@keyframes sparkle {
-    0%, 100% {
-        opacity: 0;
-        transform: scale(0) rotate(0deg);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1) rotate(180deg);
-    }
-}
-
-/* Responsive */
+/* Mobile responsive */
 @media (max-width: 768px) {
-    .logo-icon {
-        font-size: 60px;
-        margin-bottom: 15px;
+    .intro-content {
+        padding: 20px;
+        max-width: 90%;
     }
     
-    .logo-text {
-        font-size: 36px;
+    .intro-title {
+        font-size: 2.5rem;
     }
     
-    .logo-subtitle {
-        font-size: 16px;
+    .crown-icon {
+        font-size: 3rem;
     }
     
-    .intro-progress {
+    .progress-bar {
         width: 250px;
     }
     
-    .welcome-text {
-        font-size: 18px;
-    }
-    
-    .particle {
-        display: none;
+    .skip-intro {
+        bottom: 20px;
+        right: 20px;
+        padding: 8px 16px;
+        font-size: 0.8rem;
     }
 }
 
-@media (max-width: 480px) {
-    .logo-icon {
-        font-size: 50px;
-        margin-bottom: 10px;
-    }
-    
-    .logo-text {
-        font-size: 28px;
-    }
-    
-    .logo-subtitle {
-        font-size: 14px;
-    }
-    
-    .intro-progress {
-        width: 200px;
-    }
-    
-    .welcome-text {
-        font-size: 16px;
-    }
+/* Additional Christmas theme for specific elements */
+.christmas-theme .intro-subtitle {
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.christmas-theme .loading-text {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.christmas-theme .progress-text {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }

@@ -1,264 +1,223 @@
-// ===== INTRO ANIMATION SCRIPT =====
+// ===== INTRO ANIMATION FIXED VERSION =====
 
-class IntroAnimation {
+class SimpleIntro {
     constructor() {
-        this.isInitialized = false;
+        this.container = null;
+        this.progress = 0;
         this.loadingTexts = [
-            "Preparando la experiencia de juego...",
-            "Cargando categorías épicas...",
-            "Conectando con la comunidad...",
+            "Cargando xpe.games...",
+            "Preparando tu aventura gaming...",
+            "Conectando con servidores...",
             "¡Casi listo para jugar!"
         ];
-        this.currentTextIndex = 0;
         this.init();
     }
 
     init() {
-        if (this.isInitialized) return;
+        console.log('Iniciando intro...');
         
-        // Wait for DOM to be ready
+        // Ensure DOM is ready
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.setup());
+            document.addEventListener('DOMContentLoaded', () => this.createIntro());
         } else {
-            this.setup();
+            // DOM is already ready
+            setTimeout(() => this.createIntro(), 100);
         }
     }
 
-    setup() {
-        this.createIntroElements();
-        this.bindEvents();
-        this.startAnimation();
-        this.isInitialized = true;
-    }
+    createIntro() {
+        console.log('Creando elementos de intro...');
+        
+        // Remove existing intro if any
+        const existingIntro = document.getElementById('simple-intro');
+        if (existingIntro) {
+            existingIntro.remove();
+        }
 
-    createIntroElements() {
-        // Check if intro already exists
-        if (document.getElementById('intro-container')) return;
-
+        // Create intro HTML
         const introHTML = `
-            <div id="intro-container" class="intro-container">
-                <div class="intro-particles">
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                    <div class="particle"></div>
-                </div>
-                
-                <div class="intro-logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-crown"></i>
+            <div id="simple-intro" class="simple-intro">
+                <div class="intro-content">
+                    <div class="intro-logo">
+                        <i class="fas fa-crown crown-icon"></i>
+                        <h1 class="intro-title">xpe.games</h1>
+                        <p class="intro-subtitle">Tu Máquina del Tiempo Digital</p>
                     </div>
-                    <div class="logo-text">xpe.games</div>
-                    <div class="logo-subtitle">Tu Máquina del Tiempo Digital</div>
-                </div>
-                
-                <div class="intro-progress">
-                    <div class="progress-bar">
-                        <div class="progress-fill"></div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <div class="progress-text" id="progress-text">0% completado</div>
                     </div>
-                    <div class="progress-text" id="progress-text">Iniciando...</div>
+                    
+                    <div class="loading-text" id="loading-text">Cargando xpe.games...</div>
                 </div>
                 
-                <div class="loading-text">
-                    <p>Preparando la experiencia de juego...</p>
-                    <p>Cargando categorías épicas...</p>
-                    <p>Conectando con la comunidad...</p>
-                    <p>¡Casi listo para jugar!</p>
+                <!-- Christmas decorations -->
+                <div class="christmas-decorations">
+                    <div class="snowflake">❄️</div>
+                    <div class="snowflake">🎄</div>
+                    <div class="snowflake">❄️</div>
+                    <div class="snowflake">🎁</div>
+                    <div class="snowflake">❄️</div>
                 </div>
                 
-                <div class="welcome-message">
-                    <div class="welcome-text">¡Bienvenido de vuelta!</div>
-                    <div class="welcome-subtitle">Tu aventura gaming está a punto de comenzar</div>
-                </div>
-                
-                <div class="intro-sparkles">
-                    <span class="sparkle">✨</span>
-                    <span class="sparkle">⭐</span>
-                    <span class="sparkle">✨</span>
-                    <span class="sparkle">⭐</span>
-                    <span class="sparkle">✨</span>
-                    <span class="sparkle">⭐</span>
+                <!-- Skip option -->
+                <div class="skip-intro" onclick="window.skipIntro()">
+                    <i class="fas fa-forward"></i> Saltar
                 </div>
             </div>
         `;
 
         document.body.insertAdjacentHTML('beforeend', introHTML);
+        this.container = document.getElementById('simple-intro');
         
+        // Hide main content temporarily
+        this.hideMainContent();
+        
+        // Start animation
+        this.startLoading();
+    }
+
+    hideMainContent() {
         // Hide all content except intro
-        const allElements = document.body.children;
-        for (let i = 0; i < allElements.length; i++) {
-            if (!allElements[i].id || !allElements[i].id.includes('intro')) {
-                allElements[i].style.visibility = 'hidden';
-            }
-        }
-    }
-
-    startAnimation() {
-        this.animateProgress();
-        this.animateLoadingText();
-        this.scheduleWelcome();
-    }
-
-    animateProgress() {
-        const progressText = document.getElementById('progress-text');
-        const progressFill = document.querySelector('.progress-fill');
+        const mainContent = document.querySelector('main');
+        const sidebar = document.querySelector('.sidebar');
+        const header = document.querySelector('header');
         
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += Math.random() * 15 + 5;
-            
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(interval);
-                progressText.textContent = '¡Completado!';
-                this.endIntro();
-            } else {
-                progressText.textContent = `${Math.round(progress)}% completado`;
-            }
-        }, 150);
-
-        // Stop animation after 5 seconds max
-        setTimeout(() => {
-            if (progress < 100) {
-                clearInterval(interval);
-                progressFill.style.width = '100%';
-                this.endIntro();
-            }
-        }, 5000);
+        if (mainContent) mainContent.style.display = 'none';
+        if (sidebar) sidebar.style.display = 'none';
+        if (header) header.style.display = 'none';
     }
 
-    animateLoadingText() {
-        const textElements = document.querySelectorAll('.loading-text p');
+    showMainContent() {
+        // Show all main content
+        const mainContent = document.querySelector('main');
+        const sidebar = document.querySelector('.sidebar');
+        const header = document.querySelector('header');
         
-        textElements.forEach((text, index) => {
-            setTimeout(() => {
-                text.style.opacity = '1';
-            }, (index + 1) * 800);
-        });
-    }
-
-    scheduleWelcome() {
-        setTimeout(() => {
-            this.showWelcomeMessage();
-        }, 3500);
-    }
-
-    showWelcomeMessage() {
-        const welcomeMessage = document.querySelector('.welcome-message');
-        if (welcomeMessage) {
-            welcomeMessage.style.opacity = '1';
-            welcomeMessage.style.transform = 'translateY(0)';
-        }
-    }
-
-    endIntro() {
-        setTimeout(() => {
-            this.fadeOutIntro();
-        }, 1000);
-    }
-
-    fadeOutIntro() {
-        const introContainer = document.getElementById('intro-container');
-        const allElements = document.body.children;
-        
-        introContainer.classList.add('fade-out');
-        
-        setTimeout(() => {
-            // Remove intro
-            introContainer.remove();
-            
-            // Show all content
-            for (let i = 0; i < allElements.length; i++) {
-                allElements[i].style.visibility = 'visible';
-            }
-            
-            // Trigger main app initialization
-            this.initializeMainApp();
-        }, 1000);
-    }
-
-    initializeMainApp() {
-        // Initialize main app functionality
-        if (typeof window.initializeApp === 'function') {
-            window.initializeApp();
-        }
-        
-        // Add fade-in animation to main content
-        const mainContent = document.querySelector('.main-content');
         if (mainContent) {
-            mainContent.classList.add('fade-in-up');
+            mainContent.style.display = 'block';
+            mainContent.classList.add('fade-in');
+        }
+        if (sidebar) {
+            sidebar.style.display = 'block';
+            sidebar.classList.add('fade-in');
+        }
+        if (header) {
+            header.style.display = 'block';
+            header.classList.add('fade-in');
         }
     }
 
-    bindEvents() {
-        // Skip intro if user clicks
-        document.addEventListener('click', (e) => {
-            if (document.getElementById('intro-container')) {
-                this.endIntro();
-            }
-        });
+    startLoading() {
+        console.log('Iniciando carga...');
+        let currentTextIndex = 0;
+        let currentProgress = 0;
 
-        // Skip intro with Enter or Space
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
-                if (document.getElementById('intro-container')) {
-                    e.preventDefault();
-                    this.endIntro();
+        // Progress animation
+        const progressInterval = setInterval(() => {
+            currentProgress += Math.random() * 20 + 10;
+            
+            if (currentProgress >= 100) {
+                currentProgress = 100;
+                clearInterval(progressInterval);
+                this.completeLoading();
+            }
+            
+            // Update progress
+            this.updateProgress(currentProgress);
+            
+            // Update text every 25% progress
+            if (currentProgress >= (currentTextIndex + 1) * 25 && currentTextIndex < 3) {
+                currentTextIndex++;
+                this.updateLoadingText(this.loadingTexts[currentTextIndex]);
+            }
+        }, 200);
+
+        // Maximum 6 seconds timeout
+        setTimeout(() => {
+            console.log('Timeout reached, forcing completion...');
+            clearInterval(progressInterval);
+            this.updateProgress(100);
+            this.completeLoading();
+        }, 6000);
+    }
+
+    updateProgress(progress) {
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        
+        if (progressFill) {
+            progressFill.style.width = progress + '%';
+        }
+        
+        if (progressText) {
+            progressText.textContent = Math.round(progress) + '% completado';
+        }
+    }
+
+    updateLoadingText(text) {
+        const loadingText = document.getElementById('loading-text');
+        if (loadingText) {
+            loadingText.textContent = text;
+        }
+    }
+
+    completeLoading() {
+        console.log('Carga completada, cerrando intro...');
+        
+        // Update final text
+        this.updateLoadingText('¡Listo para jugar!');
+        
+        setTimeout(() => {
+            this.closeIntro();
+        }, 500);
+    }
+
+    closeIntro() {
+        console.log('Cerrando intro...');
+        
+        if (this.container) {
+            this.container.style.opacity = '0';
+            this.container.style.transform = 'scale(1.1)';
+            
+            setTimeout(() => {
+                this.container.remove();
+                this.showMainContent();
+                
+                // Initialize main app
+                if (typeof window.initializeApp === 'function') {
+                    window.initializeApp();
                 }
-            }
-        });
-    }
-}
-
-// Christmas Theme Integration
-class ChristmasIntro extends IntroAnimation {
-    setup() {
-        super.setup();
-        this.applyChristmasTheme();
-    }
-
-    applyChristmasTheme() {
-        const introContainer = document.getElementById('intro-container');
-        if (introContainer) {
-            introContainer.classList.add('christmas-theme');
-        }
-    }
-
-    showWelcomeMessage() {
-        const welcomeMessage = document.querySelector('.welcome-message');
-        if (welcomeMessage) {
-            welcomeMessage.classList.add('christmas-welcome');
-            welcomeMessage.style.opacity = '1';
-            welcomeMessage.style.transform = 'translateY(0)';
+                
+                console.log('Intro cerrada completamente');
+            }, 500);
         }
     }
 }
 
-// Initialize intro based on theme
-function initIntro() {
-    const isChristmasTheme = localStorage.getItem('christmas-theme') === 'true';
-    
-    if (isChristmasTheme) {
-        new ChristmasIntro();
-    } else {
-        new IntroAnimation();
+// Global function to skip intro
+window.skipIntro = function() {
+    console.log('Intro saltada por usuario');
+    if (window.currentIntro && typeof window.currentIntro.closeIntro === 'function') {
+        window.currentIntro.closeIntro();
     }
-}
+};
 
-// Auto-start intro unless user has disabled it
-if (!localStorage.getItem('skip-intro')) {
-    initIntro();
-} else {
-    // Skip intro for returning users
-    const mainContent = document.querySelector('.main-content');
-    if (mainContent) {
-        mainContent.style.visibility = 'visible';
-        mainContent.classList.add('fade-in-up');
-    }
-}
+// Initialize intro when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM listo, iniciando intro simple...');
+    window.currentIntro = new SimpleIntro();
+});
 
-// Export for global access
-window.IntroAnimation = IntroAnimation;
-window.ChristmasIntro = ChristmasIntro;
+// Fallback: If DOMContentLoaded already fired
+if (document.readyState !== 'loading') {
+    setTimeout(() => {
+        if (!window.currentIntro) {
+            console.log('Iniciando intro como fallback...');
+            window.currentIntro = new SimpleIntro();
+        }
+    }, 100);
+}
