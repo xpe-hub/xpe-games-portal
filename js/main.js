@@ -303,7 +303,7 @@ const gamesData = [
         isFeatured: true,
         difficulty: 2,
         tags: ["tres en raya", "mesa", "estrategia"],
-        gameUrl: "tateti_standalone.html"
+        gameUrl: "standalone/tateti.html"
     },
     {
         id: 19,
