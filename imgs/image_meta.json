@@ -88,5 +88,50 @@
       "file_name": "favicon_creation_6.jpg"
     },
     "llm_score": null
+  },
+  {
+    "query": "Captura de pantalla del portal de juegos xpe.games mostrando el juego Tateti Clásico",
+    "image_info": {
+      "url": "https://i.redd.it/screenshots-from-my-latest-portal-2-replay-all-graphics-are-v0-kwrd9fy797ee1.jpg?width=1366&format=pjpg&auto=webp&s=a2f00c3db61106f3a5201af3b283ca0b4af3fe01",
+      "img_format": "JPEG",
+      "mode": "RGB",
+      "file_size": 102300,
+      "width": 1366,
+      "height": 768,
+      "total_pixels": 1049088,
+      "basic_score": 0.9335917050672196,
+      "file_name": "captura_portal_3.jpg"
+    },
+    "llm_score": null
+  },
+  {
+    "query": "Captura de pantalla del portal de juegos xpe.games mostrando el juego Tateti Clásico",
+    "image_info": {
+      "url": "https://i.ytimg.com/vi/xqImBPhHndU/maxresdefault.jpg",
+      "img_format": "JPEG",
+      "mode": "RGB",
+      "file_size": 117788,
+      "width": 1280,
+      "height": 720,
+      "total_pixels": 921600,
+      "basic_score": 0.93166465020964,
+      "file_name": "captura_portal_7.jpg"
+    },
+    "llm_score": null
+  },
+  {
+    "query": "Captura de pantalla del portal de juegos xpe.games mostrando el juego Tateti Clásico",
+    "image_info": {
+      "url": "https://i.redd.it/screenshots-from-my-latest-portal-2-replay-all-graphics-are-v0-bhgzuom897ee1.jpg?width=1366&format=pjpg&auto=webp&s=4176b7f58da154bba215ab786e7fc170f99d7c26",
+      "img_format": "JPEG",
+      "mode": "RGB",
+      "file_size": 48088,
+      "width": 1366,
+      "height": 768,
+      "total_pixels": 1049088,
+      "basic_score": 0.9281923960498828,
+      "file_name": "captura_portal_5.jpg"
+    },
+    "llm_score": null
   }
 ]
