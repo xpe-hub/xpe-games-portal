@@ -302,7 +302,8 @@ const gamesData = [
         plays: "650K",
         isFeatured: true,
         difficulty: 2,
-        tags: ["tres en raya", "mesa", "estrategia"]
+        tags: ["tres en raya", "mesa", "estrategia"],
+        gameUrl: "tateti_standalone.html"
     },
     {
         id: 19,
@@ -312,7 +313,8 @@ const gamesData = [
         icon: "🐍",
         rating: 4.6,
         plays: "890K",
-        tags: ["serpiente", "clásico", "arcade"]
+        tags: ["serpiente", "clásico", "arcade"],
+        gameUrl: "games/snake.html"
     },
     {
         id: 20,
@@ -324,7 +326,8 @@ const gamesData = [
         plays: "1.8M",
         isFeatured: true,
         difficulty: 3,
-        tags: ["mario", "plataforma", "aventura"]
+        tags: ["mario", "plataforma", "aventura"],
+        gameUrl: "games/mario.html"
     }
 ];
 
